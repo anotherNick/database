@@ -1,0 +1,78 @@
+{% block content %}
+<div id="content">
+<div id="left-div">
+            <span class="single-entry-titles" style="margin-top: 18px;">
+
+    </span>
+    <div class="post-wrapper post" style="padding:10px;">
+                           <div style="clear: both;"></div><br /><br />
+
+{% set i = 1 %}
+{% for reagent in reagents %}
+
+<div class='one_third{%if i == 3 %} last{% endif %}'>
+<h3 style=' color:#F90; text-align: center;'>
+  {{reagent.name}}
+</h3>
+<a href='{{ baseUrl() }}/reagent/{{ reagent.id }}-{{reagent.name}}' title='{{reagent.name}}'>
+  <img style='width:100px;' 
+       src='http://www.duelist101.com/w101_reagents/{{reagent.image}}'
+       alt='{{reagent.name}}' class='alignright' />
+</a>
+<p>
+  <strong style='color:#ffcc00'>Class</strong>: {{reagent.class}}
+</p>
+<p>
+  <strong style='color:#ffcc00'>Rank</strong>: {{reagent.rank}}
+</p>
+<p>
+  <a href='{{ baseUrl() }}/reagent/{{reagent.id}}-{{reagent.name}}'
+     title='{{reagent.name}}' >
+    Click here to find out more about {{reagent.name}}.
+  </a>
+</p>
+<p>&nbsp;</p>
+<span style="display:block; clear:both; margin-bottom: 20px;"> </span>
+</div>
+{% if i == 3 %}
+<div style="clear:both"> </div>
+{% set i = 1 %}
+{% else %}
+{% set i = i + 1 %}
+{% endif %}
+{% else %}
+
+<p>No reagents in list</p>
+{% endfor %}
+	<div style="clear: both;"></div>
+       
+    </div><br /><br />
+	
+     <div id="duelist_disqus_wrapper" class="post entry">
+          <h2 class="entry-title"><a title="comments">
+            Leave A Comment!
+          </a></h2>
+	
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'duelist101'; // required: replace example with your forum shortname
+			var disqus_url = 'http://duelist101.com/database/index.php';
+			var disqus_title = 'Wizard101 Database Index';
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+		
+	</div>
+	
+</div>
+</div>
+{% endblock %}
+
