@@ -1,0 +1,13 @@
+{
+  "name": "duelist101/tools",
+    
+  "require": {
+    "slim/slim": "2.*"
+  },
+
+  "require-dev": {
+    "slim/views": "0.1.*",
+    "twig/twig": "1.*"
+  }
+}
+

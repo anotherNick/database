@@ -12,7 +12,6 @@ cgi-bin/
 changes.txt
 contrib/
 ctlscript.bat
-composer.json
 duelistapp/composer.lock
 duelistapp/data/
 duelistapp/vendor/

@@ -1,52 +1,37 @@
-{% block content %}
 <div id="content">
 <div id="left-div">
-            <span class="single-entry-titles" style="margin-top: 18px;">
+<span class="single-entry-titles" style="margin-top: 18px;"> </span>
+<div class="post-wrapper post" style="padding:10px;">
+  <div style="clear: both;"></div>
+  <br />
+  <br />
 
-    </span>
-    <div class="post-wrapper post" style="padding:10px;">
-                           <div style="clear: both;"></div><br /><br />
+  <!-- cut:reagent -->
+  <div class='one_third #lastOption?#'>
+    <h3 style=' color:#F90; text-align: center;'>
+      #name#
+    </h3>
+    <a href='reagent/#idAndName#' title='#name#'>
+      <img style='width:100px;' src='http://www.duelist101.com/w101_reagents/#image#'
+           alt='#name#' class='alignright' />
+    </a>
+    <p> <strong style='color:#ffcc00'>Class</strong>: #className# </p>
+    <p> <strong style='color:#ffcc00'>Rank</strong>: #rank# </p>
+    <p>
+      <a href='reagent/#idAndName#' title='#name#'>
+        Click here to find out more about #name#
+      </a>
+    </p>
+    <p>&nbsp;</p>
+    <span style="display:block; clear:both; margin-bottom: 20px;"> </span>
+  </div>
+    #lastFooter?#
+  <!-- /cut:reagent -->
 
-{% set i = 1 %}
-{% for reagent in reagents %}
-
-<div class='one_third{%if i == 3 %} last{% endif %}'>
-<h3 style=' color:#F90; text-align: center;'>
-  {{reagent.name}}
-</h3>
-<a href='{{ baseUrl() }}/reagent/{{ reagent.id }}-{{reagent.name}}' title='{{reagent.name}}'>
-  <img style='width:100px;' 
-       src='http://www.duelist101.com/w101_reagents/{{reagent.image}}'
-       alt='{{reagent.name}}' class='alignright' />
-</a>
-<p>
-  <strong style='color:#ffcc00'>Class</strong>: {{reagent.ownClass.name}}
-</p>
-<p>
-  <strong style='color:#ffcc00'>Rank</strong>: {{reagent.rank}}
-</p>
-<p>
-  <a href='{{ baseUrl() }}/reagent/{{reagent.id}}-{{reagent.name}}'
-     title='{{reagent.name}}' >
-    Click here to find out more about {{reagent.name}}.
-  </a>
-</p>
-<p>&nbsp;</p>
-<span style="display:block; clear:both; margin-bottom: 20px;"> </span>
+<div style="clear: both;"></div>
 </div>
-{% if i == 3 %}
-<div style="clear:both"> </div>
-{% set i = 1 %}
-{% else %}
-{% set i = i + 1 %}
-{% endif %}
-{% else %}
-
-<p>No reagents in list</p>
-{% endfor %}
-	<div style="clear: both;"></div>
-       
-    </div><br /><br />
+<br />
+<br />
 	
      <div id="duelist_disqus_wrapper" class="post entry">
           <h2 class="entry-title"><a title="comments">
@@ -74,5 +59,4 @@
 	
 </div>
 </div>
-{% endblock %}
 
