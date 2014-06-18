@@ -18,6 +18,9 @@ $app->get('/reagents/', function () use ($app) {
 	$reagents = R::find( 'reagent' );
 	$content = $app->view->fetch('reagent-list',
             array('reagents' => $reagents));
+	$content .= $app->view->fetch('disqus-footer',
+			array('url' => 'http://www.duelist101.com' . $_SERVER['REQUEST_URI'],
+			      'title' => 'Wizard101 Reagents List'));
 	$app->view->renderWordpress($content);
 
 });
@@ -30,6 +33,9 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	
 	$content = $app->view->fetch('reagent-single',
             array('reagent' => $reagent));
+	$content .= $app->view->fetch('disqus-footer',
+			array('url' => 'http://www.duelist101.com' . $_SERVER['REQUEST_URI'],
+			      'title' => 'Wizard101 ' . $reagent->name . ' Info'));
 	$app->view->renderWordpress($content);
 	
 });

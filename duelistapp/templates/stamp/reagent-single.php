@@ -1,4 +1,6 @@
 <?php
+# Expects $reagent from Redbean single reagent query.
+
 		$cutReagent = $template->getReagent();
 		
 		$cutReagent->setName($reagent->name);
