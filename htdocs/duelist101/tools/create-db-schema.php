@@ -54,7 +54,20 @@ if ( $reagent == NULL ) {
 	$id = R::store( $reagent );
 }
 
-echo "Reagent class: " . $reagent->class->name;
+$reagent_spawn = R::load ( 'reagentspawn', 1);
+if ( $reagent_spawn == NULL ) {
+	$reagent = R::load( 'reagent', 1 );
+	$area = R::load( 'area', 1);
+	$reagent_spawn = R::dispense( 'reagentspawn' );
+	$reagent_spawn->x_loc = '50';
+	$reagent_spawn->y_loc = '50';
+	// Note: Because I've created these relationships manually,
+	// we may have to maintain them manually.
+	$reagent_spawn->reagent_id = $reagent->id;
+	$reagent_spawn->area_id = $area->id;
+	$id = R::store ( $reagent_spawn );
+
+}
 
 echo "DB stuff done";
 R::close();

@@ -1,5 +1,5 @@
 <?php
-# Expects $url and $title from data.
+# Expects $url and $title.
 
 		$cutDisqus = $template->getDisqus();
 		
