@@ -18,12 +18,8 @@ $app->get('/reagents/', function () use ($app) {
 	$reagents = R::find( 'reagent' );
 	$content = $app->view->fetch('reagent-list',
             array('reagents' => $reagents));
+	$app->view->renderWordpress($content);
 
-	// Wordpress Print Routine
-	get_header();
-	echo $content;
-	get_sidebar();
-	get_footer();
 });
 
 $app->get('/reagents/:name', function ($name) use ($app) {
@@ -34,12 +30,8 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	
 	$content = $app->view->fetch('reagent-single',
             array('reagent' => $reagent));
-
-	// Wordpress Print Routine
-	get_header();
-	echo $content;
-	get_sidebar();
-	get_footer();
+	$app->view->renderWordpress($content);
+	
 });
 
 $app->run();

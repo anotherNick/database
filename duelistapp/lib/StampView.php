@@ -30,4 +30,13 @@ class Stamp extends \Slim\View
         echo $template;
         return ob_get_clean();
     }
+	
+	public function renderWordpress($content)
+	{
+		// Wordpress Print Routine
+		get_header();
+		echo $content;
+		get_sidebar();
+		get_footer();
+	}
 }
