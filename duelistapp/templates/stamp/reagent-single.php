@@ -1,33 +1,36 @@
 <?php
 # Expects $reagent, $spawns from Redbean single reagent query.
 
-		// Set Reagent Info
-		$cutReagent = $template->getReagent();
-		
-		$cutReagent->setName($reagent->name);
-		$cutReagent->setImage($reagent->image);
-		$cutReagent->setClassName($reagent->class->name);
-		$cutReagent->setRank($reagent->rank);
-		$cutReagent->setDescription($reagent->description);
-		$template->add($cutReagent);
-		
-		// Set Reagent Name in Main Sources Title
-		$cutSources = $template->getSources();
-		
-		$cutSources->setReagentName($reagent->name);
-			// Set This Specific Source Title
-			$cutSource = $template->get('sources.source');
-			
-			$cutSource->setSourceType('Spawns In');
-				// Set This Source Links
-				$cutSourceLinks = $template->get('sources.source.sourceLinks');
-				
-				for ($i = 1; $i <= count($spawns); $i++) {
-					$spawn = $spawns[$i];
-					$cutSourceLinks->setUrl('blah');
-					$cutSourceLinks->setSource('Unicorn Way');
-				}
-				$cutSource->add($cutSourceLinks);
-			$cutSources->add($cutSource);
-		$template->add($cutSources);
+	$cut = $template->getReagent();
+	$cut->setName($reagent->name);
+	$cut->setImage($reagent->image);
+	$cut->setClassName($reagent->class->name);
+	$cut->setRank($reagent->rank);
+	$cut->setDescription($reagent->description);
+	$template->add($cut);
+
+	if ( true ) {	// change to any source != NULL
+
+		$cut = $template->getAllSourcesHeader();
+		$cut->setReagentName($reagent->name);
+		$template->add($cut);
+
+//		if ( $spawns != NULL ) {
+
+			$cut = $template->getSourceHeader();
+			$cut->setSourceType('Spawns In');
+			$template->add($cut);
+
+//			foreach ($spawns as $spawn) {
+
+				$cut = $template->getSource();
+				$cut->setUrl('blah');
+				$cut->setSource('Unicorn Way');
+				$template->add($cut);
+//			}
+
+			$cut = $template->getSourceFooter();
+			$template->add($cut);
+//		}
+	}
 
