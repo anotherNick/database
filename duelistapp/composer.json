@@ -1,13 +1,30 @@
 {
-  "name": "duelist101/tools",
+  "name": "duelist101/database",
     
   "require": {
     "slim/slim": "2.*"
   },
 
+  "autoload": {
+    "files": [
+	  "vendor/redbean/rb.php",
+	  "vendor/stamp/stampTE.php"
+	],
+    "psr-4": {
+	  "Duelist101\\": "lib/"
+	}
+  },
+	  
   "require-dev": {
+    "phpunit/dbunit": ">=1.2",
+	"phpunit/phpunit": "4.1.*",
     "slim/views": "0.1.*",
     "twig/twig": "1.*"
+  },
+
+  "autoload-dev": {
+    "psr-4": {
+        "Duelist101\\Tests\\": "tests/"
+    }
   }
 }
-

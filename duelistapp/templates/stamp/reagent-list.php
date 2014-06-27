@@ -9,7 +9,7 @@
 			$cutReagent->injectRaw('lastFooter', '<div style="clear: both;"></div>');
 		}
 		$cutReagent->setName($reagent->name);
-		$cutReagent->setLinkName( urlencode( $reagent->name ) );
+		$cutReagent->setLinkName( 'reagents/' . urlencode($reagent->name) );
 		$cutReagent->setImage($reagent->image);
 		$cutReagent->setClassName($reagent->class->name);
 		$cutReagent->setRank($reagent->rank);

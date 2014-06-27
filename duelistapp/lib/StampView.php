@@ -1,5 +1,5 @@
 <?php
-namespace Slim\Views;
+namespace Duelist101;
 
 /**
  * Stamp View
@@ -10,7 +10,7 @@ namespace Slim\Views;
  * - <template name>.html - HTML markup with stamps
  * - <template name>.php - presentation logic
  */
-class Stamp extends \Slim\View
+class StampView extends \Slim\View
 {
     protected function render($filePrefix, $data = null)
     {
@@ -24,11 +24,11 @@ class Stamp extends \Slim\View
         extract($data);
 
 	$template = new \StampTemplateEngine\StampTE( file_get_contents($htmlPathname) ); 
-        require $logicPathname;
+    require $logicPathname;
 	
 	ob_start();
-        echo $template;
-        return ob_get_clean();
+    echo $template;
+    return ob_get_clean();
     }
 	
 	public function renderWordpress($content)

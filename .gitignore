@@ -12,7 +12,6 @@ cgi-bin/
 changes.txt
 contrib/
 ctlscript.bat
-duelistapp/composer.lock
 duelistapp/data/
 duelistapp/vendor/
 filezilla_setup.bat
@@ -27,7 +26,6 @@ htdocs/applications.html
 htdocs/bitnami.css
 htdocs/duelist101/.htaccess
 htdocs/duelist101/community/
-htdocs/duelist101/database/
 htdocs/duelist101/index.php
 htdocs/duelist101/laravel-test/
 htdocs/duelist101/license.txt
