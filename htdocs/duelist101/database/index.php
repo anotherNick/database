@@ -1,25 +1,34 @@
 <?php
-require 'config.php';
-require \Duelist101\APP_DIR . 'vendor/autoload.php';
-require \Duelist101\WPLOAD_DIR . 'wp-load.php';
+namespace Duelist101;
+use Duelist101\Db\View as View;
+use R as R;
 
-R::setup( \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, \Duelist101\DB_FROZEN );
+require 'config.php';
+require APP_DIR . 'vendor/autoload.php';
+require WPLOAD_DIR . 'wp-load.php';
+
+R::setup( DB_DSN, DB_USERNAME, DB_PASSWORD, DB_FROZEN );
 
 $app = new \Slim\Slim(array(
-    'view' => new \Duelist101\StampView(),
-    'templates.path' => \Duelist101\TEMPLATES_DIR . 'stamp/'
+    'view' => new WordpressView(),
+    'templates.path' => TEMPLATES_DIR
 ));
-$view = $app->view;
 
 $app->get('/reagents/', function () use ($app) {
 	$reagents = R::find( 'reagent' );
-    
-	$content = $app->view->fetch('reagent-list',
-            array('reagents' => $reagents));
-	$content .= $app->view->fetch('disqus-footer',
-			array('url' => 'http://www.duelist101.com' . $_SERVER['REQUEST_URI'],
-			      'title' => 'Wizard101 Reagents List'));
-	$app->view->renderWordpress($content);
+
+    $stamp = new View\ReagentList( $app->view->getTemplate('ReagentList.html') );
+    $stamp->parse( $reagents );
+    $app->view->add( $stamp );
+        
+    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp->parse(
+        'Wizard101 Reagents List', 
+        'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
+    );
+    $app->view->add( $stamp );
+ 
+	$app->view->render();
 
 });
 
@@ -29,12 +38,18 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	// Redbean returns null for no reagent. Eventually do something smarter here.
 	if( $reagent === null ){ $app->notfound(); }
 	
-	$content = $app->view->fetch('reagent-single',
-            array('reagent' => $reagent));
-	$content .= $app->view->fetch('disqus-footer',
-			array('url' => 'http://www.duelist101.com' . $_SERVER['REQUEST_URI'],
-			      'title' => 'Wizard101 ' . $reagent->name . ' Info'));
-	$app->view->renderWordpress($content);
+    $stamp = new View\ReagentSingle( $app->view->getTemplate('ReagentSingle.html') );
+    $stamp->parse( $reagent );
+    $app->view->add( $stamp );
+
+    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp->parse(
+        'Wizard101 ' . $reagent->name . ' Info', 
+        'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
+    );
+    $app->view->add( $stamp );
+    
+	$app->view->render();
 	
 });
 
@@ -44,12 +59,19 @@ $app->get('/areas/:name', function ($name) use ($app) {
 	// Redbean returns null for no reagent. Eventually do something smarter here.
 	if( $reagent === null ){ $app->notfound(); }
 	
-	$content = $app->view->fetch('area-single',
-            array('area' => $area));
-	$content .= $app->view->fetch('disqus-footer',
-			array('url' => 'http://www.duelist101.com' . $_SERVER['REQUEST_URI'],
-			      'title' => 'Wizard101 ' . $area->name . ' Info'));
-	$app->view->renderWordpress($content);
+    $stamp = new View\AreaSingle();
+    $stamp->load( \Duelist101\TEMPLATES_DIR . 'AreaSingle.html' );
+    $stamp->parse( $area );
+    $app->view->add( $stamp );
+
+    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp->parse(
+        'Wizard101 ' . $area->name . ' Info', 
+        'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
+    );
+    $app->view->add( $stamp );
+    
+	$app->view->render();
 	
 });
 

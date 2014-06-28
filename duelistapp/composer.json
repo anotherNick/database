@@ -11,7 +11,8 @@
 	  "vendor/stamp/stampTE.php"
 	],
     "psr-4": {
-	  "Duelist101\\": "lib/"
+	  "Duelist101\\": "lib/",
+      "Duelist101\\Db\\View\\": "templates/"
 	}
   },
 	  
