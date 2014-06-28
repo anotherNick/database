@@ -13,6 +13,7 @@ changes.txt
 contrib/
 ctlscript.bat
 duelistapp/data/
+duelistapp/old/
 duelistapp/vendor/
 filezilla_setup.bat
 filezilla_start.bat
