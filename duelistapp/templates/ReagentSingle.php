@@ -12,39 +12,40 @@ Class ReagentSingle extends \StampTemplateEngine\StampTE
         $cut->setRank($reagent->rank);
         $cut->setDescription($reagent->description);
         $this->add($cut);
-/*
-        if ( true ) {	// TODO: change to any source != NULL
+
+        // TODO: add other sources to this criteria when added
+        $areaReagents = $reagent->ownAreaReagentList;
+        if ( $areaReagents != NULL ) {	
 
             $cut = $this->getAllSourcesHeader();
             $cut->setReagentName($reagent->name);
-            $this->add($cut);
+            $this->add( $cut );
 
-            if ( $reagent->ownAreaReagentSourceList[] != NULL ) {
+            if ( $areaReagents != NULL ) {
 
                 $cut = $this->getSourceHeader();
                 $cut->setSourceType('Spawns In');
-                $this->add($cut);
+                $this->add( $cut );
 
-                foreach ($reagent->ownAreaReagentSourceList[] as $areaSource) {
+                foreach ($areaReagents as $areaReagent) {
 
                     $cut = $this->getSource();
-                    $cut->setAreaUrl(urlencode( 'areas/' . $areaSource->area->name ) );
-                    $cut->setSource($areaSource->area->name);
-                    $cut->setVoteUpCount($areaSource->area->voteUp);
-                    $cut->setVoteDownCount($areaSource->area->voteDown);
+                    $cut->setAreaUrl( 'areas/' . urlencode( $areaReagent->area->name ) );
+                    $cut->setSource($areaReagent->area->name);
+                    $cut->setVoteUpCount($areaReagent->voteUp);
+                    $cut->setVoteDownCount($areaReagent->voteDown);
                     // TODO: implement voteup and votedown link logic, assuming post URL similar to below:
                     // in vote up/down, probably make sure only one vote per IP / user 
-                    // $cut->setVoteUpUrl( urlencode( 'area-reagent-source/add-vote-up/' . $areaSource->id ) );
-                    // $cut->setVoteDownUrl( urlencode( 'area-reagent-source/add-vote-down/' . $areaSource->id ) );
-                    $this->add($cut);
+                    $cut->setVoteUpUrl( urlencode( 'add-vote-up/areareagent/' . $areaReagent->id ) );
+                    $cut->setVoteDownUrl( urlencode( 'add-vote-down/areareagent/' . $areaReagent->id ) );
+                    $this->add( $cut );
                 }
 
                 $cut = $this->getSourceFooter();
-                $this->add($cut);
+                $this->add( $cut );
             }
         }
-*/
-
     }
+
 }
 

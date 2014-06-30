@@ -4,7 +4,7 @@ use Duelist101\Db\View as View;
 use R as R;
 
 require 'config.php';
-require APP_DIR . 'vendor/autoload.php';
+require AUTOLOAD_FILE;
 require WPLOAD_DIR . 'wp-load.php';
 
 R::setup( DB_DSN, DB_USERNAME, DB_PASSWORD, DB_FROZEN );

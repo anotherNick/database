@@ -5,10 +5,12 @@ Class ReagentList extends \StampTemplateEngine\StampTE
 {
     public function parse( $reagents ) {
         
-        for ($i = 1; $i <= count($reagents); $i++) {
-            $reagent = $reagents[$i];
+        $i = 0;
+        foreach ($reagents as $reagent) {
             $cutReagent = $this->getReagent();
-            if ( $i % 3 == 0 ) {
+            $i = $i + 1;
+            if ( $i == 3 ) {
+                $i = 0;
                 $cutReagent->setLastOption('last');
                 $cutReagent->injectRaw('lastFooter', '<div style="clear: both;"></div>');
             }
