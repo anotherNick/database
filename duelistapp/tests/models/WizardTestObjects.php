@@ -27,6 +27,27 @@ Class W
         R::wipe( 'areareagent' );
     }
 
+    public static function setupAndGetActiveDataSet( $table, $createTableFunction )
+    {
+        try {
+            R::addDatabase( 'active', \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, \Duelist101\DB_FROZEN );
+        }
+        catch ( RedBeanPHP\RedException $e ) {}
+        R::selectDatabase( 'active' );
+
+        // call function to create table if none exist
+        if ( R::findOne( $table ) == NULL ) {
+            $createTableFunction();
+        }
+        
+        // pull into DBUnit Table
+        return new PHPUnit_Extensions_Database_DataSet_QueryTable(
+            $table,
+            'SELECT * FROM ' . $table . ' limit 1',
+            new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection( new PDO( \Duelist101\DB_DSN ) )
+        );
+    }
+    
     private static function addClass( $name )
     {
         $class = R::dispense( 'class' );
@@ -86,8 +107,20 @@ Class W
     }
 
     
-    public static function addAreaReagent( $area, $reagent, $properties=null  )
+    public static function addAreaReagent( $area=null, $reagent=null, $properties=null  )
     {
+        if ( $area == null && $reagent == null ) {
+            $reagent = R::findOne( 'reagent' );
+            if ( $reagent == NULL ) {
+                $reagent = W::addReagent( '1' );
+            }
+            
+            $area = R::findOne( 'area' );
+            if ( $area == NULL ) {
+                $area = W::addArea( '1' );
+            }
+        }
+
         $ar = R::dispense( 'areareagent' );
         $ar->area = $area;
         $ar->reagent = $reagent;
