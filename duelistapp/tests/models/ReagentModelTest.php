@@ -5,12 +5,13 @@ class ReagentModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupCleanRedBean();
+        W::setupTestDatabase();
     }
 
     public function testRequiredFields()
     {
-        $table = W::setupAndGetActiveDataSet( 'reagent', W::addReagent( '1' ) );
+        W::setupActiveDatabase();
+        $table = W::getOrCreateDataSet( 'reagent', 'addReagent' );
         $expectedColumns = array(
              'id',
              'name',

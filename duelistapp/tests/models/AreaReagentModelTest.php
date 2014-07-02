@@ -5,12 +5,13 @@ class AreaReagentModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupCleanRedBean();
+        W::setupTestDatabase();
     }
 
     public function testRequiredFields()
     {
-        $table = W::setupAndGetActiveDataSet( 'areareagent', W::addAreaReagent( null, null ) );
+        W::setupActiveDatabase();
+        $table = W::getOrCreateDataSet( 'areareagent', 'addAreaReagent' );
         $expectedColumns = array(
              'id',
              'votes_up',

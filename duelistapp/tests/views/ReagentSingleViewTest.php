@@ -5,7 +5,7 @@ class ReagentSingleViewTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupCleanRedBean();
+        W::setupTestDatabase();
     }
 
     public function testReagentSingleView()

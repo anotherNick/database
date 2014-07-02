@@ -6,38 +6,49 @@
 
 Class W
 {
-    private static $doneOnce;
+    private static $isTestDatabaseSetup;
     
     private function __construct() {}
 
-    public static function setupCleanRedBean()
+    public static function setupTestDatabase()
     {
-        if ( !isset(self::$doneOnce) ) {
+        if ( !isset(self::$isTestDatabaseSetup) ) {
             $activeDbFile = \Duelist101\APP_DIR . \Duelist101\SQLITE_FILE;
             $testDbFile = \Duelist101\APP_DIR . 'data/testData.sqlite';
             if ( !copy($activeDbFile, $testDbFile) )  {
                 throw new Exception('Failed to create data/testData.sqlite');
             }
             R::setUp( 'sqlite:' . $testDbFile);
-            self::$doneOnce = true;
+            W::addLookups();
+            self::$isTestDatabaseSetup = true;
         }
         R::selectDatabase( 'default' );
-        R::wipe( 'reagent' );
-        R::wipe( 'area' );
-        R::wipe( 'areareagent' );
+        W::wipe( 'reagent' );
+        W::wipe( 'area' );
+        W::wipe( 'areareagent' );
     }
 
-    public static function setupAndGetActiveDataSet( $table, $createTableFunction )
+    public static function wipe( $table )
+    {
+        if ( R::findOne($table) !== null ) {
+            R::wipe( $table );
+        }
+    }
+
+    public static function setupActiveDatabase()
     {
         try {
             R::addDatabase( 'active', \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, \Duelist101\DB_FROZEN );
         }
         catch ( RedBeanPHP\RedException $e ) {}
         R::selectDatabase( 'active' );
-
-        // call function to create table if none exist
+    }
+    
+    public static function getOrCreateDataSet( $table, $createFunction)
+    {
+        // call function to create table if doesn't exist
         if ( R::findOne( $table ) == NULL ) {
-            $createTableFunction();
+            W::$createFunction();
         }
         
         // pull into DBUnit Table
@@ -76,7 +87,7 @@ Class W
         }
     }
 
-    public static function addReagent( $name, $properties=null )
+    public static function addReagent( $name='', $properties=null )
     {
         $class = R::load( 'class', 1);
     
@@ -95,7 +106,7 @@ Class W
         return $r;
     }
 
-    public static function addArea( $name, $properties=null  )
+    public static function addArea( $name='', $properties=null  )
     {
         $a = R::dispense( 'area' );
         $a->name = 'Name ' . $name ;
@@ -105,7 +116,6 @@ Class W
  
         return $a;
     }
-
     
     public static function addAreaReagent( $area=null, $reagent=null, $properties=null  )
     {
