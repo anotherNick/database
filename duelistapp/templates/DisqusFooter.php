@@ -1,7 +1,7 @@
 <?php
 namespace Duelist101\Db\View;
 
-Class DisqusFooter extends \StampTemplateEngine\StampTE
+Class DisqusFooter extends \Duelist101\Stamp
 {
     public function parse( $title, $url ) {
 

@@ -1,7 +1,7 @@
 <?php
 namespace Duelist101\Db\View;
 
-Class ReagentSingle extends \StampTemplateEngine\StampTE
+Class ReagentSingle extends \Duelist101\Stamp
 {
     public function parse( $reagent ) {
 

@@ -17,11 +17,11 @@ $app = new \Slim\Slim(array(
 $app->get('/reagents/', function () use ($app) {
 	$reagents = R::find( 'reagent' );
 
-    $stamp = new View\ReagentList( $app->view->getTemplate('ReagentList.html') );
+    $stamp = new View\ReagentList();
     $stamp->parse( $reagents );
     $app->view->add( $stamp );
         
-    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp = new View\DisqusFooter();
     $stamp->parse(
         'Wizard101 Reagents List', 
         'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
@@ -38,11 +38,11 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	// Redbean returns null for no reagent. Eventually do something smarter here.
 	if( $reagent === null ){ $app->notfound(); }
 	
-    $stamp = new View\ReagentSingle( $app->view->getTemplate('ReagentSingle.html') );
+    $stamp = new View\ReagentSingle();
     $stamp->parse( $reagent );
     $app->view->add( $stamp );
 
-    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp = new View\DisqusFooter();
     $stamp->parse(
         'Wizard101 ' . $reagent->name . ' Info', 
         'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
@@ -64,7 +64,7 @@ $app->get('/areas/:name', function ($name) use ($app) {
     $stamp->parse( $area );
     $app->view->add( $stamp );
 
-    $stamp = new View\DisqusFooter( $app->view->getTemplate('DisqusFooter.html') );
+    $stamp = new View\DisqusFooter();
     $stamp->parse(
         'Wizard101 ' . $area->name . ' Info', 
         'http://www.duelist101.com' . $_SERVER['REQUEST_URI']

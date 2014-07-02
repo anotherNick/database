@@ -17,7 +17,8 @@ class ReagentListViewTest extends PHPUnit_Framework_TestCase
             W::addReagent( '4' )
         );
 		
-        $stamp = new \Duelist101\Db\View\ReagentList( file_get_contents('../templates/ReagentList.html') );
+        $stamp = new \Duelist101\Db\View\ReagentList();
+//        $stamp = new \Duelist101\Db\View\ReagentList( file_get_contents('../templates/ReagentList.html') );
         $stamp->parse( $reagents );
 
 		$this->assertXmlStringEqualsXmlFile( 'views/ReagentListExpected1.html', $stamp );
