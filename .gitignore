@@ -15,6 +15,7 @@ ctlscript.bat
 duelistapp/data/
 duelistapp/old/
 duelistapp/vendor/
+duelistapp/config.php
 filezilla_setup.bat
 filezilla_start.bat
 filezilla_stop.bat

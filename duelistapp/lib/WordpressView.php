@@ -22,7 +22,9 @@ class WordpressView extends \Slim\View
 	public function render($content = null, $data = null)
 	{
 		get_header();
+        echo '<div id="content">' . PHP_EOL;
         echo ( isset($content) ? $content : $this->content );
+        echo '</div>' . PHP_EOL;
 		get_sidebar();
 		get_footer();
 	}
