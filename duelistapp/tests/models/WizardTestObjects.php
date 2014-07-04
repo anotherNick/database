@@ -1,7 +1,7 @@
 <?php
 
 /* Handy code snippet for saving views
-   file_put_contents( 'views/.html', $stamp );
+   file_put_contents( 'views/XXX.html', '<div>' . PHP_EOL . $stamp . PHP_EOL . '</div>' );
 */
 
 Class W

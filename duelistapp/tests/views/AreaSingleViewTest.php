@@ -1,5 +1,5 @@
 <?php
-class ReagentSingleViewTest extends PHPUnit_Framework_TestCase
+class AreaSingleViewTest extends PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
@@ -8,15 +8,15 @@ class ReagentSingleViewTest extends PHPUnit_Framework_TestCase
         W::setupTestDatabase();
     }
 
-    public function testReagentSingleView()
+    public function testAreaSingleView()
     {
-        $reagent = W::addReagent( '1' );
+        $area = W::addArea( '1' );
 
-        $stamp = new \Duelist101\Db\View\ReagentSingle();
-        $stamp->parse( $reagent );
+        $stamp = new \Duelist101\Db\View\AreaSingle();
+        $stamp->parse( $area );
         
         // XML must have one main element, so enclose in a div
         $actual = '<div>' . PHP_EOL . $stamp . PHP_EOL . '</div>';
-		$this->assertXmlStringEqualsXmlFile( 'views/ReagentSingleExpected1.html', $actual );
+		$this->assertXmlStringEqualsXmlFile( 'views/AreaSingleExpected1.html', $actual );
     }
 }

@@ -54,13 +54,12 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 });
 
 $app->get('/areas/:name', function ($name) use ($app) {
-	$area = R::findOne( 'area', ' name = ? ', array( urldecode( $name ) ) );
+	$area = R::findOne( 'area', 'name = ?', array( urldecode( $name ) ) );
 	
 	// Redbean returns null for no reagent. Eventually do something smarter here.
-	if( $reagent === null ){ $app->notfound(); }
+	if( $area === null ){ $app->notfound(); }
 	
     $stamp = new View\AreaSingle();
-    $stamp->load( \Duelist101\TEMPLATES_DIR . 'AreaSingle.html' );
     $stamp->parse( $area );
     $app->view->add( $stamp );
 
@@ -77,4 +76,3 @@ $app->get('/areas/:name', function ($name) use ($app) {
 
 $app->run();
 R::close();
-
