@@ -41,4 +41,14 @@ class ReagentModelTest extends PHPUnit_Framework_TestCase
         $this->assertEquals( $reagent->class_id, 3);
     }
 
+    public function testAreaReagentss()
+    {
+        $reagent = W::addReagent( '1' );
+        $area = W::addArea( '1' );
+        $areaReagent = W::addAreareagent( $area, $reagent);
+        
+        $areaList = $reagent->ownAreareagentList;
+        $this->assertNotEmpty($areaList);
+    }
+       
 }

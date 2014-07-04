@@ -39,7 +39,7 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	if( $reagent === null ){ $app->notfound(); }
 	
     $stamp = new View\ReagentSingle();
-    $stamp->parse( $reagent );
+    $stamp->parse( $reagent, $app->request->getRootUri() );
     $app->view->add( $stamp );
 
     $stamp = new View\DisqusFooter();

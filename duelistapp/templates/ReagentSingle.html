@@ -1,3 +1,5 @@
+<!-- TODO: this should be called from javascript calls -->
+<script type="text/javascript" src="http://cdn8.duelist101.com/wp-content/plugins/et-shortcodes/js/et_shortcodes_frontend.js?ver=3.0"></script>
 <!-- cut:reagent -->
 <h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 #name# Reagent</strong></h1>
 <p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
@@ -17,23 +19,35 @@
       <p><strong style="color:#FC0;">Description</strong>: #description#</p>
     </div>
 </blockquote>
+<h2 style=' color:#F90; text-align: center;'>Sources of #name# Reagent</h2>
 <!-- /cut:reagent -->
 
-<!-- cut:allSourcesHeader -->
-<h2 style=' color:#F90; text-align: center;'>Sources of #reagentName# Reagent</h2>
-<!-- /cut:allSourcesHeader -->
+<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'
+    style='margin-bottom: 50px'>
+    <div class='et_left_tabs_bg'></div>
+    <ul class='et-tabs-control'>
+        <li><a href='#'>Areas</a></li>
+        <li><a href='#'>Creatures</a></li>
+        <li><a href='#'>Crown Shop</a></li>
+        <li><a href='#'>Plants</a></li>
+        <li><a href='#'>Vendors</a></li>
+    </ul> <!-- .et-tabs-control -->
+    <div class='et-tabs-content'>
+        <div class='et-tabs-content-wrapper'>
+<!-- cut:sourceList -->
+            <div class='et_slidecontent'>
+                #defaultText?#
+    <!-- cut:source -->
+                <p style="text-align:center;">
+                  <a href='#url#'>#name#</a>
+                    ( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
+                    #voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
+                </p>
+    <!-- /cut:source -->
+            </div>
+<!-- /cut:sourceList -->
+        </div>
+    </div>
+</div> <!-- .tabs-left -->
+<div class='clear'></div>
 
-<!-- cut:sourceHeader -->
-<div class='one_fourth'>
-    <h3 style=' color:#ffcc00; text-align: center;'>#sourceType#</h3>
-<!-- /cut:sourceHeader -->
-
-<!-- cut:source -->
-    <p style="text-align:center;">
-      <a href='#url#'>#source#</a> ( #voteUp?# △ | #voteDown?# ▽ )
-    </p>
-<!-- /cut:source -->
-
-<!-- cut:sourceFooter -->
-</div>
-<!-- /cut:sourceFooter -->
