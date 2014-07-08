@@ -8,21 +8,11 @@ class AreaReagentModelTest extends PHPUnit_Framework_TestCase
         W::setupTestDatabase();
     }
 
-    public function testRequiredFields()
+    public function testWizardTestObjectSchema()
     {
-        W::setupActiveDatabase();
-        $table = W::getOrCreateDataSet( 'areareagent', 'addAreaReagent' );
-        $expectedColumns = array(
-             'id',
-             'votes_up',
-             'votes_down',
-             'area_id',
-             'reagent_id'
-         );
-        $this->assertEquals(
-            $expectedColumns, 
-            $table->getTableMetaData()->getColumns()
-        );
+        W::addAreareagent();
+        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='areareagent'";
+        W::compareSchemas( $sql, $this );
     }
-
+    
 }

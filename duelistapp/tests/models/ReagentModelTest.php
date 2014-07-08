@@ -8,25 +8,11 @@ class ReagentModelTest extends PHPUnit_Framework_TestCase
         W::setupTestDatabase();
     }
 
-    public function testRequiredFields()
+    public function testWizardTestObjectSchema()
     {
-        W::setupActiveDatabase();
-        $table = W::getOrCreateDataSet( 'reagent', 'addReagent' );
-        $expectedColumns = array(
-             'id',
-             'name',
-             'rank',
-             'image',
-             'description',
-             'can_auction',
-             'is_crowns_only',
-             'is_retired',
-             'class_id'
-         );
-        $this->assertEquals(
-            $expectedColumns, 
-            $table->getTableMetaData()->getColumns()
-        );
+        W::addReagent( '1' );
+        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='reagent'";
+        W::compareSchemas( $sql, $this );
     }
 
     public function testSetClass()

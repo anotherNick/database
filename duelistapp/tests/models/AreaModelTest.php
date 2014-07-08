@@ -8,19 +8,10 @@ class AreaModelTest extends PHPUnit_Framework_TestCase
         W::setupTestDatabase();
     }
 
-    public function testRequiredFields()
+    public function testWizardTestObjectSchema()
     {
-        W::setupActiveDatabase();
-        $table = W::getOrCreateDataSet( 'area', 'addArea' );
-        $expectedColumns = array(
-             'id',
-             'name',
-             'image'
-         );
-        $this->assertEquals(
-            $expectedColumns, 
-            $table->getTableMetaData()->getColumns()
-        );
+        W::addArea( '1' );
+        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='area'";
+        W::compareSchemas( $sql, $this );
     }
-
 }

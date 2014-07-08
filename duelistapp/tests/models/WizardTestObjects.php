@@ -10,6 +10,12 @@ Class W
     
     private function __construct() {}
 
+    // eventual refactoring:
+    // use DB migrations to build clean database for testing
+    // then to check schema of objects below just do it in memory
+    // could do all testing in memory, but may have to rebuild DB each time
+    
+    // eventually have the test database setup by running all the migrations on a blank database?
     public static function setupTestDatabase()
     {
         if ( !isset(self::$isTestDatabaseSetup) ) {
@@ -23,39 +29,38 @@ Class W
             self::$isTestDatabaseSetup = true;
         }
         R::selectDatabase( 'default' );
-        W::wipe( 'reagent' );
-        W::wipe( 'area' );
-        W::wipe( 'areareagent' );
+        W::wipeIfExists( 'reagent' );
+        W::wipeIfExists( 'area' );
+        W::wipeIfExists( 'areareagent' );
     }
 
-    public static function wipe( $table )
+    public static function wipeIfExists( $table )
     {
         if ( R::findOne($table) !== null ) {
             R::wipe( $table );
         }
     }
 
-    public static function setupActiveDatabase()
+    public static function compareSchemas( $sql, $testCase )
     {
         try {
             R::addDatabase( 'active', \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, \Duelist101\DB_FROZEN );
         }
         catch ( RedBeanPHP\RedException $e ) {}
-        R::selectDatabase( 'active' );
-    }
-    
-    public static function getOrCreateDataSet( $table, $createFunction)
-    {
-        // call function to create table if doesn't exist
-        if ( R::findOne( $table ) == NULL ) {
-            W::$createFunction();
-        }
         
-        // pull into DBUnit Table
-        return new PHPUnit_Extensions_Database_DataSet_QueryTable(
-            $table,
-            'SELECT * FROM ' . $table . ' limit 1',
-            new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection( new PDO( \Duelist101\DB_DSN ) )
+        R::selectDatabase( 'active' );
+        $expected = R::getCell( $sql );
+        R::selectDatabase( 'default' );
+        $actual = R::getCell( $sql );
+        
+        $testCase->assertNotNull( $actual );
+        $testCase->assertEquals( 
+            str_replace(',', ",\n", $expected),
+            str_replace(',', ",\n", $actual),
+            "---------- ACTIVE SCHEMA ----------\n"
+            . $expected
+            . "\n----------- TEST SCHEMA -----------\n"
+            . $actual . "\n"
         );
     }
     
@@ -117,7 +122,7 @@ Class W
         return $a;
     }
     
-    public static function addAreaReagent( $area=null, $reagent=null, $properties=null  )
+    public static function addAreareagent( $area=null, $reagent=null, $properties=null  )
     {
         if ( $area == null && $reagent == null ) {
             $reagent = R::findOne( 'reagent' );
@@ -143,3 +148,22 @@ Class W
     }
 
 }
+
+/*
+    To remember if want to use DBUnit again
+
+    public static function getOrCreateDataSet( $table, $createFunction)
+    {
+        // call function to create table if doesn't exist
+        if ( R::findOne( $table ) == NULL ) {
+            W::$createFunction();
+        }
+        
+        // pull into DBUnit Table
+        return new PHPUnit_Extensions_Database_DataSet_QueryTable(
+            $table,
+            'SELECT * FROM ' . $table . ' limit 1',
+            new PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection( new PDO( \Duelist101\DB_DSN ) )
+        );
+    }
+*/
