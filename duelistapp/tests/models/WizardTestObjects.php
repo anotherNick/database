@@ -116,6 +116,7 @@ Class W
         $a = R::dispense( 'area' );
         $a->name = 'Name ' . $name ;
         $a->image = 'Image' . $name . '.gif';
+		$a->world_id = 1;
         $a = W::setProperties($a, $properties);
         R::store( $a );
  
@@ -145,6 +146,16 @@ Class W
         R::store( $ar );
  
         return $ar;
+    }
+	
+    public static function addWorld( $name='', $properties=null  )
+    {
+        $w = R::dispense( 'area' );
+        $w->name = 'Name ' . $name ;
+        $w = W::setProperties($w, $properties);
+        R::store( $w );
+ 
+        return $w;
     }
 
 }
