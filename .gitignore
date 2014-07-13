@@ -81,7 +81,7 @@ security/
 sendmail/
 service.exe
 setup_xampp.bat
-src/
+/src/
 test_php.bat
 tmp/
 tomcat/
