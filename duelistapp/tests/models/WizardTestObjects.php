@@ -32,6 +32,7 @@ Class W
         W::wipeIfExists( 'reagent' );
         W::wipeIfExists( 'area' );
         W::wipeIfExists( 'areareagent' );
+		W::wipeIfExists( 'world' );
     }
 
     public static function wipeIfExists( $table )
@@ -150,7 +151,7 @@ Class W
 	
     public static function addWorld( $name='', $properties=null  )
     {
-        $w = R::dispense( 'area' );
+        $w = R::dispense( 'world' );
         $w->name = 'Name ' . $name ;
         $w = W::setProperties($w, $properties);
         R::store( $w );

@@ -11,7 +11,7 @@ class WorldModelTest extends PHPUnit_Framework_TestCase
     public function testWizardTestObjectSchema()
     {
         W::addWorld( '1' );
-        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='area'";
+        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='world'";
         W::compareSchemas( $sql, $this );
     }
 }
