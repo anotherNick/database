@@ -5,12 +5,14 @@ class AreaModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupTestDatabase();
+        W::setupDatabases();
     }
 
-    public function testWizardTestObjectSchema()
+    public function testSchemas()
     {
-        W::addArea( '1' );
+        R::selectDatabase( 'empty' );
+        $world = W::addWorld( '1' );
+        W::addArea( $world, '1' );
         $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='area'";
         W::compareSchemas( $sql, $this );
     }

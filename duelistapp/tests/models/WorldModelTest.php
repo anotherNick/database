@@ -5,13 +5,14 @@ class WorldModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupTestDatabase();
+        W::setupDatabases();
     }
 
-    public function testWizardTestObjectSchema()
+    public function testSchemas()
     {
+        R::selectDatabase( 'empty' );
         W::addWorld( '1' );
-        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='area'";
+        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='world'";
         W::compareSchemas( $sql, $this );
     }
 }

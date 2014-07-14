@@ -13,15 +13,13 @@
 	],
     "psr-4": {
 	  "Duelist101\\": "lib/",
-      "Duelist101\\Db\\View\\": "templates/"
+      "Duelist101\\Db\\View\\": "templates/",
+      "Migrate\\": "lib/migrate/src"
 	}
   },
 	  
   "require-dev": {
-    "phpunit/dbunit": ">=1.2",
-	"phpunit/phpunit": "4.1.*",
-    "slim/views": "0.1.*",
-    "twig/twig": "1.*"
+	"phpunit/phpunit": "4.1.*"
   },
 
   "autoload-dev": {

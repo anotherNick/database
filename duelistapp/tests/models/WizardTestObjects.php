@@ -3,72 +3,41 @@
 /* Handy code snippet for saving views
    file_put_contents( 'views/XXX.html', '<div>' . PHP_EOL . $stamp . PHP_EOL . '</div>' );
 */
+use \RedBeanPHP\OODBBean as Bean;
 
 Class W
 {
-    private static $isTestDatabaseSetup;
+    private static $areDatabasesSetup = false;
+    private static $migrationConfig = array();
+
+    // Helper functions
     
-    private function __construct() {}
-
-    // eventual refactoring:
-    // use DB migrations to build clean database for testing
-    // then to check schema of objects below just do it in memory
-    // could do all testing in memory, but may have to rebuild DB each time
-    
-    // eventually have the test database setup by running all the migrations on a blank database?
-    public static function setupTestDatabase()
-    {
-        if ( !isset(self::$isTestDatabaseSetup) ) {
-            $activeDbFile = \Duelist101\APP_DIR . \Duelist101\SQLITE_FILE;
-            $testDbFile = \Duelist101\APP_DIR . 'data/testData.sqlite';
-            if ( !copy($activeDbFile, $testDbFile) )  {
-                throw new Exception('Failed to create data/testData.sqlite');
-            }
-            R::setUp( 'sqlite:' . $testDbFile);
-            W::addLookups();
-            self::$isTestDatabaseSetup = true;
-        }
-        R::selectDatabase( 'default' );
-        W::wipeIfExists( 'reagent' );
-        W::wipeIfExists( 'area' );
-        W::wipeIfExists( 'areareagent' );
-    }
-
-    public static function wipeIfExists( $table )
-    {
-        if ( R::findOne($table) !== null ) {
-            R::wipe( $table );
-        }
-    }
-
     public static function compareSchemas( $sql, $testCase )
     {
-        try {
-            R::addDatabase( 'active', \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, \Duelist101\DB_FROZEN );
-        }
-        catch ( RedBeanPHP\RedException $e ) {}
-        
-        R::selectDatabase( 'active' );
-        $expected = R::getCell( $sql );
+        R::selectDatabase( 'empty' );
+        $empty = R::getCell( $sql );
+        R::selectDatabase( 'tests' );
+        $tests = R::getCell( $sql );
         R::selectDatabase( 'default' );
-        $actual = R::getCell( $sql );
+        $default = R::getCell( $sql );
         
-        $testCase->assertNotNull( $actual );
+        $testCase->assertNotNull( $empty, 'No schema created in EMPTY' );
         $testCase->assertEquals( 
-            str_replace(',', ",\n", $expected),
-            str_replace(',', ",\n", $actual),
-            "---------- ACTIVE SCHEMA ----------\n"
-            . $expected
-            . "\n----------- TEST SCHEMA -----------\n"
-            . $actual . "\n"
+            str_replace(',', ",\n", preg_replace('/\s+/', '', $tests)),
+            str_replace(',', ",\n", preg_replace('/\s+/', '', $empty)),
+            "---------- TESTS SCHEMA ----------\n"
+            . $tests
+            . "\n----------- EMPTY SCHEMA -----------\n"
+            . $empty . "\n"
         );
-    }
-    
-    private static function addClass( $name )
-    {
-        $class = R::dispense( 'class' );
-        $class->name = $name;
-        R::store ( $class );
+        $testCase->assertEquals( 
+            str_replace(',', ",\n", preg_replace('/\s+/', '', $default)),
+            str_replace(',', ",\n", preg_replace('/\s+/', '', $empty)),
+            "---------- DEFAULT SCHEMA ----------\n"
+            . $default
+            . "\n----------- EMPTY SCHEMA -----------\n"
+            . $empty . "\n"
+        );
     }
     
     private static function setProperties( $bean, $properties )
@@ -78,21 +47,74 @@ Class W
         }
         return $bean;
     }
-    
-    public function addLookups()
+
+    public static function setupDatabases()
     {
-        if ( R::findOne('class') == NULL ) {
-            W::addCLass( 'Fire' );
-            W::addCLass( 'Ice' );
-            W::addCLass( 'Storm' );
-            W::addCLass( 'Balance' );
-            W::addCLass( 'Life' );
-            W::addCLass( 'Death' );
-            W::addCLass( 'Myth' );
+        if ( !self::$areDatabasesSetup ) {
+            R::setUp( \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, true );
+
+            define('Migrate\COMMAND_DIR', \Duelist101\APP_DIR);
+            self::$migrationConfig = include \Duelist101\APP_DIR . 'migrate-config.php';
+            R::addDatabase(
+                'tests', 
+                self::$migrationConfig['environments']['tests']['dsn'], 
+                \Duelist101\DB_USERNAME, 
+                \Duelist101\DB_PASSWORD, 
+                true );
+            R::addDatabase( 'empty', 'sqlite::memory:');
+            self::$areDatabasesSetup = true;
         }
+
+        R::selectDatabase( 'empty' );
+        R::nuke();
+        
+        R::selectDatabase( 'tests' );
+        R::freeze(false);
+        R::nuke();
+        R::freeze(true);
+        $migrate = new \Migrate\Migrate();
+        $migrate->setConfigFromArray( self::$migrationConfig );
+        $migrate->setEnvironment( 'tests' );
+        $migrate->setQuiet( true );
+        $migrate->setFiles();
+        $migrate->update();
     }
 
-    public static function addReagent( $name='', $properties=null )
+    // add Models
+    
+    public static function addArea( Bean $world, $name='', array $properties=null  )
+    {
+        $a = R::dispense( 'area' );
+        $a->name = 'Name ' . $name ;
+        $a->image = 'Image' . $name . '.gif';
+		$a->world = $world;
+        $a = W::setProperties($a, $properties);
+        R::store( $a );
+ 
+        return $a;
+    }
+    
+    public static function addAreareagent( Bean $area=null, Bean $reagent=null, array $properties=null  )
+    {
+        $ar = R::dispense( 'areareagent' );
+        $ar->area = $area;
+        $ar->reagent = $reagent;
+        $ar->votesUp = 0;
+        $ar->votesDown = 0;
+        $ar = W::setProperties($ar, $properties);
+        R::store( $ar );
+ 
+        return $ar;
+    }
+	
+    private static function addClass( string $name )
+    {
+        $class = R::dispense( 'class' );
+        $class->name = $name;
+        R::store ( $class );
+    }
+    
+    public static function addReagent( $name='', array $properties=null )
     {
         $class = R::load( 'class', 1);
     
@@ -111,46 +133,9 @@ Class W
         return $r;
     }
 
-    public static function addArea( $name='', $properties=null  )
+    public static function addWorld( $name='', array $properties=null  )
     {
-        $a = R::dispense( 'area' );
-        $a->name = 'Name ' . $name ;
-        $a->image = 'Image' . $name . '.gif';
-		$a->world_id = 1;
-        $a = W::setProperties($a, $properties);
-        R::store( $a );
- 
-        return $a;
-    }
-    
-    public static function addAreareagent( $area=null, $reagent=null, $properties=null  )
-    {
-        if ( $area == null && $reagent == null ) {
-            $reagent = R::findOne( 'reagent' );
-            if ( $reagent == NULL ) {
-                $reagent = W::addReagent( '1' );
-            }
-            
-            $area = R::findOne( 'area' );
-            if ( $area == NULL ) {
-                $area = W::addArea( '1' );
-            }
-        }
-
-        $ar = R::dispense( 'areareagent' );
-        $ar->area = $area;
-        $ar->reagent = $reagent;
-        $ar->votesUp = 0;
-        $ar->votesDown = 0;
-        $ar = W::setProperties($ar, $properties);
-        R::store( $ar );
- 
-        return $ar;
-    }
-	
-    public static function addWorld( $name='', $properties=null  )
-    {
-        $w = R::dispense( 'area' );
+        $w = R::dispense( 'world' );
         $w->name = 'Name ' . $name ;
         $w = W::setProperties($w, $properties);
         R::store( $w );

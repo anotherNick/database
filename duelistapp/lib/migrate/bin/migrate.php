@@ -27,10 +27,12 @@ foreach (array_keys($opts) as $opt) {
 $command =  isset($argv[1]) ? $argv[1] : null;
 switch ( $command ) {
     case 'update':
+        $migrate->setup();
         $migrate->update();
         break;
 
     case 'status':
+        $migrate->setup();
         $migrate->status();
         break;
 

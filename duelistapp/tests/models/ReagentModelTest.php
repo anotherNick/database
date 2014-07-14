@@ -5,11 +5,12 @@ class ReagentModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupTestDatabase();
+        W::setupDatabases();
     }
 
-    public function testWizardTestObjectSchema()
+    public function testSchemas()
     {
+        R::selectDatabase( 'empty' );
         W::addReagent( '1' );
         $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='reagent'";
         W::compareSchemas( $sql, $this );
@@ -24,17 +25,18 @@ class ReagentModelTest extends PHPUnit_Framework_TestCase
         
         $reagent->class = $newClass;
         R::store ( $reagent );
-        $this->assertEquals( $reagent->class_id, 3);
+        $this->assertEquals( $reagent->class->name, 'Storm');
     }
 
-    public function testAreaReagentss()
+    public function testAreaReagents()
     {
         $reagent = W::addReagent( '1' );
-        $area = W::addArea( '1' );
+        $world = W::addWorld( '1' );
+        $area = W::addArea( $world, '1' );
         $areaReagent = W::addAreareagent( $area, $reagent);
         
         $areaList = $reagent->ownAreareagentList;
         $this->assertNotEmpty($areaList);
     }
-       
+
 }

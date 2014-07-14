@@ -5,12 +5,16 @@ class AreaReagentModelTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupTestDatabase();
+        W::setupDatabases();
     }
 
     public function testWizardTestObjectSchema()
     {
-        W::addAreareagent();
+        R::selectDatabase( 'empty' );
+        $world = W::addWorld( '1' );
+        $area = W::addArea( $world, '1' );
+        $reagent = W::addReagent( '1' );
+        W::addAreareagent( $area, $reagent);
         $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='areareagent'";
         W::compareSchemas( $sql, $this );
     }

@@ -8,8 +8,18 @@ class Migrate
     private $environments = null;
     private $files = null;
     private $migrationsDir = null;
+    private $quiet = false;
     private $table = null;
     private $target = null;
+
+    private function connectDb()
+    {
+        $env = $this->environments[$this->environment];
+        $dsn = $env['dsn'];
+        $user = isset($env['user']) ? $env['user'] : null;
+        $password = isset($env['user']) ? $env['password'] : null;
+        R::setup($dsn, $user, $password);
+    }
 
     public function setConfigFromArray( $config )
     {
@@ -19,47 +29,48 @@ class Migrate
         $this->table = $config['defaults']['table'];
     }
 
-    public function setEnvironment( $environment )
-    {
-        $this->environment = $environment;
-    }
-    
-    public function setTarget()
-    {
-        $this->target = $target;
-    }
-
     private function popFilesBefore( $fileName )
     {
         while ( array_pop( $this->files ) != $fileName ) {}
         $this->files[] = $file;
     }
     
-    private function setup()
+    public function setEnvironment( $environment )
     {
+        $this->environment = $environment;
+    }
 
-        $env = $this->environments[$this->environment];
-        $dsn = $env['dsn'];
-        $dsnType = substr($dsn, 0, strpos($dsn, ':'));
-        $user = isset($env['user']) ? $env['user'] : null;
-        $password = isset($env['user']) ? $env['password'] : null;
-
-        echo PHP_EOL 
-            . 'Target: ' . ( is_null($this->target) ? 'all' : $this->target ) . PHP_EOL
-            . 'Environment: ' . $this->environment . PHP_EOL
-            . 'DSN: ' . $dsn . PHP_EOL
-            . '------------------------------' . PHP_EOL;
+    public function setFiles( $show=true )
+    {
+        $dsn = $this->environments[$this->environment]['dsn'];
+        $driver = substr($dsn, 0, strpos($dsn, ':'));
+        $curDir = getcwd();
         
+        if ( !$this->quiet ) {
+            echo PHP_EOL 
+                . 'Target: ' . ( is_null($this->target) ? 'all' : $this->target ) . PHP_EOL
+                . 'Environment: ' . $this->environment . PHP_EOL
+                . 'DSN: ' . $dsn . PHP_EOL
+                . '------------------------------' . PHP_EOL;
+        }
+                
         // grab files in reverse order
         chdir( $this->migrationsDir );
         $this->files = array_merge(
-                glob( '*--' . $dsnType . '*' ),
+                glob( '*--' . $driver . '*' ),
                 glob( '*--all*' )
         );
         rsort($this->files);
 
-        R::setup($dsn, $user, $password);
-        if ( R::findOne($this->table) !== null ) {
+        $done = null;
+        R::freeze(true);
+        try {
+            $done = R::load( $this->table, 1);
+            if ( preg_match( '[\-\-rollup]', $done->file ) ) {
+                popFilesBefore( $done->file );
+            }
+        }
+        catch (\RedBeanPHP\RedException $e) {
             // no migrations in db, remove all migrations prior to last rollup
             foreach( $this->files as $file ) {
                 if ( preg_match( '[\-\-rollup]', $file) ) {
@@ -67,32 +78,48 @@ class Migrate
                     break;
                 }
             }
-        } else {
-            // if first migration is a rollup, remove all migrations before it
-            $migration = R::load( $this->table, 1 );
-            if ( preg_match( '[\-\-rollup]', $migration->file ) ) {
-                popFilesBefore( $migration->file );
-            }
         }
+
         // put files back in normal order
         sort($this->files);
 
+        chdir( $curDir );
+    }
+    
+    public function setQuiet( $quiet )
+    {
+        $this->quiet = $quiet;
+    }
+
+    public function setTarget()
+    {
+        $this->target = $target;
+    }
+
+    public function setup()
+    {
+        $this->connectDb();
+        $this->setFiles();
     }
     
     public function status()
     {
-        $this->setup();
-
+        
         $hasTodo = false;
         $hasDoneMissing = false;
-        $dones = R::getCol('SELECT file FROM ' . $this->table );
+        try {
+            $dones = R::getCol('SELECT file FROM ' . $this->table );
+        }
+        catch (\RedBeanPHP\RedException $e) {
+            $dones = array();
+        }
         
-        echo 'First migration in DB: '
+        $output = 'First migration in DB: '
             . ( isset($dones[0]) ? $dones[0] : 'none' ) . PHP_EOL
             . 'Migrations not in DB: ' . PHP_EOL;
         foreach( $this->files as $file ) {
             if ( !in_array($file, $dones) ) {
-                echo '  ' . $file . PHP_EOL;
+                $output .=  '  ' . $file . PHP_EOL;
                 $hasTodo = true;
             }
             if ( $file == $this->target ) {
@@ -100,32 +127,40 @@ class Migrate
             }
         }
         if ( !$hasTodo ) {
-            echo '  none' . PHP_EOL;
+            $output .= '  none' . PHP_EOL;
         }
-        foreach( $dones as $done) {
+        foreach( $dones as $done ) {
             if ( !in_array($done, $this->files) ) {
                 if ( !$hasDoneMissing ) {
-                    echo PHP_EOL
+                    $output .= PHP_EOL
                         . '**********' . PHP_EOL
                         . 'Warning: Migrations in DB but not in migrations path' . PHP_EOL;
                     $hasDoneMissing = true;
                 }
-                echo '  ' . $done . PHP_EOL;
+                $output .= '  ' . $done . PHP_EOL;
             }
         }
         if ( $hasDoneMissing ) {
-            echo '**********' . PHP_EOL;
+            $output .= '**********' . PHP_EOL;
+        }
+
+        if ( !$this->quiet ) {
+            echo $output;
         }
 
     }
 
     public function update()
     {
-        $this->setup();
-
         // TODO: figure out why couldn't use parameter bindings here
-        $done = R::getCol('SELECT file FROM ' . $this->table );
+        try {
+            $done = R::getCol('SELECT file FROM ' . $this->table );
+        }
+        catch (\RedBeanPHP\RedException $e) {
+            $done = array();
+        }
         $isFirstMigration = true;
+        $output = '';
         $todo = array();
 
         foreach( $this->files as $file) {
@@ -166,22 +201,27 @@ class Migrate
                 } else {
                     R::store( $migration );
                 }
-                echo "Applied: " . $file . PHP_EOL;
+                $output .= "Applied: " . $file . PHP_EOL;
             }
             catch(\RedBeanPHP\RedException $e) {
                 R::rollback();
-                echo PHP_EOL
+                $output .= PHP_EOL
                     . '**********' . PHP_EOL
                     . 'ERROR' . PHP_EOL
                     . '**********' . PHP_EOL
                     . 'Migration: ' . $file . PHP_EOL
                     . ( is_null($sql) ? '' : 'SQL: ' . $sql . PHP_EOL )
                     . 'Message: ' . strtok($e, "\n") . PHP_EOL;
+                echo $output;
                 die();
             }
         }
         if ( $isFirstMigration ) {
-            echo 'No migrations to apply.' . PHP_EOL;
+            $output .= 'No migrations to apply.' . PHP_EOL;
+        }
+
+        if ( !$this->quiet ) {
+            echo $output;
         }
     }
 
