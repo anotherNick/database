@@ -16,6 +16,7 @@ duelistapp/data/
 duelistapp/old/
 duelistapp/vendor/
 duelistapp/config.php
+duelistapp/migrate-config.php
 filezilla_setup.bat
 filezilla_start.bat
 filezilla_stop.bat

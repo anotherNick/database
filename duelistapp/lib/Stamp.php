@@ -13,4 +13,13 @@ Class Stamp extends \StampTemplateEngine\StampTE
         }
 		parent::__construct( $tpl, $id );
 	}
+
+    public function getScripts() {
+        return array();
+    }
+    
+    public function getStyles() {
+        return array();
+    }
+    
 }

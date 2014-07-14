@@ -15,7 +15,7 @@ $app = new \Slim\Slim(array(
 ));
 
 $app->post('/areareagents', function () use ($app) {
-
+});
 
 $app->get('/areas.json', function () use ($app) {
     $app->response()->header('Content-Type', 'application/json');
@@ -70,7 +70,8 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 	// Redbean returns null for no reagent. Eventually do something smarter here.
 	if( $reagent === null ){ $app->notfound(); }
 	
-    $areas = R::find('area', 'id NOT IN (SELECT area_id FROM areareagent WHERE reagent_id = ?)', [ $reagent->id ] );
+    $areas = R::findAll( 'area', 'ORDER BY name');
+//    'area', 'id NOT IN (SELECT area_id FROM areareagent WHERE reagent_id = ?)', [ $reagent->id ] );
     
     $stamp = new View\ReagentSingle();
     $stamp->parse( $reagent, $app->request->getRootUri(), $areas );

@@ -1,5 +1,3 @@
-<!-- TODO: this should be called from javascript calls -->
-<script type="text/javascript" src="http://cdn8.duelist101.com/wp-content/plugins/et-shortcodes/js/et_shortcodes_frontend.js?ver=3.0"></script>
 <!-- cut:reagent -->
 <h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 #name# Reagent</strong></h1>
 <p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
@@ -35,15 +33,46 @@
     <div class='et-tabs-content'>
         <div class='et-tabs-content-wrapper'>
 <!-- cut:sourceList -->
-            <div class='et_slidecontent'>
-                #defaultText?#
+            <div id='#htmlId#' class='et_slidecontent'>
+    <!-- cut:message -->
+                <p>#message#</p>
+    <!-- /cut:message -->
+                <ul id="#htmlId#-ul">
+    <!-- source also used in Javascript -->
     <!-- cut:source -->
-                <p style="text-align:center;">
-                  <a href='#url#'>#name#</a>
-                    ( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
-                    #voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
-                </p>
+                    <li style="text-align:center;">
+                      <a href='#url#'>#name#</a>
+                        ( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
+                        #voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
+                    </li>
     <!-- /cut:source -->
+                    <li class="to-add" style="text-align:center; display:none">
+                      <a href=''></a>
+                        ( 0 <a href=''>△</a> |
+                        0 <a href=''>▽</a> )
+                    </li>
+                </ul>
+                <div id="add-area-div-link">
+                    <p><a id="add-area-link" href="javascriptRequired.html">Add</a></p>
+                </div>
+                <div id="add-area-div-form" style="display: none;">
+                    <form id="#htmlId#-form">
+                        <p>
+                            <input type="hidden" value="#reagentId#" />
+                            <select id="#htmlId#-select" style="width:300px;">
+                                <option></option>
+    <!-- cut:addItem -->
+                                <option value="#itemId#">#itemName#</option>';
+    <!-- /cut:addItem -->
+                            </select>
+                        </p>
+                        <p style="margin-top: 20px">
+                            <input type="submit" value="Create" />
+                             or 
+                            <a id="redlink" href="javascriptRequired.html">Cancel</a>
+                        </p>
+                    </form>
+                </div>
             </div>
 <!-- /cut:sourceList -->
         </div>
