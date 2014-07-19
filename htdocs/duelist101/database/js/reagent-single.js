@@ -1,64 +1,51 @@
 jQuery(document).ready( function($) {
 
-    $( '#areas-select' ).select2({
+    $( '#areas-add-select' ).select2({
         placeholder: "Type or select an area"
     });
 
-    $( '#add-area-link' ).click( function() {
-        $("#areas-select").val($("#areas-select option:first").val());
-        $( '#add-area-div-link' ).hide();
-        $( '#add-area-div-form' ).show();
+    $( '#areas-add-link' ).click( function() {
+        $( '#areas-add-select' ).select2('val', null);
+        $( '#areas-add-div-link' ).hide();
+        $( '#areas-add-div-form' ).show();
         return false;
     } );
 
-/*
-    $( '#areas-form' ).submit( function ( event ) {
+    $( '#areas-add-cancel-link' ).click( function() {
+        $( '#areas-add-div-form' ).hide();
+        $( '#areas-add-div-link' ).show();
+        return false;
+    } );
+    
+    $( '#areas-add-form' ).submit( function ( event ) {
+        var template;
+        
         $.ajax( {
             url: '/duelist101/database/areareagent',
             type: 'post',
             dataType: 'json',
-            data: $(this).serialize(),
-            success: function(data) {
-                // do something with the data
-                var ul = $("#areas-ul");
-                ul.append(li);
-                $('ul').append($('<li/>', {    //here appending `<li>`
-    'data-role': "list-divider"
-}).append($('<a/>', {    //here appending `<a>` into `<li>`
-    'href': 'test.html',
-    'data-transition': 'slide',
-    'text': 'hello'
-})));
-var grab = $('.grab-me')
-    .clone()
-    .removeClass('grab-me')
-    .appendTo('#register');
-              /*
-                ul.append('
-                    <li style="text-align:center;">
-                        <a href="' + $baseUrl + '/areas/' + urlencode( $areareagent->area->name ) + '">
-                            ' + $cutSource->setName( $areareagent->area->name) + '
-                        </a>
-                        ( 0 <a href="/">â–³</a> |
-                        0 <a href="/">â–½</a> )
-                    </li>');
-                var li = ul.children("li");
-                li.detach().sort();
-                $("ul").listview("refresh");
-                $( '#add-area-div-form' ).hide();
-                $( '#add-area-div-link' ).show();
-             }
-         } );
-    } );
-        event.preventDefault();
-});
-    } );
-*/
-
-    $( '#redlink' ).click( function() {
-        $( '#add-area-div-form' ).hide();
-        $( '#add-area-div-link' ).show();
+            data: $(this).serialize()
+        } )
+        .done( function(data) {
+            template = $('.areas-add-li-template').clone();
+            template.find('a.name')
+                .attr('href', data.url)
+                .text(data.areaName);
+            template.find('a.vote-up').attr('href', data.voteUpUrl);
+            template.find('a.vote-down').attr('href', data.voteDownUrl);
+            template.show();
+            template.appendTo( $('#areas-ul') );
+            var li = $('#areas-ul').children("li");
+            li.detach().sort( function(a, b) {
+                var compA = $(a).text().toUpperCase();
+                var compB = $(b).text().toUpperCase();
+                return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+            });
+            $('#areas-ul').append(li);
+        } );
+        $( '#areas-add-div-form' ).hide();
+        $( '#areas-add-div-link' ).show();
         return false;
     } );
-    
+
 } );

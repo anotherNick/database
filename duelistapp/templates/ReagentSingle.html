@@ -33,7 +33,7 @@
     <div class='et-tabs-content'>
         <div class='et-tabs-content-wrapper'>
 <!-- cut:sourceList -->
-            <div id='#htmlId#' class='et_slidecontent'>
+            <div id='#htmlId#-div' class='et_slidecontent'>
     <!-- cut:message -->
                 <p>#message#</p>
     <!-- /cut:message -->
@@ -46,20 +46,20 @@
                         #voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
                     </li>
     <!-- /cut:source -->
-                    <li class="to-add" style="text-align:center; display:none">
-                      <a href=''></a>
-                        ( 0 <a href=''>△</a> |
-                        0 <a href=''>▽</a> )
+                    <li class="#htmlId#-add-li-template" style="text-align:center; display:none">
+                      <a class="name" href='JS'>JS</a>
+                        ( 1 <a class='vote-up' href='JS'>△</a> |
+                        0 <a class='vote-down' href='JS'>▽</a> )
                     </li>
                 </ul>
-                <div id="add-area-div-link">
-                    <p><a id="add-area-link" href="javascriptRequired.html">Add</a></p>
+                <div id="#htmlId#-add-div-link">
+                    <p><a id="#htmlId#-add-link" href="javascriptRequired.html">Add</a></p>
                 </div>
-                <div id="add-area-div-form" style="display: none;">
-                    <form id="#htmlId#-form">
+                <div id="#htmlId#-add-div-form" style="display: none;">
+                    <form id="#htmlId#-add-form">
                         <p>
-                            <input type="hidden" value="#reagentId#" />
-                            <select id="#htmlId#-select" style="width:300px;">
+                            <input name="reagent_id" type="hidden" value="#reagentId#" />
+                            <select name="area_id" id="#htmlId#-add-select" style="width:300px;">
                                 <option></option>
     <!-- cut:addItem -->
                                 <option value="#itemId#">#itemName#</option>';
@@ -69,7 +69,7 @@
                         <p style="margin-top: 20px">
                             <input type="submit" value="Create" />
                              or 
-                            <a id="redlink" href="javascriptRequired.html">Cancel</a>
+                            <a id="#htmlId#-add-cancel-link" href="javascriptRequired.html">Cancel</a>
                         </p>
                     </form>
                 </div>
