@@ -43,7 +43,7 @@ Class ReagentSingle extends \Duelist101\Stamp
         );
     }
 
-    public function parse( $reagent, $baseUrl, $areas )
+    public function parse( $reagent, $areas )
     {
 
         $cut = $this->getReagent();
@@ -59,21 +59,25 @@ Class ReagentSingle extends \Duelist101\Stamp
         $cut->setHtmlId( 'areas' );
         $cut->setReagentId( $reagent->id );
         
+        // TODO: this needs to be sorted
         $areareagents = $reagent->ownAreareagentList;
+        usort( $areareagents, function($a, $b) {
+            return strcmp($a->area->name, $b->area->name);
+        } );
         if ( empty($areareagents) ) {
             // TODO: this probably should be a stamp wrapped in a <p>
             $cut->setDefaultText('None.');
         } else {
             foreach ($areareagents as $areareagent) {
                 $cutSource = $this->get('sourceList.source');
-                $cutSource->setUrl( $baseUrl . '/areas/' . urlencode( $areareagent->area->name ) );
-                $cutSource->setName( $areareagent->area->name);
+                $cutSource->setUrl( \Duelist101\BASE_URL . '/areas/' . urlencode( $areareagent->area->name ) );
+                $cutSource->setName( $areareagent->area->name );
                 $cutSource->setVoteUpCount($areareagent->voteUp);
                 $cutSource->setVoteDownCount($areareagent->voteDown);
                 // TODO: implement voteup and votedown link logic, assuming post URL similar to below:
                 // in vote up/down, probably make sure only one vote per IP / user 
-                $cutSource->setVoteUpUrl( urlencode( 'areareagent/vote/up/' . $areareagent->id ) );
-                $cutSource->setVoteDownUrl( urlencode( 'areareagent/vote/down/' . $areareagent->id ) );
+                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . '/areareagent/vote-up/' . urlencode($areareagent->id) );
+                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . '/areareagent/vote-down/' . urlencode($areareagent->id) );
                 $cut->add($cutSource);
             }
         }
