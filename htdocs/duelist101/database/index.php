@@ -89,10 +89,10 @@ $app->get('/reagents/:name', function ($name) use ($app) {
 });
 
 $app->get('/areas/', function () use ($app) {
-	$areas = R::find( 'area' );
+	$worlds = R::find( 'world' );
 
     $stamp = new View\AreaList();
-    $stamp->parse( $areas );
+    $stamp->parse( $worlds );
     $app->view->add( $stamp );
         
     $stamp = new View\DisqusFooter();
