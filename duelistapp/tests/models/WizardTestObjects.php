@@ -137,6 +137,7 @@ Class W
     {
         $w = R::dispense( 'world' );
         $w->name = 'Name ' . $name ;
+		$w->image = 'Image' . $name . '.gif';
         $w = W::setProperties($w, $properties);
         R::store( $w );
  
