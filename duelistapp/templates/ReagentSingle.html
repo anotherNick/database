@@ -1,82 +1,84 @@
-<!-- cut:reagent -->
-<h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 #name# Reagent</strong></h1>
-<p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
-<blockquote>
-    <div class="one_third">
-        <p style="text-align:center;">
-            <strong style="color:#FC0;">Image:</strong>
-        </p>
-        <img style="max-width:350px; border: 2px solid #999; border-radius:5px;"
-             src="http://www.duelist101.com/w101_reagents/#image#"
-             alt="#name# Image" class="aligncenter" />
-    </div>
-    <div class="two_third last">
-      <p><strong style="color:#FC0;">Name</strong>: #name#</p>
-      <p><strong style="color:#FC0;">Class</strong>: #className#</p>
-      <p><strong style="color:#FC0;">Rank</strong>: #rank#</p>
-      <p><strong style="color:#FC0;">Description</strong>: #description#</p>
-    </div>
-</blockquote>
-<h2 style=' color:#F90; text-align: center;'>Sources of #name# Reagent</h2>
-<!-- /cut:reagent -->
+<div class="post-wrapper post" style="padding:10px;">
+	<!-- cut:reagent -->
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 #name# Reagent</strong></h1>
+	<p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
+	<blockquote>
+		<div class="one_third">
+			<p style="text-align:center;">
+				<strong style="color:#FC0;">Image:</strong>
+			</p>
+			<img style="max-width:350px; border: 2px solid #999; border-radius:5px;"
+				 src="http://www.duelist101.com/w101_reagents/#image#"
+				 alt="#name# Image" class="aligncenter" />
+		</div>
+		<div class="two_third last">
+		  <p><strong style="color:#FC0;">Name</strong>: #name#</p>
+		  <p><strong style="color:#FC0;">Class</strong>: #className#</p>
+		  <p><strong style="color:#FC0;">Rank</strong>: #rank#</p>
+		  <p><strong style="color:#FC0;">Description</strong>: #description#</p>
+		</div>
+	</blockquote>
+	<h2 style=' color:#F90; text-align: center;'>Sources of #name# Reagent</h2>
+	<!-- /cut:reagent -->
 
-<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'
-    style='margin-bottom: 50px'>
-    <div class='et_left_tabs_bg'></div>
-    <ul class='et-tabs-control'>
-        <li><a href='#'>Areas</a></li>
-        <li><a href='#'>Creatures</a></li>
-        <li><a href='#'>Crown Shop</a></li>
-        <li><a href='#'>Plants</a></li>
-        <li><a href='#'>Vendors</a></li>
-    </ul> <!-- .et-tabs-control -->
-    <div class='et-tabs-content'>
-        <div class='et-tabs-content-wrapper'>
-<!-- cut:sourceList -->
-            <div id='#htmlId#-div' class='et_slidecontent'>
-    <!-- cut:message -->
-                <p>#message#</p>
-    <!-- /cut:message -->
-                <ul id="#htmlId#-ul">
-    <!-- source also used in Javascript -->
-    <!-- cut:source -->
-                    <li style="text-align:center;">
-                      <a href='#url#'>#name#</a>
-                        ( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
-                        #voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
-                    </li>
-    <!-- /cut:source -->
-                    <li class="#htmlId#-add-li-template" style="text-align:center; display:none">
-                      <a class="name" href='JS'>JS</a>
-                        ( 1 <a class='vote-up' href='JS'>△</a> |
-                        0 <a class='vote-down' href='JS'>▽</a> )
-                    </li>
-                </ul>
-                <div id="#htmlId#-add-div-link">
-                    <p><a id="#htmlId#-add-link" href="javascriptRequired.html">Add</a></p>
-                </div>
-                <div id="#htmlId#-add-div-form" style="display: none;">
-                    <form id="#htmlId#-add-form">
-                        <p>
-                            <input name="reagent_id" type="hidden" value="#reagentId#" />
-                            <select name="area_id" id="#htmlId#-add-select" style="width:300px;">
-                                <option></option>
-    <!-- cut:addItem -->
-                                <option value="#itemId#">#itemName#</option>';
-    <!-- /cut:addItem -->
-                            </select>
-                        </p>
-                        <p style="margin-top: 20px">
-                            <input type="submit" value="Create" />
-                             or 
-                            <a id="#htmlId#-add-cancel-link" href="javascriptRequired.html">Cancel</a>
-                        </p>
-                    </form>
-                </div>
-            </div>
-<!-- /cut:sourceList -->
-        </div>
-    </div>
-</div> <!-- .tabs-left -->
-<div class='clear'></div>
-
+	<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'
+		style='margin-bottom: 50px'>
+		<div class='et_left_tabs_bg'></div>
+		<ul class='et-tabs-control'>
+			<li><a href='#'>Areas</a></li>
+			<li><a href='#'>Creatures</a></li>
+			<li><a href='#'>Crown Shop</a></li>
+			<li><a href='#'>Plants</a></li>
+			<li><a href='#'>Vendors</a></li>
+		</ul> <!-- .et-tabs-control -->
+		<div class='et-tabs-content'>
+			<div class='et-tabs-content-wrapper'>
+	<!-- cut:sourceList -->
+				<div id='#htmlId#-div' class='et_slidecontent'>
+		<!-- cut:message -->
+					<p>#message#</p>
+		<!-- /cut:message -->
+					<ul id="#htmlId#-ul">
+		<!-- source also used in Javascript -->
+		<!-- cut:source -->
+						<li style="text-align:center;">
+						  <a href='#url#'>#name#</a>
+							( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
+							#voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
+						</li>
+		<!-- /cut:source -->
+						<li class="#htmlId#-add-li-template" style="text-align:center; display:none">
+						  <a class="name" href='JS'>JS</a>
+							( 1 <a class='vote-up' href='JS'>△</a> |
+							0 <a class='vote-down' href='JS'>▽</a> )
+						</li>
+					</ul>
+					<div id="#htmlId#-add-div-link">
+						<p><a id="#htmlId#-add-link" href="javascriptRequired.html">Add</a></p>
+					</div>
+					<div id="#htmlId#-add-div-form" style="display: none;">
+						<form id="#htmlId#-add-form">
+							<p>
+								<input name="reagent_id" type="hidden" value="#reagentId#" />
+								<select name="area_id" id="#htmlId#-add-select" style="width:300px;">
+									<option></option>
+		<!-- cut:addItem -->
+									<option value="#itemId#">#itemName#</option>';
+		<!-- /cut:addItem -->
+								</select>
+							</p>
+							<p style="margin-top: 20px">
+								<input type="submit" value="Create" />
+								 or 
+								<a id="#htmlId#-add-cancel-link" href="javascriptRequired.html">Cancel</a>
+							</p>
+						</form>
+					</div>
+				</div>
+	<!-- /cut:sourceList -->
+			</div>
+		</div>
+	</div> <!-- .tabs-left -->
+	<div class='clear'></div>
+	<div style="clear:both;"> </div>
+</div>

@@ -30,7 +30,6 @@ class WordpressView extends \Slim\View
 		get_header();
 
         echo '<div id="content">' . PHP_EOL;
-        echo '  <div class="post-wrapper post" style="padding:10px;">' . PHP_EOL;
         echo ( isset($content) ? $content : $this->content );
         echo '  </div>' . PHP_EOL;
 
