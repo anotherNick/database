@@ -34,6 +34,7 @@ Class W
 
         if ( strlen($message) > 0 ) {
             $message = '**************************' . PHP_EOL . $message;
+            $dsn = self::$migrationConfig['environments']['tests']['dsn'];
             R::selectDatabase( 'tests' );
             R::freeze( false );
             R::debug(true, 1);
@@ -41,7 +42,7 @@ Class W
             $logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->getLogs();
 
             $message .= '**************************' . PHP_EOL
-                . '* Possible migrations' . PHP_EOL
+                . '* Possible migration: ' . date('YmdHis') . '--' . substr($dsn, 0, strpos($dsn, ':')) . '-' . $table . '.sql' . PHP_EOL
                 . '**************************' . PHP_EOL;
             foreach( $logs as $logEntry ) {
                 if ( preg_match( '/(CREATE|ALTER|DROP|INSERT.*tmp_backup)/', $logEntry ) ) {
