@@ -8,12 +8,16 @@ class AreaModelTest extends PHPUnit_Framework_TestCase
         W::setupDatabases();
     }
 
-    public function testSchemas()
+    public function testSchema()
     {
-        R::selectDatabase( 'empty' );
-        $world = W::addWorld( '1' );
-        W::addArea( $world, '1' );
-        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='area'";
-        W::compareSchemas( $sql, $this );
+        $message = W::compareColumns ( 
+            'area', 
+            function () { 
+                $world = W::addWorld( '1' );
+                W::addArea( $world, '1' );
+            }
+        );
+        $this->assertEmpty($message, $message);
     }
+
 }

@@ -8,11 +8,15 @@ class WorldModelTest extends PHPUnit_Framework_TestCase
         W::setupDatabases();
     }
 
-    public function testSchemas()
+    public function testSchema()
     {
-        R::selectDatabase( 'empty' );
-        W::addWorld( '1' );
-        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='world'";
-        W::compareSchemas( $sql, $this );
+        $message = W::compareColumns ( 
+            'world', 
+            function () { 
+                W::addWorld( '1' );
+            }
+        );
+        $this->assertEmpty($message, $message);
     }
+
 }

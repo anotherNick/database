@@ -8,15 +8,19 @@ class AreaReagentModelTest extends PHPUnit_Framework_TestCase
         W::setupDatabases();
     }
 
-    public function testWizardTestObjectSchema()
+    public function testSchema()
     {
-        R::selectDatabase( 'empty' );
-        $world = W::addWorld( '1' );
-        $area = W::addArea( $world, '1' );
-        $reagent = W::addReagent( '1' );
-        W::addAreareagent( $area, $reagent);
-        $sql = "SELECT sql FROM `sqlite_master` WHERE type='table' AND name='areareagent'";
-        W::compareSchemas( $sql, $this );
+        $message = W::compareColumns ( 
+            'areareagent', 
+            function () { 
+                $world = W::addWorld( '1' );
+                $area = W::addArea( $world, '1' );
+                $class = W::addClass( '1' );
+                $reagent = W::addReagent( $class, '1' );
+                W::addAreareagent( $area, $reagent);
+            }
+        );
+        $this->assertEmpty($message, $message);
     }
-    
+
 }

@@ -15,17 +15,16 @@ $opts = getopt('e:t:');
 foreach (array_keys($opts) as $opt) {
     switch ($opt) {
         case 'e':
-            $migrate->setEnvironment( $opt['e'] );
+            $migrate->setEnvironment( $opts['e'] );
             break;
 
         case 't':
-            $migrate->setTarget( $opt['t'] );
+            $migrate->setTarget( $opts['t'] );
             break;
         }
 }
 
-$command =  isset($argv[1]) ? $argv[1] : null;
-switch ( $command ) {
+switch ( $argv[$argc-1] ) {
     case 'update':
         $migrate->setup();
         $migrate->update();
@@ -38,7 +37,7 @@ switch ( $command ) {
 
     default :
         $msg = <<<EOM
-Usage: migrate command [options]
+Usage: migrate [options] command
 
 Options:
   -e   environment   Use the specified environment

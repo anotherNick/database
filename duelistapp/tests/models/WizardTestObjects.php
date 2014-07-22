@@ -12,34 +12,46 @@ Class W
 
     // Helper functions
     
-    public static function compareSchemas( $sql, $testCase )
+    public static function compareColumns( $table, $callback )
     {
         R::selectDatabase( 'empty' );
-        $empty = R::getCell( $sql );
+        $callback();
+        $allEmpty = R::inspect( $table );
+
         R::selectDatabase( 'tests' );
-        $tests = R::getCell( $sql );
-        R::selectDatabase( 'default' );
-        $default = R::getCell( $sql );
-        
-        $testCase->assertNotNull( $empty, 'No schema created in EMPTY' );
-        $testCase->assertEquals( 
-            str_replace(',', ",\n", preg_replace('/\s+/', '', $tests)),
-            str_replace(',', ",\n", preg_replace('/\s+/', '', $empty)),
-            "---------- TESTS SCHEMA ----------\n"
-            . $tests
-            . "\n----------- EMPTY SCHEMA -----------\n"
-            . $empty . "\n"
-        );
-        $testCase->assertEquals( 
-            str_replace(',', ",\n", preg_replace('/\s+/', '', $default)),
-            str_replace(',', ",\n", preg_replace('/\s+/', '', $empty)),
-            "---------- DEFAULT SCHEMA ----------\n"
-            . $default
-            . "\n----------- EMPTY SCHEMA -----------\n"
-            . $empty . "\n"
-        );
+        $allTests = R::inspect( $table );
+
+        $missingInEmpty = array_diff_key( $allTests, $allEmpty );
+        $missingInTests = array_diff_key( $allEmpty, $allTests );
+
+        $message = '';
+        foreach ( $missingInTests as $key => $value) {
+            $message .= '* Column missing in TESTS: ' . $key . PHP_EOL;
+        }
+        foreach ( $missingInEmpty as $key => $value) {
+            $message .= '* Column missing in EMPTY: ' . $key . PHP_EOL;
+        }
+
+        if ( strlen($message) > 0 ) {
+            $message = '**************************' . PHP_EOL . $message;
+            R::selectDatabase( 'tests' );
+            R::freeze( false );
+            R::debug(true, 1);
+            $callback();
+            $logs = R::getDatabaseAdapter()->getDatabase()->getLogger()->getLogs();
+
+            $message .= '**************************' . PHP_EOL
+                . '* Possible migrations' . PHP_EOL
+                . '**************************' . PHP_EOL;
+            foreach( $logs as $logEntry ) {
+                if ( preg_match( '/(CREATE|ALTER|DROP|INSERT.*tmp_backup)/', $logEntry ) ) {
+                    $message .= $logEntry . ';' . PHP_EOL;
+                }
+            }
+        }
+        return $message;
     }
-    
+
     private static function setProperties( $bean, $properties )
     {
         foreach ( (array) $properties as $key => $value ) {
@@ -51,17 +63,10 @@ Class W
     public static function setupDatabases()
     {
         if ( !self::$areDatabasesSetup ) {
-            R::setUp( \Duelist101\DB_DSN, \Duelist101\DB_USERNAME, \Duelist101\DB_PASSWORD, true );
-
             define('Migrate\COMMAND_DIR', \Duelist101\APP_DIR);
             self::$migrationConfig = include \Duelist101\APP_DIR . 'migrate-config.php';
-            R::addDatabase(
-                'tests', 
-                self::$migrationConfig['environments']['tests']['dsn'], 
-                \Duelist101\DB_USERNAME, 
-                \Duelist101\DB_PASSWORD, 
-                true );
-            R::addDatabase( 'empty', 'sqlite::memory:');
+            R::addDatabase('empty', 'sqlite::memory:');
+            R::addDatabase('tests', self::$migrationConfig['environments']['tests']['dsn']);
             self::$areDatabasesSetup = true;
         }
 
@@ -69,7 +74,6 @@ Class W
         R::nuke();
         
         R::selectDatabase( 'tests' );
-        R::freeze(false);
         R::nuke();
         R::freeze(true);
         $migrate = new \Migrate\Migrate();
@@ -84,64 +88,73 @@ Class W
     
     public static function addArea( Bean $world, $name='', array $properties=null  )
     {
-        $a = R::dispense( 'area' );
-        $a->name = 'Name ' . $name ;
-        $a->image = 'Image' . $name . '.gif';
-		$a->world = $world;
-        $a = W::setProperties($a, $properties);
-        R::store( $a );
+        $bean = R::dispense( 'area' );
+        $bean->name = 'Name ' . $name ;
+        $bean->image = 'Image' . $name . '.gif';
+		$bean->world = $world;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
  
-        return $a;
+        return $bean;
     }
     
     public static function addAreareagent( Bean $area=null, Bean $reagent=null, array $properties=null  )
     {
-        $ar = R::dispense( 'areareagent' );
-        $ar->area = $area;
-        $ar->reagent = $reagent;
-        $ar->votesUp = 0;
-        $ar->votesDown = 0;
-        $ar = W::setProperties($ar, $properties);
-        R::store( $ar );
+        $bean = R::dispense( 'areareagent' );
+        $bean->area = $area;
+        $bean->reagent = $reagent;
+        $bean->votesUp = 0;
+        $bean->votesDown = 0;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
  
-        return $ar;
+        return $bean;
     }
 	
-    private static function addClass( string $name )
+    public static function addClass( $name='' )
     {
-        $class = R::dispense( 'class' );
-        $class->name = $name;
-        R::store ( $class );
+        $bean = R::dispense( 'class' );
+        $bean->name = 'Class ' . $name;
+        R::store ( $bean );
+        
+        return $bean;
     }
     
-    public static function addReagent( $name='', array $properties=null )
+    public static function addTest( $name='' )
     {
-        $class = R::load( 'class', 1);
+        $bean = R::dispense( 'test' );
+        $bean->name = 'Class ' . $name;
+        R::store ( $bean );
+        
+        return $bean;
+    }
     
-        $r = R::dispense( 'reagent' );
-        $r->name = 'Name ' . $name ;
-        $r->rank = 1;
-        $r->image = 'Image' . $name . '.gif';
-        $r->description = 'Description ' . $name;
-        $r->can_auction = 0;
-        $r->is_crowns_only = 0;
-        $r->is_retired = 0;
-        $r->class = $class;
-        $r = W::setProperties($r, $properties);
-        R::store( $r );
+    public static function addReagent( Bean $class, $name='', array $properties=null )
+    {
+        $bean = R::dispense( 'reagent' );
+        $bean->name = 'Name ' . $name ;
+        $bean->rank = 1;
+        $bean->image = 'Image' . $name . '.gif';
+        $bean->description = 'Description ' . $name;
+        $bean->can_auction = 0;
+        $bean->is_crowns_only = 0;
+        $bean->is_retired = 0;
+        $bean->class = $class;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
  
-        return $r;
+        return $bean;
     }
 
     public static function addWorld( $name='', array $properties=null  )
     {
-        $w = R::dispense( 'world' );
-        $w->name = 'Name ' . $name ;
-		$w->image = 'Image' . $name . '.gif';
-        $w = W::setProperties($w, $properties);
-        R::store( $w );
+        $bean = R::dispense( 'world' );
+        $bean->name = 'Name ' . $name ;
+		$bean->image = 'Image' . $name . '.gif';
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
  
-        return $w;
+        return $bean;
     }
 
 }
