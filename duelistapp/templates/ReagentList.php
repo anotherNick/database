@@ -20,7 +20,7 @@ Class ReagentList extends \Duelist101\Stamp
                 $cut->add($cutLastFooter);
             }
             $cut->setName($reagent->name);
-            $cut->setLinkName( urlencode($reagent->name) );
+            $cut->setLinkName( \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->name) );
             $cut->setImage($reagent->image);
             $cut->setClassName($reagent->class->name);
             $cut->setRank($reagent->rank);

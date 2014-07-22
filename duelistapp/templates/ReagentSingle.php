@@ -59,7 +59,6 @@ Class ReagentSingle extends \Duelist101\Stamp
         $cut->setHtmlId( 'areas' );
         $cut->setReagentId( $reagent->id );
         
-        // TODO: this needs to be sorted
         $areareagents = $reagent->ownAreareagentList;
         usort( $areareagents, function($a, $b) {
             return strcmp($a->area->name, $b->area->name);

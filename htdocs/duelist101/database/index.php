@@ -13,8 +13,7 @@ $app = new \Slim\Slim(array(
     'view' => new WordpressView(),
     'templates.path' => TEMPLATES_DIR
 ));
-define('Duelist101\BASE_URL', $app->request()->getUrl() . $app->request()->getRootUri());
-$test = \Duelist101\BASE_URL;
+define('Duelist101\BASE_URL', $app->request()->getUrl() . $app->request()->getRootUri() . '/');
 
 $app->post('/areareagent', function () use ($app) {
     $post = $app->request()->post();
@@ -35,11 +34,11 @@ $app->post('/areareagent', function () use ($app) {
             $areareagent->votesUp = 1;
             $output['id'] = R::store( $areareagent );
             
-            $output['url'] = \Duelist101\BASE_URL . '/areareagents/' . urlencode($areareagent->id);
+            $output['url'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id);
             $output['areaName'] = $area->name;
             $output['reagentName'] = $reagent->name;
-            $output['voteUpUrl'] = \Duelist101\BASE_URL . '/areareagents/' . urlencode($areareagent->id) . '/vote-up';
-            $output['voteDown'] = \Duelist101\BASE_URL . '/areareagents/' . urlencode($areareagent->id) . '/vote-down';
+            $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-up';
+            $output['voteDown'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-down';
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );
