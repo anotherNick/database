@@ -19,8 +19,7 @@ Class AreaList extends \Duelist101\Stamp
 				$worldCut->add($worldCutLastFooter);
 			}
 			
-			$areas = \R::find( 'area', ' world_id = ? ', array( $world->id ) );
-		
+            $areas = $world->with( 'ORDER BY name' )->ownAreaList;
 			foreach ($areas as $area) {
 				$areasCut = $this->get( 'world.areas' );
 				$areasCut->setAreaName( $area->name );

@@ -139,26 +139,5 @@ $app->get('/areas/', function () use ($app) {
 
 });
 
-$app->get('/areas/:name', function ($name) use ($app) {
-	$area = R::findOne( 'area', 'name = ?', array( urldecode( $name ) ) );
-	
-	// Redbean returns null for no reagent. Eventually do something smarter here.
-	if( $area === null ){ $app->notfound(); }
-	
-    $stamp = new View\AreaSingle();
-    $stamp->parse( $area );
-    $app->view->add( $stamp );
-
-    $stamp = new View\DisqusFooter();
-    $stamp->parse(
-        'Wizard101 ' . $area->name . ' Info', 
-        'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
-    );
-    $app->view->add( $stamp );
-    
-	$app->view->render();
-	
-});
-
 $app->run();
 R::close();
