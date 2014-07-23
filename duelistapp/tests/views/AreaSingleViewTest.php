@@ -5,18 +5,27 @@ class AreaSingleViewTest extends PHPUnit_Framework_TestCase
     {
         require_once '../vendor/autoload.php';
         require_once 'models/WizardTestObjects.php';
-        W::setupTestDatabase();
+        W::setupDatabases();
     }
 
     public function testAreaSingleView()
     {
-        $area = W::addArea( '1' );
+        $file = 'views/AreaSingleExpected1.html';
+    
+        $world = W::addWorld( '1' );
+        $area = W::addArea( $world, '1' );
 
         $stamp = new \Duelist101\Db\View\AreaSingle();
         $stamp->parse( $area );
         
         // XML must have one main element, so enclose in a div
         $actual = '<div>' . PHP_EOL . $stamp . PHP_EOL . '</div>';
-		$this->assertXmlStringEqualsXmlFile( 'views/AreaSingleExpected1.html', $actual );
+
+        if ( !file_exists($file) ) {
+            file_put_contents( $file, $actual );
+            $this->assertTrue(false, 'Created ' . $file . '. If expected, re-run test to pass.');
+        }
+
+		$this->assertXmlStringEqualsXmlFile( $file, $actual );
     }
 }

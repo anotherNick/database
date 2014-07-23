@@ -1,8 +1,4 @@
 <?php
-
-/* Handy code snippet for saving views
-   file_put_contents( 'views/XXX.html', '<div>' . PHP_EOL . $stamp . PHP_EOL . '</div>' );
-*/
 use \RedBeanPHP\OODBBean as Bean;
 
 Class W
@@ -65,6 +61,7 @@ Class W
     {
         if ( !self::$areDatabasesSetup ) {
             define('Migrate\COMMAND_DIR', \Duelist101\APP_DIR);
+            define('Duelist101\BASE_URL', '/');
             self::$migrationConfig = include \Duelist101\APP_DIR . 'migrate-config.php';
             R::addDatabase('empty', 'sqlite::memory:');
             R::addDatabase('tests', self::$migrationConfig['environments']['tests']['dsn']);

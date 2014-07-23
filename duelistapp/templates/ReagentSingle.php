@@ -92,6 +92,8 @@ Class ReagentSingle extends \Duelist101\Stamp
 
         // Creatures
         $cut = $this->getSourceList();
+            $cut->setHtmlId( 'creatures' );
+            $cut->setReagentId( $reagent->id );
             $cutMessage = $this->get('sourceList.message');
             $cutMessage->setMessage('To come.  Muhahahaha!');
             $cut->add($cutMessage);
@@ -99,6 +101,8 @@ Class ReagentSingle extends \Duelist101\Stamp
 
         // Crown Shop
         $cut = $this->getSourceList();
+            $cut->setHtmlId( 'crowns' );
+            $cut->setReagentId( $reagent->id );
             $cutMessage = $this->get('sourceList.message');
             $cutMessage->setMessage('To come.  Muhahahaha!');
             $cut->add($cutMessage);
@@ -106,6 +110,8 @@ Class ReagentSingle extends \Duelist101\Stamp
 
         // Plants
         $cut = $this->getSourceList();
+            $cut->setHtmlId( 'plants' );
+            $cut->setReagentId( $reagent->id );
             $cutMessage = $this->get('sourceList.message');
             $cutMessage->setMessage('To come.  Muhahahaha!');
             $cut->add($cutMessage);
@@ -113,6 +119,8 @@ Class ReagentSingle extends \Duelist101\Stamp
 
         // Vendors
         $cut = $this->getSourceList();
+            $cut->setHtmlId( 'vendors' );
+            $cut->setReagentId( $reagent->id );
             $cutMessage = $this->get('sourceList.message');
             $cutMessage->setMessage('To come.  Muhahahaha!');
             $cut->add($cutMessage);
