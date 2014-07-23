@@ -1,4 +1,5 @@
-CREATE TABLE `area` (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    `name` TEXT,
-    `image` TEXT);
+CREATE TABLE "area" (
+    "id" INTEGER PRIMARY KEY,
+    "name" TEXT,
+    "image" TEXT
+);

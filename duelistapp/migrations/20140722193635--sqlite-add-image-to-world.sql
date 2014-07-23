@@ -1,1 +1,1 @@
-ALTER TABLE `world` ADD `image` TEXT ;
+ALTER TABLE "world" ADD "image" TEXT ;

@@ -121,10 +121,10 @@ Class W
         return $bean;
     }
     
-    public static function addTest( $name='' )
+    public static function addMock( $name='' )
     {
-        $bean = R::dispense( 'test' );
-        $bean->name = 'Class ' . $name;
+        $bean = R::dispense( 'mock' );
+        $bean->name = 'Mock ' . $name;
         R::store ( $bean );
         
         return $bean;

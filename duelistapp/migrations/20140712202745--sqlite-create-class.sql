@@ -1,4 +1,8 @@
-CREATE TABLE `class` ( id INTEGER PRIMARY KEY AUTOINCREMENT , `name` TEXT);
+CREATE TABLE "class" (
+    "id" INTEGER PRIMARY KEY,
+    "name" TEXT
+);
+
 INSERT INTO "class" VALUES(1,'Fire');
 INSERT INTO "class" VALUES(2,'Ice');
 INSERT INTO "class" VALUES(3,'Storm');
