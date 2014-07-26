@@ -22,6 +22,14 @@ class Reagents
      
         $app->view->render();
     }
+	
+    public static function listJson( $app )
+    {
+		$app->response()->header('Content-Type', 'application/json');
+		$sql = 'SELECT name AS label, id AS value FROM reagent ORDER BY name;';
+		$rows = R::getAll( $sql );
+		echo json_encode($rows);
+    }
 
     public static function singleHtml( $name, $app )
     {
