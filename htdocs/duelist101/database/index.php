@@ -59,6 +59,14 @@ $app->get('/areas.json', function () use ($app) {
     echo json_encode($rows);
 });
 
+$app->get('/reagents.json', function () use ($app) {
+    $app->response()->header('Content-Type', 'application/json');
+
+    $sql = 'SELECT name AS label, id AS value FROM reagent ORDER BY name;';
+    $rows = R::getAll( $sql );
+    echo json_encode($rows);
+});
+
 $app->get('/areas/:name', function ($name) use ($app) {
 	$area = R::findOne( 'area', 'name = ?', array( urldecode( $name ) ) );
 	
