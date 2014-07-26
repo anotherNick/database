@@ -1,0 +1,48 @@
+<div>
+<div class="post-wrapper post" style="padding:10px;">
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 Name 1 Area</strong></h1>
+	<p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
+
+	<!-- should be sitting in a script library and pulled from controller methinks -->
+	<script>
+	jQuery(function($) {
+	$( "#circle_container>span" ).hide();
+	$( ".circle_button" ).click(function() {
+	$( "#circle_container>span" ).hide();
+	var id = $(this).attr('id');
+	$( "span#"+id ).show();
+	});
+	});
+	</script>
+
+	<div class='one_half'>
+		<p id="circle_container" style="position:relative; max-width:350px; overflow:hidden; margin: 10px auto;">
+		<style> .aligncenter{ margin:0px; } </style>
+			<img style='max-width:350px; border: 2px solid #999; border-radius:5px; margin-bottom: 25px' 
+				src='http://www.duelist101.com/w101_world_maps/Image1.gif' alt='Name 1 Map' class='aligncenter' />
+		</p>
+	</div>
+	<div class='one_half last'>
+		<h3 style=' color:#ffcc00; text-align: center; margin-bottom: -25px'>What's Here?</h3>
+		<div class='et-tabs-container et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_top_tabs' style="position: relative;">
+			<ul class='et-tabs-control'>
+				<li><a href='#'>Areas</a></li>
+				<li><a href='#'>Creatures</a></li>
+				<li><a href='#'>Reagents</a></li>
+				<li><a href='#'>Vendors</a></li>
+			</ul> <!-- .et-tabs-control -->
+			<div class='et-tabs-content'>
+				<div class='et-tabs-content-wrapper'>
+					<div class='et_slidecontent'>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .et-tabs-container -->
+	</div>
+	<div class='clear'></div>
+	<div style="clear:both;"> </div>
+</div>
+
+
+
+</div>
