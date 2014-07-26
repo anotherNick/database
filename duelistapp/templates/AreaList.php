@@ -23,7 +23,7 @@ Class AreaList extends \Duelist101\Stamp
 			foreach ($areas as $area) {
 				$areasCut = $this->get( 'world.areas' );
 				$areasCut->setAreaName( $area->name );
-				$areasCut->setLinkName( urlencode($area->name) );
+				$areasCut->setLinkName( \Duelist101\BASE_URL . 'areas/' . urlencode($area->name) );
 				$worldCut->add($areasCut);
 			}
 			

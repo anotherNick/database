@@ -1,11 +1,23 @@
 jQuery(document).ready( function($) {
 
-    $( '#areas-add-select' ).select2({
-        placeholder: "Type or select an area"
-    });
+    $( '#areas-add-link' ).one('click', function() {
+        $.ajax({
+            url: "/duelist101/database/areas.json",
+            type: 'get',
+            dataType: "json"
+        })
+        .done( function(data) {
+            json = eval(data);
+            $("#areas-add-select").select2({
+                width: 'resolve',
+                data: json
+            });
+            $( '#areas-add-select' ).select2('val', null, true);
+        });
+    } );
 
     $( '#areas-add-link' ).click( function() {
-        $( '#areas-add-select' ).select2('val', null);
+        $( '#areas-add-select' ).select2('val', null, true);
         $( '#areas-add-div-link' ).hide();
         $( '#areas-add-div-form' ).show();
         return false;
@@ -21,13 +33,14 @@ jQuery(document).ready( function($) {
         var template;
         
         $.ajax( {
-            url: '/duelist101/database/areareagent',
+            url: '/duelist101/database/areareagents',
             type: 'post',
             dataType: 'json',
             data: $(this).serialize()
         } )
         .done( function(data) {
             template = $('.areas-add-li-template').clone();
+            template.attr('class', null);
             template.find('a.name')
                 .attr('href', data.url)
                 .text(data.areaName);
