@@ -43,7 +43,7 @@ Class ReagentSingle extends \Duelist101\Stamp
         );
     }
 
-    public function parse( $reagent, $areas )
+    public function parse( $reagent )
     {
 
         $cut = $this->getReagent();
@@ -69,26 +69,19 @@ Class ReagentSingle extends \Duelist101\Stamp
         } else {
             foreach ($areareagents as $areareagent) {
                 $cutSource = $this->get('sourceList.source');
-                $cutSource->setUrl( \Duelist101\BASE_URL . '/areas/' . urlencode( $areareagent->area->name ) );
+                $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $areareagent->area->name ) );
                 $cutSource->setName( $areareagent->area->name );
                 $cutSource->setVoteUpCount($areareagent->voteUp);
                 $cutSource->setVoteDownCount($areareagent->voteDown);
                 // TODO: implement voteup and votedown link logic, assuming post URL similar to below:
                 // in vote up/down, probably make sure only one vote per IP / user 
-                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . '/areareagent/vote-up/' . urlencode($areareagent->id) );
-                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . '/areareagent/vote-down/' . urlencode($areareagent->id) );
+                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areareagent/' . urlencode($areareagent->id) . '/vote-up' );
+                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areareagent/' . urlencode($areareagent->id) . '/vote-down' );
                 $cut->add($cutSource);
             }
         }
-        if ( !empty($areas) ) {
-            foreach ($areas as $area) {
-                $cutAddItem = $this->get('sourceList.addItem');
-                $cutAddItem->setItemId( $area->id );
-                $cutAddItem->setItemName( $area->name );
-                $cut->add($cutAddItem);
-            }
-        }
         $this->add( $cut );
+
 
         // Creatures
         $cut = $this->getSourceList();
