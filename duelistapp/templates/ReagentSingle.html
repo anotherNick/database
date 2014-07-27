@@ -18,23 +18,23 @@
 		  <p><strong style="color:#FC0;">Description</strong>: #description#</p>
 		</div>
 	</blockquote>
-	<h2 style=' color:#F90; text-align: center;'>Sources of #name# Reagent</h2>
+	<h2 style=" color:#F90; text-align: center;">Sources of #name# Reagent</h2>
 	<!-- /cut:reagent -->
 
-	<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'
-		style='margin-bottom: 50px'>
-		<div class='et_left_tabs_bg'></div>
-		<ul class='et-tabs-control'>
-			<li><a href='#'>Areas</a></li>
-			<li><a href='#'>Creatures</a></li>
-			<li><a href='#'>Crown Shop</a></li>
-			<li><a href='#'>Plants</a></li>
-			<li><a href='#'>Vendors</a></li>
+	<div class="tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix"
+		style="margin-bottom: 50px">
+		<div class="et_left_tabs_bg"></div>
+		<ul class="et-tabs-control">
+			<li><a href="#">Areas</a></li>
+			<li><a href="#">Creatures</a></li>
+			<li><a href="#">Crown Shop</a></li>
+			<li><a href="#">Plants</a></li>
+			<li><a href="#">Vendors</a></li>
 		</ul> <!-- .et-tabs-control -->
-		<div class='et-tabs-content'>
-			<div class='et-tabs-content-wrapper'>
+		<div class="et-tabs-content">
+			<div class="et-tabs-content-wrapper">
 	<!-- cut:sourceList -->
-				<div id='#htmlId#-div' class='et_slidecontent'>
+				<div id="#htmlId#-div" class="et_slidecontent">
 		<!-- cut:message -->
 					<p>#message#</p>
 		<!-- /cut:message -->
@@ -42,15 +42,18 @@
 		<!-- source also used in Javascript -->
 		<!-- cut:source -->
 						<li style="text-align:center;">
-						  <a href='#url#'>#name#</a>
-							( #voteUpCount?# <a href='#voteUpUrl#'>△</a> |
-							#voteDownCount?# <a href='#voteDownUrl#'>▽</a> )
+                            <a href="#url#">#name#</a>
+                            <span> ( #votesUp# </span>
+                            <a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
+                            <span> | #votesDown# </span>
+                            <a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
+                            )
 						</li>
 		<!-- /cut:source -->
 						<li class="#htmlId#-add-li-template" style="text-align:center; display:none">
-						  <a class="name" href='JS'>JS</a>
-							( 1 <a class='vote-up' href='JS'>△</a> |
-							0 <a class='vote-down' href='JS'>▽</a> )
+						  <a class="name" href="JS">JS</a>
+							( 1 <a class="#htmlId#-vote-up" href="JS">△</a> |
+							0 <a class="#htmlId#-vote-down" href="JS">▽</a> )
 						</li>
 					</ul>
 					<div id="#htmlId#-add-div-link">
@@ -74,6 +77,6 @@
 			</div>
 		</div>
 	</div> <!-- .tabs-left -->
-	<div class='clear'></div>
+	<div class="clear"></div>
 	<div style="clear:both;"> </div>
 </div>

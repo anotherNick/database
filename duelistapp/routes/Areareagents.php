@@ -23,13 +23,14 @@ class Areareagents
                 $areareagent->area = $area;
                 $areareagent->reagent = $reagent;
                 $areareagent->votesUp = 1;
+                $areareagent->votesDown = 0;
                 $output['id'] = R::store( $areareagent );
                 
                 $output['url'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id);
                 $output['areaName'] = $area->name;
                 $output['reagentName'] = $reagent->name;
                 $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-up';
-                $output['voteDown'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-down';
+                $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-down';
                 
                 $app->response()->header('Content-Type', 'application/json');
                 echo json_encode( $output );
@@ -39,7 +40,33 @@ class Areareagents
         } else {
             echo "already in database";
         }
-            
     }
 
+    public static function vote( $type, $id, $app )
+    {
+        $post = $app->request()->post();
+        $output = array();
+
+        $areareagent = R::load( 'areareagent', $id);
+        if ( $areareagent->id != 0 ) {
+            $output['id'] = $id;
+            switch ( $type ) {
+                case 'up':
+                    $output['votesUp'] = ++$areareagent->votesUp;
+                    break;
+                case 'down':
+                    $output['votesDown'] = ++$areareagent->votesDown;
+                    break;
+            }
+            // TODO: add logging logic here
+            R::store( $areareagent );
+            
+            $app->response()->header('Content-Type', 'application/json');
+            echo json_encode( $output );
+            
+        } else {
+            echo "can't find areareagent";
+        }
+    }
+    
 }
