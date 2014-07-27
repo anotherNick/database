@@ -16,6 +16,8 @@ $app = new \Slim\Slim(array(
 define('Duelist101\BASE_URL', $app->request()->getUrl() . $app->request()->getRootUri() . '/');
 
 $app->post('/areareagents', function () use ($app) { Route\Areareagents::add( $app ); });
+$app->post('/areareagents/:id/vote-down', function ($id) use ($app) { Route\Areareagents::vote( 'down', $id, $app ); });
+$app->post('/areareagents/:id/vote-up', function ($id) use ($app) { Route\Areareagents::vote( 'up', $id, $app ); });
 
 $app->get('/areas.json', function () use ($app) { Route\Areas::listJson( $app ); });
 $app->get('/areas/', function () use ($app) { Route\Areas::listHtml( $app ); });
