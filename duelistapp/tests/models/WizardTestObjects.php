@@ -138,7 +138,7 @@ Class W
         $bean->image = 'Image' . $name . '.gif';
         $bean->rarity = $rarity;
         $bean->class = $class;
-        $bean->aquarium = $housingitem;
+        $bean->sharedHousingitemList[] = $housingitem;
         $bean->rank = 1;
         $bean->description = 'Description ' . $name;
         $bean->initialXp = 100;
