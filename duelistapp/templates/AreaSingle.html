@@ -3,52 +3,66 @@
 	<h1 style="text-align: center; color: #DE2A0C;"><strong>Wizard101 #name# Area</strong></h1>
 	<p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
 
-	<!-- should be sitting in a script library and pulled from controller methinks -->
-	<script>
-	jQuery(function($) {
-	$( "#circle_container>span" ).hide();
-	$( ".circle_button" ).click(function() {
-	$( "#circle_container>span" ).hide();
-	var id = $(this).attr('id');
-	$( "span#"+id ).show();
-	});
-	});
-	</script>
-
 	<div class='one_half'>
-		<p id="circle_container" style="position:relative; max-width:350px; overflow:hidden; margin: 10px auto;">
+	  <div id="spawn-mouse-capture">
+		<p id="circle-container">
 		<style> .aligncenter{ margin:0px; } </style>
-			<img style='max-width:350px; border: 2px solid #999; border-radius:5px; margin-bottom: 25px' 
-				src='http://www.duelist101.com/w101_world_maps/#image#' alt='#name# Map' class='aligncenter' />
+			<img id="area-map" src='http://www.duelist101.com/w101_world_maps/#image#' alt='#name# Map' class='aligncenter' />
 	<!-- /cut:area -->
+	<span id="spawn-select-circle">
+		<span style="float:left; width:25px; height:25px; border: 3px solid yellow; border-radius:50%;"></span>
+		<strong id="spawn-select-circle-title">Spawn Point</strong>
+	</span>
 	<!-- cut:locationCircle -->
 			<span id='#name#' style='position:absolute; left:#leftPct#%; top:#topPct#%; color:#color#; 
 				float:left; width:25px; height:25px; border: 3px solid #color#; border-radius:50%;'>
 	<!-- TODO?: logic for plurals of things ending in s -->
-				<strong>#name#'s Location</strong>
+				<strong>#name#</strong>
 			</span>
 	<!-- /cut:locationCircle -->
 		</p>
+	  </div>
+		<form id="area-spawn-add-form" style="display:none;">
+			<h4 id="area-spawn-item-instructions" class="area-spawn-instructions"> </h4>
+			<input name="item-id" id="spawn-item-select" type="hidden">
+			<input name="item-type" id="spawn-item-type" type="hidden">
+			<input name="area-spawn-x" type="hidden" />
+			<input name="area-spawn-y" type="hidden" />
+			<input type="hidden" id="area-spawn-type" name="area-spawn-type" value="reagent" />
+	<!-- cut:areaSpawnAreaId -->
+			<input type="hidden" id="area-spawn-area-id" name="area-spawn-area-id" value="#areaSpawnAreaId#" />
+	<!-- /cut:areaSpawnAreaId -->
+			<input type="hidden" id="area-spawn-type-id" name="area-spawn-type-id" value="0" />
+			<p style="margin-top: 20px; display:block;">
+				<div id="area-spawn-create-button" style="display:none;">
+					 or <br /><br />
+					<h4 id="area-spawn-create-instructions" class="area-spawn-instructions"> </h4>
+					<input type="submit" value="Create" style="width: 100px;" /><br /><br />
+				</div>
+				 or 
+				<a id="reagent-add-cancel-link" href="javascriptRequired.html">Cancel</a>
+			</p>
+		</form>
 	</div>
 	<div class='one_half last'>
-		<h3 style=' color:#ffcc00; text-align: center; margin-bottom: -25px'>What's Here?</h3>
-		<div class='et-tabs-container et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_top_tabs' style="position: relative;">
+		<h3 style="color:#ffcc00; text-align: center;">Spawn Points</h3>
+		<p style="text-align:center; margin-bottom:20px;">Click an item to see where it's located!</p>
+		<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'>
+			<div class='et_left_tabs_bg'></div>
 			<ul class='et-tabs-control'>
-				<li><a href='#'>Areas</a></li>
-				<li><a href='#'>Creatures</a></li>
-				<li><a href='#'>Reagents</a></li>
-				<li><a href='#'>Vendors</a></li>
-			</ul> <!-- .et-tabs-control -->
+				<li><a href='#'>Reagents</a></li> 
+			</ul> <!-- .et-tabs-control --> 
 			<div class='et-tabs-content'>
 				<div class='et-tabs-content-wrapper'>
 					<div class='et_slidecontent'>
 	<!-- cut:locationButton -->
 						<p><a id='#name#' class='circle_button' style='cursor:pointer;'>#name#</a></p>
 	<!-- /cut:locationButton -->
+						<a id="spawn-add-reagent" class="spawn-add-link" href="javascriptRequired.html">Add A Spawn</a>
 					</div>
 				</div>
 			</div>
-		</div> <!-- .et-tabs-container -->
+		</div> <!-- .tabs-left -->
 	</div>
 	<div class='clear'></div>
 	<div style="clear:both;"> </div>

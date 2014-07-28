@@ -109,6 +109,19 @@ Class W
         return $bean;
     }
 	
+	    public static function addAreareagentspawn( Bean $area=null, Bean $reagent=null, array $properties=null  )
+    {
+        $bean = R::dispense( 'areareagentspawn' );
+        $bean->area = $area;
+        $bean->reagent = $reagent;
+        $bean->xLoc = 1;
+        $bean->yLoc = 1;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
+ 
+        return $bean;
+    }
+	
     public static function addClass( $name='' )
     {
         $bean = R::dispense( 'class' );
