@@ -1,0 +1,40 @@
+#area-spawn-add-form{ 
+	max-width: 350px; 
+	margin: 10px; 
+	text-align:center; 
+	background-color: #323C3A; 
+	border-radius: 10px; 
+	padding: 5px; 
+}
+#area-spawn-add-form p input{ width: 60px; }
+#area-spawn-add-form p{ display:inline; }
+.area-spawn-instructions{ color: red; }
+
+#circle-container{ 
+	position:relative; 
+	max-width:354px; 
+	overflow:hidden; 
+	margin: 0 auto; 
+}
+#circle-container .aligncenter{ margin: 0px; }
+#spawn-select-circle{ 
+	position: absolute; 
+	left: 15%; 
+	top: 70%; 
+	color: yellow; 
+	display: none; 
+}
+#spawn-select-title{ position:relative; top: 7px; }
+
+#spawn-mouse-capture{ 
+	max-width: 354px; 
+	overflow:hidden; 
+	padding: 0px; 
+	margin: 0 auto; 
+	text-align:center; 
+}
+#area-map{ 
+	max-width:350px; 
+	border: 2px solid #999; 
+	border-radius:5px; 
+}

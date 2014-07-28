@@ -25,9 +25,10 @@ class Reagents
 	
     public static function listJson( $app )
     {
-		$app->response()->header('Content-Type', 'application/json');
-		$sql = 'SELECT name AS label, id AS value FROM reagent ORDER BY name;';
+		$sql = 'SELECT id AS id, name AS text FROM reagent ORDER BY name;';
 		$rows = R::getAll( $sql );
+		
+		$app->response()->header('Content-Type', 'application/json');
 		echo json_encode($rows);
     }
 
