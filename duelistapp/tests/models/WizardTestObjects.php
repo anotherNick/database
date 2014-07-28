@@ -117,6 +117,45 @@ Class W
         
         return $bean;
     }
+ 
+    public static function addFish( Bean $rarity, Bean $class, Bean $housingitem, $name='', array $properties=null )
+    {
+        $bean = R::dispense( 'fish' );
+        $bean->name = 'Name ' . $name ;
+        $bean->image = 'Image' . $name . '.gif';
+        $bean->rarity = $rarity;
+        $bean->class = $class;
+        $bean->aquarium = $housingitem;
+        $bean->rank = 1;
+        $bean->description = 'Description ' . $name;
+        $bean->initialXp = 100;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
+ 
+        return $bean;
+    }
+
+    public static function addHousingitem( Bean $housingtype, $name='', array $properties=null )
+    {
+        $bean = R::dispense( 'housingitem' );
+        $bean->name = 'Name ' . $name;
+        $bean->housingtype = $housingtype;
+        $bean->canTrade = true;
+        $bean->canAuction = true;
+        $bean = W::setProperties($bean, $properties);
+        R::store ( $bean );
+        
+        return $bean;
+    }
+ 
+     public static function addHousingtype( $name='' )
+    {
+        $bean = R::dispense( 'housingtype' );
+        $bean->name = 'Name ' . $name;
+        R::store ( $bean );
+        
+        return $bean;
+    }
     
     public static function addMock( $name='' )
     {
@@ -127,6 +166,15 @@ Class W
         return $bean;
     }
     
+    public static function addRarity( $name='' )
+    {
+        $bean = R::dispense( 'rarity' );
+        $bean->name = 'Rarity ' . $name;
+        R::store ( $bean );
+        
+        return $bean;
+    }
+ 
     public static function addReagent( Bean $class, $name='', array $properties=null )
     {
         $bean = R::dispense( 'reagent' );
