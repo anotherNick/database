@@ -15,3 +15,5 @@ CREATE INDEX index_for_fish_housingitem_housingitem_id
     ON "fish_housingitem" (housingitem_id);
 CREATE INDEX index_for_fish_housingitem_fish_id
     ON "fish_housingitem" (fish_id);
+CREATE UNIQUE INDEX UQ_fish_housingitemhousingitem_id__fish_id
+    ON "fish_housingitem" ("housingitem_id","fish_id");

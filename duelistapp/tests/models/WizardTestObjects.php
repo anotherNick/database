@@ -95,6 +95,19 @@ Class W
  
         return $bean;
     }
+
+    public static function addAreafish( Bean $area=null, Bean $fish=null, array $properties=null  )
+    {
+        $bean = R::dispense( 'areafish' );
+        $bean->area = $area;
+        $bean->fish = $fish;
+        $bean->votesUp = 0;
+        $bean->votesDown = 0;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
+ 
+        return $bean;
+    }
     
     public static function addAreareagent( Bean $area=null, Bean $reagent=null, array $properties=null  )
     {
@@ -109,7 +122,7 @@ Class W
         return $bean;
     }
 	
-	    public static function addAreareagentspawn( Bean $area=null, Bean $reagent=null, array $properties=null  )
+    public static function addAreareagentspawn( Bean $area=null, Bean $reagent=null, array $properties=null  )
     {
         $bean = R::dispense( 'areareagentspawn' );
         $bean->area = $area;
@@ -131,7 +144,7 @@ Class W
         return $bean;
     }
  
-    public static function addFish( Bean $rarity, Bean $class, Bean $housingitem, $name='', array $properties=null )
+    public static function addFish( Bean $rarity=null, Bean $class=null, Bean $housingitem=null, $name='', array $properties=null )
     {
         $bean = R::dispense( 'fish' );
         $bean->name = 'Name ' . $name ;

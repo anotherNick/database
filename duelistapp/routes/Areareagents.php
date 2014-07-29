@@ -28,7 +28,9 @@ class Areareagents
                 
                 $output['url'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id);
                 $output['areaName'] = $area->name;
+                $output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode($area->name);
                 $output['reagentName'] = $reagent->name;
+                $output['reagentUrl'] = \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->name);
                 $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-up';
                 $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-down';
                 

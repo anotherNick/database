@@ -40,7 +40,7 @@ class Reagents
         if( $reagent === null ){ $app->notfound(); }
         
         $stamp = new View\ReagentSingle();
-        $stamp->parse( $reagent, $areas );
+        $stamp->parse( $reagent );
         $app->view->add( $stamp );
 
         $stamp = new View\DisqusFooter();

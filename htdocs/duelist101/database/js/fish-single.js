@@ -8,7 +8,7 @@ jQuery(document).ready( function($) {
     
     $( '#areas-add-form' ).submit( function ( event ) {
         $.ajax( {
-            url: '/duelist101/database/areareagents',
+            url: '/duelist101/database/areafish',
             type: 'post',
             dataType: 'json',
             data: $(this).serialize()
