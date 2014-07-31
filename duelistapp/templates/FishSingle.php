@@ -54,7 +54,21 @@ Class FishSingle extends \Duelist101\Stamp
         $cut->setInitialXp($fish->initialXp);
         $cut->setRarityName($fish->rarity->name);
         $cut->setClassName($fish->class->name);
-        // TODO: add aquariums
+        $aquariums = $fish->sharedHousingitemList;
+        if ( $aquariums == NULL ) {
+            $cutAquarium = $this->get('fish.noAquariums');
+            $cut->add($cutAquarium);
+        } else {
+            usort( $aquariums, function($a, $b) {
+                return strcmp($a->name, $b->name);
+            } );
+            foreach ($aquariums as $aquarium) {
+                $cutAquarium = $this->get('fish.aquarium');
+                $cutAquarium->setAquariumUrl(\Duelist101\BASE_URL . 'housingitems/' . urlencode($aquarium->name));
+                $cutAquarium->setAquariumName($aquarium->name);
+                $cut->add($cutAquarium);
+            }
+        }
         $this->add($cut);
 
         // Areas
