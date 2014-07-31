@@ -48,7 +48,7 @@ Class FishSingle extends \Duelist101\Stamp
 
         $cut = $this->getFish();
         $cut->setName($fish->name);
-        $cut->setImage(\Duelist101\BASE_URL . 'images/fish/' . $fish->image);
+        $cut->setImage(\Duelist101\BASE_URL . 'images/w101_fish/' . $fish->image);
         $cut->setRank($fish->rank);
         $cut->setDescription($fish->description);
         $cut->setInitialXp($fish->initialXp);

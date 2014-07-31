@@ -48,7 +48,7 @@ Class ReagentSingle extends \Duelist101\Stamp
 
         $cut = $this->getReagent();
         $cut->setName($reagent->name);
-        $cut->setImage($reagent->image);
+        $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->image);
         $cut->setClassName($reagent->class->name);
         $cut->setRank($reagent->rank);
         $cut->setDescription($reagent->description);

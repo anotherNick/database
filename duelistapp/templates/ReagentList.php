@@ -21,7 +21,7 @@ Class ReagentList extends \Duelist101\Stamp
             }
             $cut->setName($reagent->name);
             $cut->setLinkName( \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->name) );
-            $cut->setImage($reagent->image);
+            $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->image);
             $cut->setClassName($reagent->class->name);
             $cut->setRank($reagent->rank);
             $this->add($cut);

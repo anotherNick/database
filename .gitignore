@@ -30,6 +30,7 @@ htdocs/bitnami.css
 htdocs/duelist101/.htaccess
 htdocs/duelist101/community/
 htdocs/duelist101/database/config.php
+htdocs/duelist101/database/images/
 htdocs/duelist101/index.php
 htdocs/duelist101/laravel-test/
 htdocs/duelist101/license.txt

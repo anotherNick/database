@@ -18,7 +18,7 @@ Class FishList extends \Duelist101\Stamp
             }
             $cut->setName($fish->name);
             $cut->setLinkName( \Duelist101\BASE_URL . 'fish/' . urlencode($fish->name) );
-            $cut->setImage( \Duelist101\BASE_URL . 'images/fish/' . $fish->image);
+            $cut->setImage( \Duelist101\BASE_URL . 'images/w101_fish/' . $fish->image);
             $cut->setClassName($fish->class->name);
             $cut->setInitialXp($fish->initialXp);
             $cut->setRarity($fish->rarity->name);
