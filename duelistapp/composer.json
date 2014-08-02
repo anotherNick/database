@@ -1,31 +1,56 @@
 {
-  "name": "duelist101/database",
-    
-  "require": {
-    "slim/slim": "2.*"
-  },
+    "name": "duelist101/database",
 
-  "autoload": {
-    "files": [
-      "config.php",
-	  "vendor/redbean/rb.php",
-	  "vendor/stamp/stampTE.php"
-	],
-    "psr-4": {
-	  "Duelist101\\": "lib/",
-      "Duelist101\\Db\\View\\": "templates/",
-      "Duelist101\\Db\\Route\\": "routes/",
-      "Migrate\\": "lib/migrate/src"
-	}
-  },
+    "repositories": [ {
+        "type": "package",
+        "package": {
+            "name": "redbeanphp",
+            "version": "4.0.7",
+            "dist": {
+                "url": "http://www.redbeanphp.com/downloadredbean.php",
+                "type": "tar"
+            }
+        },
+        "package": {
+            "name": "stampte",
+            "version": "2.2.1",
+            "dist": {
+                "url": "http://gabordemooij.com/se/ste2_2_1.tar.gz",
+                "type": "tar"
+            }
+        }
+    } ],
+  
+    "require": {
+        "slim/slim": "2.*",
+        "redbeanphp": "4.*",
+        "stampte": "2.*"
+    },
+
+    "autoload": {
+        "files": [
+            "config.php",
+            "vendor/redbeanphp/rb.php",
+            "vendor/stampte/stampTE.php"
+        ],
+        "psr-4": {
+            "Duelist101\\": "lib/",
+            "Duelist101\\Db\\View\\": "templates/",
+            "Duelist101\\Db\\Route\\": "routes/",
+            "Migrate\\": "lib/migrate/src"
+        }
+    },
 	  
-  "require-dev": {
-	"phpunit/phpunit": "4.1.*"
-  },
+    "require-dev": {
+        "phpunit/phpunit": "4.1.*",
+        "koala-framework/library-qunit": "dev-master",
+        "koala-framework/library-qunit-phantomjs-runner": "dev-master"
+    },
 
-  "autoload-dev": {
-    "psr-4": {
-        "Duelist101\\Tests\\": "tests/"
+    "autoload-dev": {
+        "psr-4": {
+            "Duelist101\\Tests\\": "tests/"
+        }
     }
-  }
+    
 }

@@ -4,8 +4,19 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b97ae95c5814471e1530680d7a9c2bd4",
+    "hash": "437a8f8d779f01b078270013e7a87763",
     "packages": [
+        {
+            "name": "redbeanphp",
+            "version": "4.0.7",
+            "dist": {
+                "type": "tar",
+                "url": "http://www.redbeanphp.com/downloadredbean.php",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
+        },
         {
             "name": "slim/slim",
             "version": "2.4.3",
@@ -51,9 +62,66 @@
                 "router"
             ],
             "time": "2014-04-05 18:33:59"
+        },
+        {
+            "name": "stampte",
+            "version": "2.2.1",
+            "dist": {
+                "type": "tar",
+                "url": "http://gabordemooij.com/se/ste2_2_1.tar.gz",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library"
         }
     ],
     "packages-dev": [
+        {
+            "name": "koala-framework/library-qunit",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koala-framework/library-qunit.git",
+                "reference": "ca159db33e00703699f28eaef7a758192f0c804d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koala-framework/library-qunit/zipball/ca159db33e00703699f28eaef7a758192f0c804d",
+                "reference": "ca159db33e00703699f28eaef7a758192f0c804d",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "An easy-to-use JavaScript Unit Testing framework.",
+            "homepage": "http://qunitjs.com",
+            "time": "2014-06-13 07:03:56"
+        },
+        {
+            "name": "koala-framework/library-qunit-phantomjs-runner",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/koala-framework/library-qunit-phantomjs-runner.git",
+                "reference": "5c58caab41412921019503c07d881eb064295925"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/koala-framework/library-qunit-phantomjs-runner/zipball/5c58caab41412921019503c07d881eb064295925",
+                "reference": "5c58caab41412921019503c07d881eb064295925",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A PhantomJS-powered headless test runner for QUnit",
+            "homepage": "http://qunitjs.com",
+            "time": "2014-06-13 12:36:53"
+        },
         {
             "name": "phpunit/php-code-coverage",
             "version": "2.0.9",
@@ -755,9 +823,10 @@
 
     ],
     "minimum-stability": "stable",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "koala-framework/library-qunit": 20,
+        "koala-framework/library-qunit-phantomjs-runner": 20
+    },
     "prefer-stable": false,
     "platform": [
 
