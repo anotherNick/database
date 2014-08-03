@@ -11,7 +11,7 @@ Class AreaSingle extends \Duelist101\Stamp
                 , 'src' => '//code.jquery.com/jquery-1.11.0.js'
             )
             , array(
-                'handle' => 'jquery-ui-core'
+                'handle' => 'jquery-ui-duelist-core'
                 , 'src' => '//code.jquery.com/ui/1.11.0/jquery-ui.js'
                 , 'deps' => array( 'jquery-core' )
             )
@@ -22,11 +22,11 @@ Class AreaSingle extends \Duelist101\Stamp
             )
             , array(
                 'handle' => 'select2'
-                , 'src' => \Duelist101\BASE_URL . '/js/select2.js'
+                , 'src' => \Duelist101\BASE_URL . 'js/select2.js'
             )
             , array(
                 'handle' => 'area-single'
-                , 'src' => \Duelist101\BASE_URL . '/js/area-single.js'
+                , 'src' => \Duelist101\BASE_URL . 'js/area-single.js'
                 , 'deps' => array ( 'jquery-ui-core', 'select2' )
                 , 'in_footer' => true
             )
@@ -37,15 +37,29 @@ Class AreaSingle extends \Duelist101\Stamp
     {
         return array(
             array(
+                'handle' => 'jqueryui-css'
+                , 'src' => '//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css'
+            ),
+            array(
                 'handle' => 'select2'
-                , 'src' => \Duelist101\BASE_URL . '/css/select2.css'
+                , 'src' => \Duelist101\BASE_URL . 'css/select2.css'
             ),
             array(
                 'handle' => 'area-single'
-                , 'src' => \Duelist101\BASE_URL . '/css/area-single.css'
+                , 'src' => \Duelist101\BASE_URL . 'css/area-single.css'
             )
         );
     }
+	
+	public function getSpawnTypes()
+	{
+		// Define Spawn Items. table => spawnDisplayName
+		// Eventually would like this to be more automated.
+		return array(
+				'reagent' => 'Reagents',
+				'fish' => 'Fish'
+			);
+	}
 
     public function parse( $area )
     {
@@ -54,10 +68,23 @@ Class AreaSingle extends \Duelist101\Stamp
         $cut->setImage($area->image);
         $this->add($cut);
 		
-		$cut = $this->getAreaSpawnAreaId();
-		$cut->setAreaSpawnAreaId($area->id);
-		$this->add($cut);
+		$spawns = $this->getSpawnTypes();
+		foreach( $spawns as $spawnTable => $spawnDisplayName ){
+			$cut = $this->getSpawnTabs();
+			$cut->setSpawnDisplayName( $spawnDisplayName );
+			$this->add($cut);
+		
+			$cut = $this->getSpawnContent();
+			$cut->setAreaMapImage( $area->image );
+			$cut->setAreaId( $area->id );
+			$cut->setSpawnTable( $spawnTable );
+			$cut->setSpawnDisplayName( $spawnDisplayName );
+			$cut->setSpawnDisplayTable( ucfirst( $spawnTable ) );
+			$cut->setSpawnFormSelectUrl( '/duelist101/database/reagents.json' );
+			$cut->setSpawnFormAction( );
+			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
+			$this->add($cut);
+		}
 
-        // TODO: add circleCircle and circleButton
     }
 }

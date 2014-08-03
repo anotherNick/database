@@ -1,112 +1,101 @@
-function ucfirst(str) {
-// From phpjs.org
-  str += '';
-  var f = str.charAt(0)
-    .toUpperCase();
-  return f + str.substr(1);
+function updateSpawnInstructions( step, element ){
+	spawnTable = getSpawnTable( element );
+	jQuery( '.spawn-add-instructions' ).hide();
+	jQuery( '.instruction-step-title' ).removeClass( 'instruction-title-highlight' );
+	
+	switch( step ){
+		case 1:
+			jQuery( '.spawn-select-circle' ).hide();
+			jQuery( '#'+spawnTable+'-spawn-add-form' ).show();
+			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog({ 
+				modal: true, 
+				width: 385,
+				title: 'Add A '+ucfirst( spawnTable )+' Spawn Point!'
+			});
+			jQuery( '#'+spawnTable+'-instruction-step-title-1' ).addClass( 'instruction-title-highlight' );
+			jQuery( '#'+spawnTable+'-add-step-1' ).show();
+			break;
+		case 2:
+			unDarkenSpawnSelectCircle( spawnTable )
+			jQuery( '#'+spawnTable+'-instruction-step-title-2' ).addClass( 'instruction-title-highlight' );
+			jQuery( '#'+spawnTable+'-add-step-2' ).show();
+			areaSpawnStartMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+			break;
+		case 3:
+			darkenSpawnSelectCircle( spawnTable );
+			jQuery( '#'+spawnTable+'-instruction-step-title-3' ).addClass( 'instruction-title-highlight' );
+			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+			jQuery( '#'+spawnTable+'-add-step-3' ).show();
+			break;
+		default:
+			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog( 'close' );
+			jQuery( '#'+spawnTable+'-spawn-add-form' ).hide();
+			jQuery( '.spawn-select-circle' ).hide();
+			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+	}
 }
-
 
 jQuery(document).ready( function($) {
 
-    $( '.spawn-add-link' ).one('click', function() {
-        $.ajax({
-            url: "/duelist101/database/reagents.json",
-            type: 'get',
-            dataType: "json"
-        })
-        .done( function(data) {
-            json = eval(data);
-            $("#spawn-item-select").select2({
-                width: 'resolve',
-                data: json
-            } );
-            $( '#spawn-item-select' ).select2('val', null, true);
-        } );
-    } );
-
-	// Initialize Area Spawn Form.
-    $( '.spawn-add-link' ).click( function() {
-		// Spawn Type is set by the ID of its Spawn Add Link.
-		spawnItemType = $( this ).attr( 'id' ).replace( 'spawn-add-', '' );
-		$( '#spawn-item-type' ).val( spawnItemType );
-		$( '#area-spawn-item-instructions' ).text( 'Select A '
-			+ ucfirst( spawnItemType ) +
-			'!' 
-		);
-        $( '#spawn-item-select' ).select2('val', 'null', true );
-		$( '#area-spawn-add-form' ).show();
-		$( this ).hide();
+	// STEP 1: 
+	// User Action - Add Link Clicked
+	// Goal - Initialize Form and get Spawn Item ID
+	
+    $( '.spawn-add-step-1' ).click( function() {
+		updateSpawnInstructions( 1, this );
         return false;
     } );
-
-	// Update when an Item is selected, and fire Spawn Point Picker.
-	$( '#spawn-item-select' )
-	.on("change", function( e ) {
+	
+    $( '.spawn-add-step-1' ).one('click', function() {
+		spawnTable = getSpawnTable( this );
+		spawnFormSelectUrl = $( '#'+spawnTable+'-form-select-url' ).attr( 'href' );
+		
+		selectTwoAjax( spawnTable, spawnFormSelectUrl );
+    } );
+	
+	// STEP 2: 
+	// User Action - Spawn Item Selected.
+	// Goal - Allow user to pick Spawn Location.
+	
+	$( '.spawn-add-step-2' ).on("change", function( select ) {
 		if( this.value != '' ){
-			$( '#spawn-select-circle-title' ).text( e.added.text );
-			$( '#area-spawn-item-instructions' ).text( 'Click the map to add a Spawn for:' );
-			$( '#area-spawn-create-button' ).show();
-			$( '#area-spawn-create-instructions' ).text( 'Just save the '
-				+ ucfirst( $( '#spawn-item-type' ).val() )
-			);
-			$( "#spawn-mouse-capture" ).trigger( 'areaSpawnStartMouse' );
+			setAreaSpawnTypeId( spawnTable, select.added.id );
+			setSpawnSelectCircleTitle( spawnTable, select.added.text );
+			updateSpawnInstructions( 2, this );
 		}
 	} );
 	
-	// Update when a Spawn Point is selected.
-	$( '#spawn-select-circle' ).click( function( e ) {
-			$( '#spawn-mouse-capture' ).trigger( 'areaSpawnSelected' );
-		} );
-		
-	$( '#spawn-mouse-capture' ).bind( 'areaSpawnSelected', function() {
-		$( "#spawn-mouse-capture" ).trigger( 'areaSpawnStopMouse' );
-		$( '#area-spawn-item-instructions' ).text( 'Select a different '
-			+ ucfirst( $( '#spawn-item-type' ).val() )
-		);
-		$( '#area-spawn-create-instructions' ).text( 'Save this Spawn Point' );
+	$( 'a.spawn-add-step-2' ).click( function( select ) {
+			updateSpawnInstructions( 2, this );
+		return false;
 	} );
-
-	// Shut down Area Spawn Form.
-    $( '#reagent-add-cancel-link' ).click( function() {
-        $( '#area-spawn-add-form' ).hide();
-		$( '#area-spawn-create-button' ).hide();
-		$( '#spawn-select-circle' ).hide();
-        $( '.spawn-add-link' ).show();
-		$( '#spawn-mouse-capture' ).trigger( 'areaSpawnStopMouse' );
-        return false;
-    } );
 	
-	$( '#spawn-mouse-capture' ).mousemove(function( e ) {
-		if( this.captureMouse == true ){
-			$( this ).css( 'width', function(){
-				mapWidth = $( '#area-map' ).width();
-				mapWidth = mapWidth + 4;
-				return mapWidth;
-			} );
-			var parentOffset = $(this).offset();
+	$( '.spawn-mouse-capture' ).mousemove(function( e ) {
+		spawnTable = getSpawnTable( this );
+		
+		if( $( this ).data( 'captureMouse' ) == true ){
+			var parentOffset = $( this ).offset();
 			var relX = e.pageX - parentOffset.left - 12;
 			var relY = e.pageY - parentOffset.top - 12;
-			$('#spawn-select-circle').css({
+			$( '#'+spawnTable+'-spawn-select-circle' ).css({
 			   left:  relX,
 			   top:   relY
 			} );
 		}
 	} );
 	
-	// Functions to turn Mouse Capture on and off.
-	// Important because setting captureMouse attribute requires 'this'
-	// Fire using .trigger()
-	$( '#spawn-mouse-capture' ).bind( 'areaSpawnStartMouse', function() {
-		$( '#spawn-select-circle' ).show();
-		this.captureMouse = true;
+	// STEP 3: 
+	// User Action - Spawn Point Selected
+	// Goal - Show Create option, or allow retry.
+	
+	$( '.spawn-add-step-3' ).click( function() {
+		updateSpawnInstructions( 3, this );
 	} );
 	
-	$( '#spawn-mouse-capture' ).bind( 'areaSpawnStopMouse', function() {
-		this.captureMouse = false;
-	} );
-    
-	// Form Submit
+	// STEP 4: 
+	// User Action - Form Submitted.
+	// Goal - Submit form data and display success to User.
+	
     $( '#areas-add-form' ).submit( function ( event ) {
         var template;
         
@@ -139,4 +128,74 @@ jQuery(document).ready( function($) {
         return false;
     } );
 
+	// STEP 0: 
+	// User Action - Clicked Cancel.
+	// Goal - Shut down Spawn Form and Modal.
+	
+    $( '.spawn-add-cancel-link' ).click( function() {
+		updateSpawnInstructions( 0, this );
+        return false;
+    } );
+    
 } );
+
+function selectTwoAjax( spawnTable, spawnFormSelectUrl ){
+	jQuery( '#'+spawnTable+'-loading-image' ).show();
+	jQuery.ajax({
+		url: spawnFormSelectUrl,
+		type: 'get',
+		dataType: "json",
+		success: function(){ jQuery( '#'+spawnTable+'-loading-image' ).hide(); }
+	})
+	.done( function(data) {
+		json = eval(data);
+		jQuery( '#'+spawnTable+'-spawn-item-select' ).select2({
+			width: 'resolve',
+			data: json
+		} );
+		jQuery( '#'+spawnTable+'-spawn-item-select' ).select2('val', null, true);
+	} );
+}
+
+function setAreaSpawnTypeId( spawnTable, id ){
+	jQuery( '#'+spawnTable+'-area-spawn-type-id' ).val( id );
+}
+
+function setSpawnSelectCircleTitle( spawnTable, name ){
+	jQuery( '#'+spawnTable+'-spawn-select-circle-title' ).text( name );
+}
+
+function areaSpawnStartMouse( spawnTable, element ){
+		jQuery( '#'+spawnTable+'-spawn-select-circle' ).show();
+		element.data( 'captureMouse', true);
+}
+
+function areaSpawnStopMouse( spawnTable, element ){
+		element.data( 'captureMouse', false);
+}
+
+function darkenSpawnSelectCircle( spawnTable ){
+	jQuery( '#'+spawnTable+'-spawn-select-circle' ).addClass( 'spawn-select-darken-text' );
+	jQuery( '#'+spawnTable+'-spawn-select-circle .spawn-circle' ).addClass( 'spawn-select-darken-circle' );
+}
+
+function unDarkenSpawnSelectCircle( spawnTable ){
+	jQuery( '#'+spawnTable+'-spawn-select-circle' ).removeClass( 'spawn-select-darken-text' );
+	jQuery( '#'+spawnTable+'-spawn-select-circle .spawn-circle' ).removeClass( 'spawn-select-darken-circle' );
+}
+
+function ucfirst(str) {
+	// From phpjs.org
+	str += '';
+	var f = str.charAt(0)
+	.toUpperCase();
+	return f + str.substr(1);
+}
+
+function getSpawnTable( element ) {
+	// Expects spawnTable to be first "word" in the ID.
+	var id = jQuery( element ).attr( 'id' );
+	var spawnTable = id.split( '-' );
+	return spawnTable[0];
+}
+

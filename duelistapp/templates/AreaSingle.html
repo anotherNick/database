@@ -4,45 +4,11 @@
 	<p style="text-align: center; margin-bottom: 25px; color: #ff9900;"><strong>Powered by the Duelist101 Community!</strong></p>
 
 	<div class='one_half'>
-	  <div id="spawn-mouse-capture">
-		<p id="circle-container">
-		<style> .aligncenter{ margin:0px; } </style>
+	  <h3 style="color:#ffcc00; text-align: center;">#name# Map</h3>
+		<p id="area-circle-container" class="circle-container">
 			<img id="area-map" src='http://www.duelist101.com/w101_world_maps/#image#' alt='#name# Map' class='aligncenter' />
 	<!-- /cut:area -->
-	<span id="spawn-select-circle">
-		<span style="float:left; width:25px; height:25px; border: 3px solid yellow; border-radius:50%;"></span>
-		<strong id="spawn-select-circle-title">Spawn Point</strong>
-	</span>
-	<!-- cut:locationCircle -->
-			<span id='#name#' style='position:absolute; left:#leftPct#%; top:#topPct#%; color:#color#; 
-				float:left; width:25px; height:25px; border: 3px solid #color#; border-radius:50%;'>
-	<!-- TODO?: logic for plurals of things ending in s -->
-				<strong>#name#</strong>
-			</span>
-	<!-- /cut:locationCircle -->
 		</p>
-	  </div>
-		<form id="area-spawn-add-form" style="display:none;">
-			<h4 id="area-spawn-item-instructions" class="area-spawn-instructions"> </h4>
-			<input name="item-id" id="spawn-item-select" type="hidden">
-			<input name="item-type" id="spawn-item-type" type="hidden">
-			<input name="area-spawn-x" type="hidden" />
-			<input name="area-spawn-y" type="hidden" />
-			<input type="hidden" id="area-spawn-type" name="area-spawn-type" value="reagent" />
-	<!-- cut:areaSpawnAreaId -->
-			<input type="hidden" id="area-spawn-area-id" name="area-spawn-area-id" value="#areaSpawnAreaId#" />
-	<!-- /cut:areaSpawnAreaId -->
-			<input type="hidden" id="area-spawn-type-id" name="area-spawn-type-id" value="0" />
-			<p style="margin-top: 20px; display:block;">
-				<div id="area-spawn-create-button" style="display:none;">
-					 or <br /><br />
-					<h4 id="area-spawn-create-instructions" class="area-spawn-instructions"> </h4>
-					<input type="submit" value="Create" style="width: 100px;" /><br /><br />
-				</div>
-				 or 
-				<a id="reagent-add-cancel-link" href="javascriptRequired.html">Cancel</a>
-			</p>
-		</form>
 	</div>
 	<div class='one_half last'>
 		<h3 style="color:#ffcc00; text-align: center;">Spawn Points</h3>
@@ -50,19 +16,76 @@
 		<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'>
 			<div class='et_left_tabs_bg'></div>
 			<ul class='et-tabs-control'>
-				<li><a href='#'>Reagents</a></li> 
-			</ul> <!-- .et-tabs-control --> 
+	<!-- cut:spawnTabs -->
+				<li><a href='#'>#spawnDisplayName#</a></li>
+	<!-- /cut:spawnTabs -->
+			</ul>
 			<div class='et-tabs-content'>
 				<div class='et-tabs-content-wrapper'>
-					<div class='et_slidecontent'>
-	<!-- cut:locationButton -->
-						<p><a id='#name#' class='circle_button' style='cursor:pointer;'>#name#</a></p>
-	<!-- /cut:locationButton -->
-						<a id="spawn-add-reagent" class="spawn-add-link" href="javascriptRequired.html">Add A Spawn</a>
+	<!-- cut:spawnContent -->
+					<div id="#spawnType#-slide" class='et_slidecontent'>
+						<!-- Current Spawns -->
+						
+						<!-- Add Spawn Link -->
+						<a id="#spawnTable#-spawn-add-link" class="spawn-add-link spawn-add-step-1" href="javascriptRequired.html">Add A #spawnDisplayTable# Spawn</a>
+						<!-- Add Spawn Form -->
+						<div id="#spawnTable#-spawn-modal-wrapper">
+							<form id="#spawnTable#-spawn-add-form" class="spawn-add-form">
+								<div id="#spawnTable#-spawn-mouse-capture" class="spawn-mouse-capture">
+										<p id="#spawnTable#-circle-container" class="circle-container">
+											<img id="#spawnTable#-area-map" class="area-map aligncenter" src="http://www.duelist101.com/w101_world_maps/#areaMapImage#" alt="#spawnDisplayName# Map" />
+											<span id="#spawnTable#-spawn-select-circle" class="spawn-select-circle spawn-add-step-3">
+												<span class="spawn-circle"></span>
+												<strong id="#spawnTable#-spawn-select-circle-title" class="spawn-select-circle-title">Spawn Point</strong>
+											</span>
+										</p>
+								</div>
+								<!-- STEP 1: Get Spawn Item ID -->
+								<div class="spawn-add-instructions-container">
+									<h4 id="#spawnTable#-instruction-step-title-1" class="instruction-step-title">Step 1: Select a #spawnDisplayTable#</h4>
+									<p id="#spawnTable#-add-step-1" class="spawn-add-instructions">
+										<strong id="#spawnTable#-add-step-1-instructions" class="spawn-add-title">Select a #spawnDisplayTable#:</strong>
+										<img id="#spawnTable#-loading-image" src="#spawnAddLoadingImage#" alt="Loading..." />
+										<input name="item-id" id="#spawnTable#-spawn-item-select" class="spawn-item-select spawn-add-step-2" type="hidden">
+									</p>
+								<!-- STEP 2: Get Spawn Location -->
+									<h4 id="#spawnTable#-instruction-step-title-2" class="instruction-step-title">Step 2: Add a Spawn Location</h4>
+									<p id="#spawnTable#-add-step-2" class="spawn-add-instructions">
+										<strong id="#spawnTable#-add-step-2-instructions" class="spawn-add-title">Click Map to add Spawn Point</strong>
+										Click the Map to select a spawn location for this item.
+									</p>
+								<!-- STEP 3: Submit -->
+									<h4 id="#spawnTable#-instruction-step-title-3" class="instruction-step-title">Step 3: Submit</h4>
+									<p id="#spawnTable#-add-step-3" class="spawn-add-instructions">
+										<strong id="#spawnTable#-add-step-3-instructions" class="spawn-add-title">Click Create to finish!</strong>
+										<input type="submit" value="Create" /><br /><br />
+										Or: <a id="#spawnTable#-retry-location" class="spawn-add-step-2" href="#">Retry Location</a>, <a id="#spawnTable#-retry-select" class="spawn-add-step-1" href="#">Change #spawnDisplayTable#</a>
+									</p>
+								<!-- STEP 4: Done -->
+									<h4 id="#spawnTable#-instruction-step-title-4" class="instruction-step-title">Step 4: Done!</h4>
+									<p id="#spawnTable#-add-step-4" class="spawn-add-instructions">
+										<strong id="#spawnTable#-add-step-4-instructions" class="spawn-add-title">Done!</strong>
+										Click "Done" to close this Dialog.
+										<input type="submit" value="Done!" /><br /><br />
+										Or: Add another Spawn for this #spawnDisplayTable#, Pick another #spawnDisplayTable#
+									</p>
+								<!-- STEP 0: Cancel -->
+									<a id="#spawnTable#-add-cancel-link" class="spawn-add-cancel-link" href="javascriptRequired.html">Cancel</a>
+								</div>
+								<input name="item-type" value="#spawnTable#" type="hidden">
+								<input name="area-spawn-x" id="#spawnTable#-x" type="hidden" />
+								<input name="area-spawn-y" id="#spawnTable#-y" type="hidden" />
+								<input name="area-spawn-area-id" id="#spawnTable#-spawn-area-id" value="#areaId#" type="hidden" />
+								<input name="area-spawn-type-id" id="#spawnTable#-area-spawn-type-id" value="0" type="hidden" />
+								<a id="#spawnTable#-form-select-url" href="#spawnFormSelectUrl#"></a>
+								<a id="#spawnTable#-form-action" href="#spawnFormAction#"></a>
+							</form>
+						</div>
 					</div>
+	<!-- /cut:spawnContent -->
 				</div>
 			</div>
-		</div> <!-- .tabs-left -->
+		</div>
 	</div>
 	<div class='clear'></div>
 	<div style="clear:both;"> </div>
