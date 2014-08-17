@@ -80,8 +80,8 @@ Class AreaSingle extends \Duelist101\Stamp
 			$cut->setSpawnTable( $spawnTable );
 			$cut->setSpawnDisplayName( $spawnDisplayName );
 			$cut->setSpawnDisplayTable( ucfirst( $spawnTable ) );
-			$cut->setSpawnFormSelectUrl( '/duelist101/database/reagents.json' );
-			$cut->setSpawnFormAction( );
+			$cut->setSpawnFormSelectUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '.json' );
+			$cut->setSpawnFormAction( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns' );
 			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
 			$this->add($cut);
 		}
