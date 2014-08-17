@@ -22,6 +22,7 @@ $app->post('/areafish/:id/vote-up', function ($id) use ($app) { Route\Areafish::
 $app->post('/areareagents', function () use ($app) { Route\Areareagents::add( $app ); });
 $app->post('/areareagents/:id/vote-down', function ($id) use ($app) { Route\Areareagents::vote( 'down', $id, $app ); });
 $app->post('/areareagents/:id/vote-up', function ($id) use ($app) { Route\Areareagents::vote( 'up', $id, $app ); });
+$app->post('/areareagentspawns', function () use ($app) { Route\Areareagentspawns::add( $app ); });
 
 $app->get('/areas.json', function () use ($app) { Route\Areas::listJson( $app ); });
 $app->get('/areas/', function () use ($app) { Route\Areas::listHtml( $app ); });

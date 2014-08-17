@@ -26,13 +26,10 @@
 	text-align: right;
 }
 .instruction-step-title{ 
-	text-align:left;
-	border-bottom: 1px solid black;
-}
-.instruction-title-highlight{
 	text-align: center;
 	background-color: #aaa;
 	color: #000;
+	border-bottom: 1px solid black;
 }
 
 .area-map{ 
@@ -68,10 +65,10 @@
 	border-radius:50%;
 }
 .spawn-select-darken-text{
-	color: #FC0;
+	color: red;
 }
 .spawn-select-darken-circle{
-	border-color: #FC0;
+	border-color: red;
 }
 
 .spawn-mouse-capture{ 

@@ -1,7 +1,7 @@
 function updateSpawnInstructions( step, element ){
 	spawnTable = getSpawnTable( element );
 	jQuery( '.spawn-add-instructions' ).hide();
-	jQuery( '.instruction-step-title' ).removeClass( 'instruction-title-highlight' );
+	jQuery( '.instruction-step-title' ).hide();
 	
 	switch( step ){
 		case 1:
@@ -12,18 +12,18 @@ function updateSpawnInstructions( step, element ){
 				width: 385,
 				title: 'Add A '+ucfirst( spawnTable )+' Spawn Point!'
 			});
-			jQuery( '#'+spawnTable+'-instruction-step-title-1' ).addClass( 'instruction-title-highlight' );
+			jQuery( '#'+spawnTable+'-instruction-step-title-1' ).show( 'bounce' );
 			jQuery( '#'+spawnTable+'-add-step-1' ).show();
 			break;
 		case 2:
 			unDarkenSpawnSelectCircle( spawnTable )
-			jQuery( '#'+spawnTable+'-instruction-step-title-2' ).addClass( 'instruction-title-highlight' );
+			jQuery( '#'+spawnTable+'-instruction-step-title-2' ).show( 'bounce' );
 			jQuery( '#'+spawnTable+'-add-step-2' ).show();
 			areaSpawnStartMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
 			break;
 		case 3:
 			darkenSpawnSelectCircle( spawnTable );
-			jQuery( '#'+spawnTable+'-instruction-step-title-3' ).addClass( 'instruction-title-highlight' );
+			jQuery( '#'+spawnTable+'-instruction-step-title-3' ).show( 'bounce' );
 			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
 			jQuery( '#'+spawnTable+'-add-step-3' ).show();
 			break;
@@ -46,7 +46,7 @@ jQuery(document).ready( function($) {
         return false;
     } );
 	
-    $( '.spawn-add-step-1' ).one('click', function() {
+    $( '.spawn-add-link' ).one('click', function() {
 		spawnTable = getSpawnTable( this );
 		spawnFormSelectUrl = $( '#'+spawnTable+'-form-select-url' ).attr( 'href' );
 		
@@ -74,6 +74,7 @@ jQuery(document).ready( function($) {
 		spawnTable = getSpawnTable( this );
 		
 		if( $( this ).data( 'captureMouse' ) == true ){
+			// Place the circle
 			var parentOffset = $( this ).offset();
 			var relX = e.pageX - parentOffset.left - 12;
 			var relY = e.pageY - parentOffset.top - 12;
@@ -81,6 +82,11 @@ jQuery(document).ready( function($) {
 			   left:  relX,
 			   top:   relY
 			} );
+			// Convert coordinates to % and update Form.
+			mapWidth = Math.round( 100 * (relX / $( '#'+spawnTable+'-area-map' ).width()) );
+			mapHeight = Math.round( 100 * (relY / $( '#'+spawnTable+'-area-map' ).height()) );
+			$( '#'+spawnTable+'-x' ).val( mapWidth );
+			$( '#'+spawnTable+'-y' ).val( mapHeight );
 		}
 	} );
 	
@@ -96,16 +102,20 @@ jQuery(document).ready( function($) {
 	// User Action - Form Submitted.
 	// Goal - Submit form data and display success to User.
 	
-    $( '#areas-add-form' ).submit( function ( event ) {
+    $( '.spawn-add-form' ).submit( function ( event ) {
+		spawnTable = getSpawnTable( this );
+		spawnFormSubmitUrl = $( '#'+spawnTable+'-form-action' ).attr( 'href' );
         var template;
         
         $.ajax( {
-            url: '/duelist101/database/areaspawns',
+            url: '/duelist101/database/areareagentspawns',
             type: 'post',
             dataType: 'json',
-            data: $(this).serialize()
+            data: $( this ).serialize(),
+			error: function( e ){ alert( JSON.stringify( e ) ) }
         } )
         .done( function(data) {
+			alert( data );
             template = $('.areas-add-li-template').clone();
             template.attr('class', null);
             template.find('a.name')
@@ -172,6 +182,12 @@ function areaSpawnStartMouse( spawnTable, element ){
 
 function areaSpawnStopMouse( spawnTable, element ){
 		element.data( 'captureMouse', false);
+		// Position spawnSelectCircle with percentages so the
+		// User sees actual placement after calculation/rounding.
+		jQuery( '#'+spawnTable+'-spawn-select-circle' ).css({
+		   left:  jQuery( '#'+spawnTable+'-x' ).val()+'%',
+		   top:   jQuery( '#'+spawnTable+'-y' ).val()+'%'
+		} );
 }
 
 function darkenSpawnSelectCircle( spawnTable ){
