@@ -1,6 +1,5 @@
 <?php
 namespace Duelist101;
-use Duelist101\Db\View as View;
 use Duelist101\Db\Route as Route;
 use R as R;
 
