@@ -5,6 +5,7 @@ function updateSpawnInstructions( step, element ){
 	
 	switch( step ){
 		case 1:
+			jQuery( '#'+spawnTable+'-spawn-item-select' ).select2("val", null, true);
 			jQuery( '.spawn-select-circle' ).hide();
 			jQuery( '#'+spawnTable+'-spawn-add-form' ).show();
 			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog({ 
@@ -24,8 +25,19 @@ function updateSpawnInstructions( step, element ){
 		case 3:
 			darkenSpawnSelectCircle( spawnTable );
 			jQuery( '#'+spawnTable+'-instruction-step-title-3' ).show( 'bounce' );
-			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
 			jQuery( '#'+spawnTable+'-add-step-3' ).show();
+			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+			break;
+		case 3.5:
+			jQuery( '#'+spawnTable+'-add-step-35' ).show();
+			break;
+		case 4:
+			jQuery( '#'+spawnTable+'-instruction-step-title-4' ).show( 'bounce' );
+			jQuery( '#'+spawnTable+'-add-step-4' ).show();
+			break;
+		case 'ajaxError':
+			jQuery( '#'+spawnTable+'-instruction-step-title-error' ).show( 'bounce' );
+			jQuery( '#'+spawnTable+'-add-step-error' ).show();
 			break;
 		default:
 			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog( 'close' );
@@ -105,6 +117,7 @@ jQuery(document).ready( function($) {
     $( '.spawn-add-form' ).submit( function ( event ) {
 		spawnTable = getSpawnTable( this );
 		spawnFormSubmitUrl = $( '#'+spawnTable+'-form-action' ).attr( 'href' );
+		updateSpawnInstructions( 3.5, this );
         var template;
         
         $.ajax( {
@@ -112,10 +125,10 @@ jQuery(document).ready( function($) {
             type: 'post',
             dataType: 'json',
             data: $( this ).serialize(),
-			error: function( e ){ alert( JSON.stringify( e ) ) }
+			error: function( e ){ spawnAjaxError( spawnTable, e ); },
+			success: function(){ updateSpawnInstructions( 4, $( '#'+spawnTable+'-spawn-add-form' ) ); }
         } )
         .done( function(data) {
-			alert( data );
             template = $('.areas-add-li-template').clone();
             template.attr('class', null);
             template.find('a.name')
@@ -144,6 +157,11 @@ jQuery(document).ready( function($) {
 	
     $( '.spawn-add-cancel-link' ).click( function() {
 		updateSpawnInstructions( 0, this );
+        return false;
+    } );
+	
+    $( '.spawn-add-form' ).on( 'click', '.spawn-add-cancel-button', function( e ) {
+		updateSpawnInstructions( 0, $( e.target ) );
         return false;
     } );
     
@@ -198,6 +216,11 @@ function darkenSpawnSelectCircle( spawnTable ){
 function unDarkenSpawnSelectCircle( spawnTable ){
 	jQuery( '#'+spawnTable+'-spawn-select-circle' ).removeClass( 'spawn-select-darken-text' );
 	jQuery( '#'+spawnTable+'-spawn-select-circle .spawn-circle' ).removeClass( 'spawn-select-darken-circle' );
+}
+
+function spawnAjaxError( spawnTable, e ){
+	jQuery( '#'+spawnTable+'-ajax-error' ).text( e.responseText );
+	updateSpawnInstructions( 'ajaxError', jQuery( '#'+spawnTable+'-add-step-error' ) );
 }
 
 function ucfirst(str) {

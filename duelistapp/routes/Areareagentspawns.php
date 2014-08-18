@@ -12,8 +12,11 @@ class Areareagentspawns
 
         $areareagentspawns = R::find( 
             'areareagentspawn', 
-            'area_id = ? and reagent_id = ?', 
-            [ $post['area-spawn-area-id'], $post['area-spawn-type-id'] ]
+            'area_id = ? and reagent_id = ? and x_loc = ? and y_loc = ?', 
+            [ $post['area-spawn-area-id'], 
+			  $post['area-spawn-type-id'],
+			  $post['area-spawn-x'],
+			  $post['area-spawn-y'] ]
         );
         if ( empty($areareagentspawns) ) {
             $reagent = R::load( 'reagent', $post['area-spawn-type-id'] );
@@ -34,6 +37,7 @@ class Areareagentspawns
 					$areareagent->votesDown = 0;
 					$output['areaReagentId'] = R::store( $areareagent );
 				} else {
+					$app->response()->status(409);
 					echo "can't find area or reagent";
 				}
 			} else {
@@ -64,9 +68,11 @@ class Areareagentspawns
                 $app->response()->header('Content-Type', 'application/json');
                 echo json_encode( $output );
             } else {
+				$app->response()->status(409);
                 echo "can't find area or reagent";
             }
         } else {
+			$app->response()->status(409);
             echo "already in database";
         }
     }
@@ -94,6 +100,7 @@ class Areareagentspawns
             echo json_encode( $output );
             
         } else {
+			$app->response()->status(409);
             echo "can't find areareagent";
         }
     }
