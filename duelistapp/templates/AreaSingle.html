@@ -42,30 +42,39 @@
 								</div>
 								<!-- STEP 1: Get Spawn Item ID -->
 								<div class="spawn-add-instructions-container">
-									<h4 id="#spawnTable#-instruction-step-title-1" class="instruction-step-title">Step 1: Select a #spawnDisplayTable#</h4>
+									<h4 id="#spawnTable#-instruction-step-title-1" class="instruction-step-title">Step 1 of 3: Select #spawnDisplayTable#</h4>
 									<p id="#spawnTable#-add-step-1" class="spawn-add-instructions">
 										<img id="#spawnTable#-loading-image" src="#spawnAddLoadingImage#" alt="Loading..." />
 										<input name="item-id" id="#spawnTable#-spawn-item-select" class="spawn-item-select spawn-add-step-2" type="hidden">
 									</p>
 								<!-- STEP 2: Get Spawn Location -->
-									<h4 id="#spawnTable#-instruction-step-title-2" class="instruction-step-title">Step 2: Add a Spawn Location</h4>
+									<h4 id="#spawnTable#-instruction-step-title-2" class="instruction-step-title">Step 2 of 3: Select Location</h4>
 									<p id="#spawnTable#-add-step-2" class="spawn-add-instructions">
 										Click the Map to select a spawn location for this item.
 									</p>
 								<!-- STEP 3: Submit -->
-									<h4 id="#spawnTable#-instruction-step-title-3" class="instruction-step-title">Step 3: Submit</h4>
+									<h4 id="#spawnTable#-instruction-step-title-3" class="instruction-step-title">Step 3 of 3: Submit</h4>
 									<p id="#spawnTable#-add-step-3" class="spawn-add-instructions">
 										<strong id="#spawnTable#-add-step-3-instructions" class="spawn-add-title">Click Create to finish!</strong>
 										<input type="submit" value="Create" /><br /><br />
 										Or: <a id="#spawnTable#-retry-location" class="spawn-add-step-2" href="#">Retry Location</a>, <a id="#spawnTable#-retry-select" class="spawn-add-step-1" href="#">Change #spawnDisplayTable#</a>
 									</p>
+								<!-- STEP 3.5: Submit Loading -->
+									<p id="#spawnTable#-add-step-35" class="spawn-add-instructions">
+										<img src="#spawnAddLoadingImage#" alt="Loading..." />
+									</p>
+								<!-- STEP 3.6 ajaxError: Oops -->
+									<h4 id="#spawnTable#-instruction-step-title-error" class="instruction-step-title">Error!</h4>
+									<p id="#spawnTable#-add-step-error" class="spawn-add-instructions">
+										<span id="#spawnTable#-ajax-error"> </span><br /><br />
+										<a id="#spawnTable#-retry-location" class="spawn-add-step-2" href="#">Retry Location</a>, <a id="#spawnTable#-retry-select" class="spawn-add-step-1" href="#">Change #spawnDisplayTable#</a>
+									</p>
 								<!-- STEP 4: Done -->
-									<h4 id="#spawnTable#-instruction-step-title-4" class="instruction-step-title">Step 4: Done!</h4>
+									<h4 id="#spawnTable#-instruction-step-title-4" class="instruction-step-title">Done!</h4>
 									<p id="#spawnTable#-add-step-4" class="spawn-add-instructions">
-										<strong id="#spawnTable#-add-step-4-instructions" class="spawn-add-title">Done!</strong>
-										Click "Done" to close this Dialog.
-										<input type="submit" value="Done!" /><br /><br />
-										Or: Add another Spawn for this #spawnDisplayTable#, Pick another #spawnDisplayTable#
+										Click "Done" to close this Dialog.<br /><br />
+										<input id="#spawnTable#-add-cancel-button" type="button" value="Done!" class="spawn-add-cancel-button" /><br /><br />
+										Or: <a id="#spawnTable#-retry-location" class="spawn-add-step-2" href="#">Pick Another Location</a>, <a id="#spawnTable#-retry-select" class="spawn-add-step-1" href="#">Change #spawnDisplayTable#</a>
 									</p>
 								<!-- STEP 0: Cancel -->
 									<a id="#spawnTable#-add-cancel-link" class="spawn-add-cancel-link" href="javascriptRequired.html">Cancel</a>
