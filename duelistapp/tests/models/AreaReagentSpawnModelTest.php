@@ -17,7 +17,8 @@ class AreaReagentSpawnModelTest extends PHPUnit_Framework_TestCase
                 $area = W::addArea( $world, '1' );
                 $class = W::addClass( '1' );
                 $reagent = W::addReagent( $class, '1' );
-                W::addAreareagentspawn( $area, $reagent );
+				$areareagent = W::addAreareagent( $area, $reagent );
+                W::addAreareagentspawn( $area, $reagent, $areareagent );
             }
         );
         $this->assertEmpty( $message, $message );

@@ -70,10 +70,12 @@ Class AreaSingle extends \Duelist101\Stamp
 		
 		$spawns = $this->getSpawnTypes();
 		foreach( $spawns as $spawnTable => $spawnDisplayName ){
+			// Create Spawn Tabs
 			$cut = $this->getSpawnTabs();
 			$cut->setSpawnDisplayName( $spawnDisplayName );
 			$this->add($cut);
-		
+			
+			// Create Spawn Add Form
 			$cut = $this->getSpawnContent();
 			$cut->setAreaMapImage( $area->image );
 			$cut->setAreaId( $area->id );
@@ -83,6 +85,34 @@ Class AreaSingle extends \Duelist101\Stamp
 			$cut->setSpawnFormSelectUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '.json' );
 			$cut->setSpawnFormAction( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns' );
 			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
+
+			// Set Spawn Type
+			$spawnTypes = 'ownArea' . $spawnTable . 'List';
+			$spawnTypes = $area->$spawnTypes;
+			foreach( $spawnTypes as $spawnType ){
+				$cutSpawnTypes = $this->get( 'spawnContent.spawnTypes' );
+				$cutSpawnTypes->setSpawnType( $spawnType->$spawnTable->name );
+				$cutSpawnTypes->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnType->$spawnTable->name ) );
+				$cutSpawnTypes->setSpawnTypeURL(  );
+				$cutSpawnTypes->setVotesUp( $spawnType->votes_up );
+				$cutSpawnTypes->setVotesDown( $spawnType->votes_down );
+				// Set Spawn Points for this Spawn Type
+				$spawnPoints = 'ownArea' . $spawnTable . 'spawnList';
+				$spawnPoints = $spawnType->$spawnPoints;
+				foreach( $spawnPoints as $spawnPoint ){
+					$cutSpawnPoints = $this->get( 'spawnContent.spawnTypes.spawnPoints' );
+					$cutSpawnPoints->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnType->$spawnTable->name ) );
+					$cutSpawnPoints->setSpawnPointID( $spawnPoint->id );
+					$cutSpawnPoints->setSpawnPointX( $spawnPoint->x_loc );
+					$cutSpawnPoints->setSpawnPointY( $spawnPoint->y_loc );
+					$cutSpawnPoints->setVotesUp( $spawnPoint->votes_up );
+					$cutSpawnPoints->setVotesDown( $spawnPoint->votes_down );
+					$cutSpawnTypes->add($cutSpawnPoints);
+				}
+				
+				$cut->add($cutSpawnTypes);
+			}
+			
 			$this->add($cut);
 		}
 

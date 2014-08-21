@@ -29,6 +29,7 @@ $app->get('/areas/:name', function ($name) use ($app) { Route\Areas::singleHtml(
 
 $app->get('/fish/', function () use ($app) { Route\Fish::listHtml( $app ); });
 $app->get('/fish/:name', function ($name) use ($app) { Route\Fish::singleHtml( $name, $app ); });
+$app->get('/fish.json', function () use ($app) { Route\Fish::listJson( $app ); });
 
 $app->get('/reagents/', function () use ($app) { Route\Reagents::listHtml( $app ); });
 $app->get('/reagents/:name', function ($name) use ($app) { Route\Reagents::singleHtml( $name, $app ); });

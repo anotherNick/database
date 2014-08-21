@@ -1,3 +1,49 @@
+/* Spawn Point Map Display Styles */
+.area-map{ 
+	width:100%;
+	max-width:350px; 
+	border: 2px solid #999; 
+	border-radius:5px; 
+}
+.circle-container{ 
+	position:relative;
+	width:100%;
+	max-width:354px; 
+	overflow:hidden; 
+	margin: 0; 
+}
+.circle-container .aligncenter{ margin: 0px; }
+.spawn-circle-wrapper{ 
+	position: absolute; 
+	left: 15%; 
+	top: 70%; 
+	display:none;
+}
+.spawn-circle-title{ 
+	position:relative; 
+	top: 7px; 
+}
+.spawn-circle{
+	float:left; 
+	width:25px; 
+	height:25px; 
+	border: 3px solid; 
+	border-radius:50%;
+	/*width: 0; 
+	height: 0; 
+	border-left: 12px solid transparent; 
+	border-right: 12px solid transparent; 
+	border-bottom: 24px solid yellow;*/
+}
+
+/* Spawn Point List Styles */
+.spawn-link-title{
+	display:block; 
+	margin-left: 22px; 
+	overflow:hidden;
+}
+
+/* Spawn Add Form Styles */
 .spawn-add-form{ 
 	display:none;
 	max-width: 375px; 
@@ -19,6 +65,7 @@
 	text-align:center;
 	margin-bottom: 10px;
 }
+.spawn-add-link{ float:right; margin: 10px 0; }
 .spawn-add-cancel-link{
 	display: block;
 	width: 100%;
@@ -31,43 +78,16 @@
 	color: #000;
 	border-bottom: 1px solid black;
 }
-
-.area-map{ 
-	width:100%;
-	max-width:350px; 
-	border: 2px solid #999; 
-	border-radius:5px; 
-}
-.circle-container{ 
-	position:relative;
-	width:100%;
-	max-width:354px; 
-	overflow:hidden; 
-	margin: 0; 
-}
-.circle-container .aligncenter{ margin: 0px; }
 .spawn-select-circle{ 
 	position: absolute; 
 	left: 15%; 
 	top: 70%; 
 	color: yellow; 
-	display: none; 
+	display: none;
 }
 .spawn-select-title{ 
 	position:relative; 
 	top: 7px; 
-}
-.spawn-circle{
-	float:left; 
-	width:25px; 
-	height:25px; 
-	border: 3px solid yellow; 
-	border-radius:50%;
-	/*width: 0; 
-	height: 0; 
-	border-left: 12px solid transparent; 
-	border-right: 12px solid transparent; 
-	border-bottom: 24px solid yellow;*/
 }
 .spawn-select-darken-text{
 	color: red;
@@ -107,3 +127,7 @@
 .ui-dialog-titlebar-close{
 	display:none;
 }
+
+.spawn-points{ display:none; }
+
+.et-tabs-container{ margin-top: 10px; }

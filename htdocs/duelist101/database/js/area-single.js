@@ -164,6 +164,36 @@ jQuery(document).ready( function($) {
 		updateSpawnInstructions( 0, $( e.target ) );
         return false;
     } );
+	
+	// BEGIN SPAWN DISPLAY INTERFACE
+	$( '.spawn-links' ).hover( function() {
+		spawnType = getSpawnTable( $( this ) );
+		$( '#' + $( this ).attr( 'id' ) + ' .spawn-points' ).show( 'slide' );
+		$( '.' + spawnType ).show();
+	} );
+	
+	$( '.spawn-links' ).mouseleave( function() {
+		spawnType = getSpawnTable( $( this ) );
+		$( '#' + $( this ).attr( 'id' ) + ' .spawn-points' ).hide( 'slide' );
+		$( '.' + spawnType ).hide();
+	} );
+	
+	// Initialize Spawn Points
+	$( '.spawn-point' ).each( function(){
+		thisID = $( this ).attr( 'id' );
+		spawnType = getSpawnTable( $( this ) );
+		circleID = thisID + '-circle';
+		circleX = $( this ).children( '.x-loc' ).text() + '%';
+		circleY = $( this ).children( '.y-loc' ).text() + '%';
+
+		$( '#spawn-circle-template' )
+			.clone()
+			.attr( 'id', circleID )
+			.addClass( spawnType )
+			.css( { 'left': circleX, 'top': circleY } )
+			.appendTo( '#area-circle-container' );
+		$( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType );
+	} );
     
 } );
 

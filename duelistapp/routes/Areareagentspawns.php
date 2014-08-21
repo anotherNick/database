@@ -23,12 +23,12 @@ class Areareagentspawns
             $area = R::load( 'area', $post['area-spawn-area-id'] );
 			
 			// Create Areareagent relationship if none exists
-			$areareagents = R::find( 
+			$areareagent = R::findOne( 
 				'areareagent', 
 				'area_id = ? and reagent_id = ?', 
 				[ $post['area-spawn-area-id'], $post['area-spawn-type-id'] ]
 			);
-			if ( empty($areareagents) ) {
+			if ( empty($areareagent) ) {
 				if ( $reagent->id != 0 && $area->id != 0 ) {
 					$areareagent = R::dispense( 'areareagent' );
 					$areareagent->area = $area;
@@ -49,6 +49,7 @@ class Areareagentspawns
                 $areareagentspawn = R::dispense( 'areareagentspawn' );
                 $areareagentspawn->area = $area;
                 $areareagentspawn->reagent = $reagent;
+				$areareagentspawn->areareagent = $areareagent;
 				$areareagentspawn->x_loc = $post['area-spawn-x'];
 				$areareagentspawn->y_loc = $post['area-spawn-y'];
                 $areareagentspawn->votesUp = 1;

@@ -43,5 +43,14 @@ class Fish
         
         $app->view->render();
     }
+	
+    public static function listJson( $app )
+    {
+		$sql = 'SELECT id AS id, name AS text FROM fish ORDER BY name;';
+		$rows = R::getAll( $sql );
+		
+		$app->response()->header('Content-Type', 'application/json');
+		echo json_encode($rows);
+    }
         
 }

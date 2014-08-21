@@ -7,14 +7,18 @@
 	  <h3 style="color:#ffcc00; text-align: center;">#name# Map</h3>
 		<p id="area-circle-container" class="circle-container">
 			<img id="area-map" src='http://www.duelist101.com/w101_world_maps/#image#' alt='#name# Map' class='aligncenter' />
+			<span id="spawn-circle-template" class="spawn-circle-wrapper">
+				<span class="spawn-circle"></span>
+				<strong class="spawn-circle-title">
+					Spawn Point
+				</strong>
+			</span>
 	<!-- /cut:area -->
 		</p>
 	</div>
 	<div class='one_half last'>
 		<h3 style="color:#ffcc00; text-align: center;">Spawn Points</h3>
-		<p style="text-align:center; margin-bottom:20px;">Click an item to see where it's located!</p>
-		<div class='tabs-left et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_left_tabs clearfix'>
-			<div class='et_left_tabs_bg'></div>
+		<div class='et-tabs-container et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_top_tabs'>
 			<ul class='et-tabs-control'>
 	<!-- cut:spawnTabs -->
 				<li><a href='#'>#spawnDisplayName#</a></li>
@@ -23,9 +27,42 @@
 			<div class='et-tabs-content'>
 				<div class='et-tabs-content-wrapper'>
 	<!-- cut:spawnContent -->
-					<div id="#spawnType#-slide" class='et_slidecontent'>
-						<!-- Current Spawns -->
-						
+					<div id="#spawnTable#-slide" class='et_slidecontent'>
+						<ul id="#spawnTable#-spawns" >
+		<!-- cut:spawnTypes -->
+							<li id="#htmlSpawnType#-spawns" class="spawn-links" style=" margin-bottom: 2px; padding-bottom: 5px; background-color: #eeeeee;">
+								<span style="display:block; position:relative; float:left;">
+									<img style="position:absolute;" src="http://127.0.0.1/duelist101/database/css/viewable.png" />
+									<a href="#spawnTypeUrl#">
+										<span class="spawn-link-title">#spawnType#</span>
+									</a>
+								</span>
+								<span style="display:block; float:right;">
+									<span> ( #votesUp#</span>
+									<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
+									<span> | #votesDown#</span>
+									<a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
+									)
+								</span>
+								<div style="clear:both;"><div>
+								<ul class="spawn-points" style="padding-top:1px;">
+			<!-- cut:spawnPoints -->
+									<li id="#htmlSpawnType#-#spawnPointID#" class="spawn-point" style="margin-top: 1px; padding-left: 2px; list-style:none; background-color: #e2e2e2; border-left: 18px solid white;">
+										<img src="http://127.0.0.1/duelist101/database/css/viewable.png" />
+										<span class="x-loc">#spawnPointX#</span>, <span class="y-loc">#spawnPointY#</span>
+										<span>
+											<span> ( #votesUp#</span>
+											<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
+											<span> | #votesDown#</span>
+											<a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
+											)
+										</span>
+									</li>
+			<!-- /cut:spawnPoints -->
+								</ul>
+							</li>
+		<!-- /cut:spawnTypes -->
+						</ul>
 						<!-- Add Spawn Link -->
 						<a id="#spawnTable#-spawn-add-link" class="spawn-add-link spawn-add-step-1" href="javascriptRequired.html">Add A #spawnDisplayTable# Spawn</a>
 						<!-- Add Spawn Form -->
