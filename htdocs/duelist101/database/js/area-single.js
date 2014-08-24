@@ -166,34 +166,91 @@ jQuery(document).ready( function($) {
     } );
 	
 	// BEGIN SPAWN DISPLAY INTERFACE
-	$( '.spawn-links' ).hover( function() {
-		spawnType = getSpawnTable( $( this ) );
-		$( '#' + $( this ).attr( 'id' ) + ' .spawn-points' ).show( 'slide' );
-		$( '.' + spawnType ).show();
+	$( document ).on('click', '.spawn-parent.spawn-visibility', function() {
+		spawnParent = $( this ).parents( '.spawn-links' );
+		spawnType = getSpawnTable( $( spawnParent ) );
+		$( '#' + $( spawnParent ).attr( 'id' ) + ' .spawn-points' ).show( 'clip' );
+		$( '.' + spawnType ).show( 'clip' );
+		
+		 $( this ).addClass( 'spawn-viewing' );
+		 $( spawnParent ).find( '.spawn-child' ).each( function(){
+			$( this ).addClass( 'spawn-viewing' );
+		} );
 	} );
 	
-	$( '.spawn-links' ).mouseleave( function() {
-		spawnType = getSpawnTable( $( this ) );
-		$( '#' + $( this ).attr( 'id' ) + ' .spawn-points' ).hide( 'slide' );
-		$( '.' + spawnType ).hide();
+	$( document ).on('click', '.spawn-parent.spawn-viewing', function() {
+		spawnParent = $( this ).parents( '.spawn-links' );
+		spawnType = getSpawnTable( $( spawnParent ) );
+		$( '#' + $( spawnParent ).attr( 'id' ) + ' .spawn-points' ).hide( 'clip' );
+		$( '.' + spawnType ).hide( 'explode' );
+		
+		 $( this ).removeClass( 'spawn-viewing' );
+		 $( spawnParent ).find( '.spawn-child' ).each( function(){
+			$( this ).removeClass( 'spawn-viewing' );
+		} );
 	} );
+	
+	$( document ).on('click', '.spawn-child', function() {
+		spawnParent = $( this ).parent( 'li' );
+		spawnCircle = '#' + $( spawnParent ).attr( 'id' ) + '-circle';
+		if( $( this ).hasClass( 'spawn-viewing' ) ){
+			$( spawnCircle ).hide( 'explode' );
+			$( this ).removeClass( 'spawn-viewing' );
+		}else{
+			$( spawnCircle ).show( 'clip' );
+			$( this ).addClass( 'spawn-viewing' );
+		}
+	} );
+	
+	$( '.spawn-point' ).hover( 
+		function(){
+			circleID = $( this ).attr( 'id' ) + '-circle';
+			$( '#'+circleID ).addClass( 'spawn-circle-highlight' );
+		},
+		function(){
+			circleID = $( this ).attr( 'id' ) + '-circle';
+			$( '#'+circleID ).removeClass( 'spawn-circle-highlight' );
+		} 
+	);
 	
 	// Initialize Spawn Points
 	$( '.spawn-point' ).each( function(){
-		thisID = $( this ).attr( 'id' );
-		spawnType = getSpawnTable( $( this ) );
-		circleID = thisID + '-circle';
-		circleX = $( this ).children( '.x-loc' ).text() + '%';
-		circleY = $( this ).children( '.y-loc' ).text() + '%';
-
-		$( '#spawn-circle-template' )
-			.clone()
-			.attr( 'id', circleID )
-			.addClass( spawnType )
-			.css( { 'left': circleX, 'top': circleY } )
-			.appendTo( '#area-circle-container' );
-		$( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType );
+		buildSpawnCircles( this, '#area-circle-container' );
 	} );
+	
+	$( '.spawn-parent.spawn-viewable' ).each( function(){
+		spawnLink = $( this ).parents( '.spawn-links' );
+		setSpawnColor( spawnLink );
+	} );
+	
+	// Voting
+    $( document ).on('click', '.areas-vote-down', function() {
+        var caller = $( this );
+        
+        $.ajax( {
+            url: $( this ).data('url'),
+            type: 'post',
+            dataType: 'json',
+        })
+        .done( function( data ) {
+            caller.prev().text(' | '+data.votesDown+' ');
+        });
+        return false;
+    });
+    
+    $( document ).on('click', '.areas-vote-up', function() {
+        var caller = $( this );
+        
+        $.ajax( {
+            url: $( this ).data( 'url' ),
+            type: 'post',
+            dataType: 'json',
+        })
+        .done( function(data) {
+            caller.prev().text(' ( '+data.votesUp+' ');
+        });
+        return false;
+    });
     
 } );
 
@@ -266,5 +323,34 @@ function getSpawnTable( element ) {
 	var id = jQuery( element ).attr( 'id' );
 	var spawnTable = id.split( '-' );
 	return spawnTable[0];
+}
+
+function buildSpawnCircles( element, container ){
+	thisID = jQuery( element ).attr( 'id' );
+	spawnType = getSpawnTable( jQuery( element ) );
+	spawnVisibility = jQuery( element ).find( '.spawn-visibility' );
+	parentVisibility = jQuery( '#'+spawnType+'-spawns' ).find( '.spawn-visibility' );
+	circleID = thisID + '-circle';
+	circleX = jQuery( element ).children( '.x-loc' ).text() + '%';
+	circleY = jQuery( element ).children( '.y-loc' ).text() + '%';
+
+	jQuery( '#spawn-circle-template' )
+		.clone()
+		.attr( 'id', circleID )
+		.addClass( spawnType )
+		.css( { 'left': circleX, 'top': circleY } )
+		.appendTo( container );
+	jQuery( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType );
+	
+	jQuery( spawnVisibility ).addClass( 'spawn-viewable' );
+	jQuery( parentVisibility ).addClass( 'spawn-viewable' );
+}
+
+var spawnColor = 1;
+function setSpawnColor( element ){
+	spawnColorClass = '.' + getSpawnTable( jQuery( element ) );
+	if( spawnColor > 10 ){ spawnColor = 1; }
+	jQuery( spawnColorClass ).addClass( 'spawn-color-' + spawnColor );
+	spawnColor++;
 }
 

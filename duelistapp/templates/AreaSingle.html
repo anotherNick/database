@@ -20,24 +20,24 @@
 		<h3 style="color:#ffcc00; text-align: center;">Spawn Points</h3>
 		<div class='et-tabs-container et_sliderfx_fade et_sliderauto_false et_sliderauto_speed_5000 et_slidertype_top_tabs'>
 			<ul class='et-tabs-control'>
-	<!-- cut:spawnTabs -->
+	<!-- cut:spawnTab -->
 				<li><a href='#'>#spawnDisplayName#</a></li>
-	<!-- /cut:spawnTabs -->
+	<!-- /cut:spawnTab -->
 			</ul>
 			<div class='et-tabs-content'>
 				<div class='et-tabs-content-wrapper'>
 	<!-- cut:spawnContent -->
 					<div id="#spawnTable#-slide" class='et_slidecontent'>
 						<ul id="#spawnTable#-spawns" >
-		<!-- cut:spawnTypes -->
-							<li id="#htmlSpawnType#-spawns" class="spawn-links" style=" margin-bottom: 2px; padding-bottom: 5px; background-color: #eeeeee;">
-								<span style="display:block; position:relative; float:left;">
-									<img style="position:absolute;" src="http://127.0.0.1/duelist101/database/css/viewable.png" />
+		<!-- cut:spawnItem -->
+							<li id="#htmlSpawnType#-spawns" class="spawn-links">
+								<span class="spawn-list-left">
+									<span class="spawn-visibility spawn-parent"> </span>
 									<a href="#spawnTypeUrl#">
 										<span class="spawn-link-title">#spawnType#</span>
 									</a>
 								</span>
-								<span style="display:block; float:right;">
+								<span class="spawn-list-right">
 									<span> ( #votesUp#</span>
 									<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
 									<span> | #votesDown#</span>
@@ -46,9 +46,9 @@
 								</span>
 								<div style="clear:both;"><div>
 								<ul class="spawn-points" style="padding-top:1px;">
-			<!-- cut:spawnPoints -->
-									<li id="#htmlSpawnType#-#spawnPointID#" class="spawn-point" style="margin-top: 1px; padding-left: 2px; list-style:none; background-color: #e2e2e2; border-left: 18px solid white;">
-										<img src="http://127.0.0.1/duelist101/database/css/viewable.png" />
+			<!-- cut:spawnPoint -->
+									<li id="#htmlSpawnType#-#spawnPointID#" class="spawn-point">
+										<span class="spawn-visibility spawn-child"> </span>
 										<span class="x-loc">#spawnPointX#</span>, <span class="y-loc">#spawnPointY#</span>
 										<span>
 											<span> ( #votesUp#</span>
@@ -58,10 +58,10 @@
 											)
 										</span>
 									</li>
-			<!-- /cut:spawnPoints -->
+			<!-- /cut:spawnPoint -->
 								</ul>
 							</li>
-		<!-- /cut:spawnTypes -->
+		<!-- /cut:spawnItem -->
 						</ul>
 						<!-- Add Spawn Link -->
 						<a id="#spawnTable#-spawn-add-link" class="spawn-add-link spawn-add-step-1" href="javascriptRequired.html">Add A #spawnDisplayTable# Spawn</a>

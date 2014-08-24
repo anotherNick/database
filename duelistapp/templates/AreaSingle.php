@@ -70,8 +70,8 @@ Class AreaSingle extends \Duelist101\Stamp
 		
 		$spawns = $this->getSpawnTypes();
 		foreach( $spawns as $spawnTable => $spawnDisplayName ){
-			// Create Spawn Tabs
-			$cut = $this->getSpawnTabs();
+			// Create Spawn Tab
+			$cut = $this->getSpawnTab();
 			$cut->setSpawnDisplayName( $spawnDisplayName );
 			$this->add($cut);
 			
@@ -86,31 +86,31 @@ Class AreaSingle extends \Duelist101\Stamp
 			$cut->setSpawnFormAction( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns' );
 			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
 
-			// Set Spawn Type
-			$spawnTypes = 'ownArea' . $spawnTable . 'List';
-			$spawnTypes = $area->$spawnTypes;
-			foreach( $spawnTypes as $spawnType ){
-				$cutSpawnTypes = $this->get( 'spawnContent.spawnTypes' );
-				$cutSpawnTypes->setSpawnType( $spawnType->$spawnTable->name );
-				$cutSpawnTypes->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnType->$spawnTable->name ) );
-				$cutSpawnTypes->setSpawnTypeURL(  );
-				$cutSpawnTypes->setVotesUp( $spawnType->votes_up );
-				$cutSpawnTypes->setVotesDown( $spawnType->votes_down );
+			// Set Spawn Item
+			$spawnItems = 'ownArea' . $spawnTable . 'List';
+			$spawnItems = $area->$spawnItems;
+			foreach( $spawnItems as $spawnItem ){
+				$cutSpawnItem = $this->get( 'spawnContent.spawnItem' );
+				$cutSpawnItem->setSpawnType( $spawnItem->$spawnTable->name );
+				$cutSpawnItem->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnItem->$spawnTable->name ) );
+				$cutSpawnItem->setSpawnTypeURL(  );
+				$cutSpawnItem->setVotesUp( $spawnItem->votes_up );
+				$cutSpawnItem->setVotesDown( $spawnItem->votes_down );
 				// Set Spawn Points for this Spawn Type
 				$spawnPoints = 'ownArea' . $spawnTable . 'spawnList';
-				$spawnPoints = $spawnType->$spawnPoints;
+				$spawnPoints = $spawnItem->$spawnPoints;
 				foreach( $spawnPoints as $spawnPoint ){
-					$cutSpawnPoints = $this->get( 'spawnContent.spawnTypes.spawnPoints' );
-					$cutSpawnPoints->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnType->$spawnTable->name ) );
-					$cutSpawnPoints->setSpawnPointID( $spawnPoint->id );
-					$cutSpawnPoints->setSpawnPointX( $spawnPoint->x_loc );
-					$cutSpawnPoints->setSpawnPointY( $spawnPoint->y_loc );
-					$cutSpawnPoints->setVotesUp( $spawnPoint->votes_up );
-					$cutSpawnPoints->setVotesDown( $spawnPoint->votes_down );
-					$cutSpawnTypes->add($cutSpawnPoints);
+					$cutSpawnPoint = $this->get( 'spawnContent.spawnItem.spawnPoint' );
+					$cutSpawnPoint->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnItem->$spawnTable->name ) );
+					$cutSpawnPoint->setSpawnPointID( $spawnPoint->id );
+					$cutSpawnPoint->setSpawnPointX( $spawnPoint->x_loc );
+					$cutSpawnPoint->setSpawnPointY( $spawnPoint->y_loc );
+					$cutSpawnPoint->setVotesUp( $spawnPoint->votes_up );
+					$cutSpawnPoint->setVotesDown( $spawnPoint->votes_down );
+					$cutSpawnItem->add($cutSpawnPoint);
 				}
 				
-				$cut->add($cutSpawnTypes);
+				$cut->add($cutSpawnItem);
 			}
 			
 			$this->add($cut);

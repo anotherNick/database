@@ -37,10 +37,46 @@
 }
 
 /* Spawn Point List Styles */
+.spawn-point{
+	margin-top: 1px; 
+	padding-left: 2px; 
+	list-style:none; 
+	background-color: #e2e2e2; 
+	border-left: 18px solid white;
+}
+.spawn-point .x-loc{
+	margin-left: 18px;
+}
+.spawn-links{
+	margin-bottom: 2px; 
+	padding-bottom: 5px; 
+	background-color: #eeeeee;
+}
+.spawn-list-left{
+	display:block; 
+	position:relative; 
+	float:left;
+}
+.spawn-list-right{
+	display:block; 
+	float:right;
+}
 .spawn-link-title{
 	display:block; 
 	margin-left: 22px; 
 	overflow:hidden;
+}
+.spawn-visibility{
+	display:block;
+	width: 16px;
+	height:16px;
+	position:absolute;
+}
+.spawn-viewable{
+	background: url('http://127.0.0.1/duelist101/database/css/viewable.png') center center no-repeat;
+}
+.spawn-viewing{
+	background: url('http://127.0.0.1/duelist101/database/css/viewing.png') center center no-repeat;
 }
 
 /* Spawn Add Form Styles */
@@ -80,8 +116,8 @@
 }
 .spawn-select-circle{ 
 	position: absolute; 
-	left: 15%; 
-	top: 70%; 
+	left: 50%; 
+	top: 50%; 
 	color: yellow; 
 	display: none;
 }
@@ -95,7 +131,6 @@
 .spawn-select-darken-circle{
 	border-color: red;
 }
-
 .spawn-mouse-capture{ 
 	width:100%;
 	max-width: 354px; 
@@ -104,7 +139,6 @@
 	margin: 0 auto; 
 	text-align:center; 
 }
-
 .ui-widget-content{ background: none; }
 .ui-dialog{ 
 	background-color: rgb(41, 41, 41);
@@ -127,7 +161,73 @@
 .ui-dialog-titlebar-close{
 	display:none;
 }
-
 .spawn-points{ display:none; }
-
 .et-tabs-container{ margin-top: 10px; }
+
+/* Spawn Point Colors */
+.spawn-color-1 .spawn-circle{
+	border-color: LightBlue;
+}
+.spawn-color-1 .spawn-circle-title{
+	color: LightBlue;
+}
+.spawn-color-2 .spawn-circle{
+	border-color: Blue;
+}
+.spawn-color-2 .spawn-circle-title{
+	color: Blue;
+}
+.spawn-color-3 .spawn-circle{
+	border-color: DarkBlue;
+}
+.spawn-color-3 .spawn-circle-title{
+	color: DarkBlue;
+}
+.spawn-color-4 .spawn-circle{
+	border-color: Lime;
+}
+.spawn-color-4 .spawn-circle-title{
+	color: Lime;
+}
+.spawn-color-5 .spawn-circle{
+	border-color: Green;
+}
+.spawn-color-5 .spawn-circle-title{
+	color: Green;
+}
+.spawn-color-6 .spawn-circle{
+	border-color: Olive;
+}
+.spawn-color-6 .spawn-circle-title{
+	color: Olive;
+}
+.spawn-color-7 .spawn-circle{
+	border-color: Brown;
+}
+.spawn-color-7 .spawn-circle-title{
+	color: Brown;
+}
+.spawn-color-8 .spawn-circle{
+	border-color: Maroon;
+}
+.spawn-color-8 .spawn-circle-title{
+	color: Maroon;
+}
+.spawn-color-9 .spawn-circle{
+	border-color: Orange;
+}
+.spawn-color-9 .spawn-circle-title{
+	color: Orance;
+}
+.spawn-color-10 .spawn-circle{
+	border-color: White;
+}
+.spawn-color-10 .spawn-circle-title{
+	color: White;
+}
+.spawn-circle-highlight .spawn-circle{
+	border-color: yellow;
+}
+.spawn-circle-highlight .spawn-circle-title{
+	color: yellow;
+}
