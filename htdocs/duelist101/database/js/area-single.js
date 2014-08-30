@@ -5,6 +5,7 @@ function updateSpawnInstructions( step, element ){
 	
 	switch( step ){
 		case 1:
+			jQuery( '#'+spawnTable+'-circle-container .spawn-circle-wrapper' ).remove();
 			jQuery( '#'+spawnTable+'-spawn-item-select' ).select2("val", null, true);
 			jQuery( '.spawn-select-circle' ).hide();
 			jQuery( '#'+spawnTable+'-spawn-add-form' ).show();
@@ -73,6 +74,7 @@ jQuery(document).ready( function($) {
 		if( this.value != '' ){
 			setAreaSpawnTypeId( spawnTable, select.added.id );
 			setSpawnSelectCircleTitle( spawnTable, select.added.text );
+			cloneCircles( spawnTable, select.added.text );
 			updateSpawnInstructions( 2, this );
 		}
 	} );
@@ -128,26 +130,147 @@ jQuery(document).ready( function($) {
 			error: function( e ){ spawnAjaxError( spawnTable, e ); },
 			success: function(){ updateSpawnInstructions( 4, $( '#'+spawnTable+'-spawn-add-form' ) ); }
         } )
-        .done( function(data) {
-            template = $('.areas-add-li-template').clone();
-            template.attr('class', null);
-            template.find('a.name')
-                .attr('href', data.url)
-                .text(data.areaName);
-            template.find('a.vote-up').attr('href', data.voteUpUrl);
-            template.find('a.vote-down').attr('href', data.voteDownUrl);
-            template.show();
-            template.appendTo( $('#areas-ul') );
-            var li = $('#areas-ul').children("li");
-            li.detach().sort( function(a, b) {
-                var compA = $(a).text().toUpperCase();
-                var compB = $(b).text().toUpperCase();
-                return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
-            } );
-            $('#areas-ul').append(li);
+        .done( function( data ) {
+			spawnName = replaceClassChars( data[ spawnTable+'Name' ] );
+			spawnPointID = spawnName+'-'+data.id+'-circle';
+			if( $( '.'+spawnName ).length ){
+			// There are already SpawnPoints for this SpawnItem
+				// Append to spawn-add map.
+				spawnPointClasses = $( '.'+spawnName ).filter(":first").attr( 'class' );
+				spawnAddDupe = $( '#'+spawnTable+'-spawn-select-circle' )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.removeClass()
+					.addClass( spawnPointClasses )
+					.css( { 'left': data.areaSpawnX+'%', 'top': data.areaSpawnY+'%' } )
+					.appendTo( '#'+spawnTable+'-circle-container' );
+				$( spawnAddDupe ).children( '.spawn-select-circle-title' )
+					.attr( 'id', '' )
+					.removeClass()
+					.addClass( 'spawn-circle-title' );
+				$( '#'+spawnTable+'-spawn-select-circle' ).hide();
+				
+				// Append to Area Map
+				$( spawnAddDupe )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.hide()
+					.appendTo( '#area-circle-container' );
+					
+				// Append to Spawn Point List
+				spawnPointListID = spawnName+'-'+data.id;
+				$( '#spawn-point-list-template' )
+					.clone()
+					.attr( 'id', spawnPointListID )
+					.appendTo( '#'+spawnName+'-spawns .spawn-points' )
+					.on({
+						mouseenter: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).addClass( 'spawn-circle-highlight' );
+						},
+						mouseleave: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).removeClass( 'spawn-circle-highlight' );
+						}
+					} )
+					.show();
+					
+			}else if( $( '#'+spawnName+'-spawns' ).length ){
+			// There is a Spawn Item, but no Spawn Points
+				spawnPointClasses = 'spawn-circle-wrapper '+spawnName;
+				spawnAddDupe = $( '#'+spawnTable+'-spawn-select-circle' )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.removeClass()
+					.addClass( spawnPointClasses )
+					.css( { 'left': data.areaSpawnX+'%', 'top': data.areaSpawnY+'%' } )
+					.appendTo( '#'+spawnTable+'-circle-container' );
+				setSpawnColor( spawnAddDupe );
+				$( spawnAddDupe ).children( '.spawn-select-circle-title' )
+					.attr( 'id', '' )
+					.removeClass()
+					.addClass( 'spawn-circle-title' );
+				$( '#'+spawnTable+'-spawn-select-circle' ).hide();
+				
+				// Append to Area Map
+				$( spawnAddDupe )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.hide()
+					.appendTo( '#area-circle-container' );
+					
+				// Append to Spawn Point List
+				spawnPointListID = spawnName+'-'+data.id;
+				$( '#spawn-point-list-template' )
+					.clone()
+					.attr( 'id', spawnPointListID )
+					.appendTo( '#'+spawnName+'-spawns .spawn-points' )
+					.on({
+						mouseenter: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).addClass( 'spawn-circle-highlight' );
+						},
+						mouseleave: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).removeClass( 'spawn-circle-highlight' );
+						}
+					} )
+					.show();
+				$( '#'+spawnName+'-spawns .spawn-visibility' ).addClass( 'spawn-viewable' );
+				
+			}else{
+			// There is no Spawn Item or Spawn Points
+				spawnPointClasses = 'spawn-circle-wrapper '+spawnName;
+				spawnAddDupe = $( '#'+spawnTable+'-spawn-select-circle' )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.removeClass()
+					.addClass( spawnPointClasses )
+					.css( { 'left': data.areaSpawnX+'%', 'top': data.areaSpawnY+'%' } )
+					.appendTo( '#'+spawnTable+'-circle-container' );
+				setSpawnColor( spawnAddDupe );
+				$( spawnAddDupe ).children( '.spawn-select-circle-title' )
+					.attr( 'id', '' )
+					.removeClass()
+					.addClass( 'spawn-circle-title' );
+				$( '#'+spawnTable+'-spawn-select-circle' ).hide();
+				
+				// Append to Area Map
+				$( spawnAddDupe )
+					.clone()
+					.attr( 'id', spawnPointID )
+					.hide()
+					.appendTo( '#area-circle-container' );
+					
+				// Create Spawn Item and Spawn Point List
+				spawnItemID = spawnName+'-spawns';
+				spawnItemDupe = $( '#spawn-item-template' )
+					.clone()
+					.attr( 'id', spawnItemID )
+					.appendTo( '#'+spawnTable+'-spawns' )
+					.show();
+				$( '#'+spawnItemID+' .spawn-link-title' ).text( data[ spawnTable+'Name' ] );
+				
+				// Append to Spawn Point List
+				spawnPointListID = spawnName+'-'+data.id;
+				$( '#spawn-point-list-template' )
+					.clone()
+					.attr( 'id', spawnPointListID )
+					.appendTo( '#'+spawnName+'-spawns .spawn-points' )
+					.on({
+						mouseenter: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).addClass( 'spawn-circle-highlight' );
+						},
+						mouseleave: function () {
+							circleID = $( this ).attr( 'id' ) + '-circle';
+							$( '#'+circleID ).removeClass( 'spawn-circle-highlight' );
+						}
+					} )
+					.show();
+				$( '#'+spawnName+'-spawns .spawn-visibility' ).addClass( 'spawn-viewable' );
+			}
         } );
-        $( '#areas-add-div-form' ).hide();
-        $( '#areas-add-div-link' ).show();
         return false;
     } );
 
@@ -166,7 +289,7 @@ jQuery(document).ready( function($) {
     } );
 	
 	// BEGIN SPAWN DISPLAY INTERFACE
-	$( document ).on('click', '.spawn-parent.spawn-visibility', function() {
+	$( document ).on('click', '.spawn-parent.spawn-viewable', function() {
 		spawnParent = $( this ).parents( '.spawn-links' );
 		spawnType = getSpawnTable( $( spawnParent ) );
 		$( '#' + $( spawnParent ).attr( 'id' ) + ' .spawn-points' ).show( 'clip' );
@@ -202,16 +325,16 @@ jQuery(document).ready( function($) {
 		}
 	} );
 	
-	$( '.spawn-point' ).hover( 
-		function(){
+	$( '.spawn-point' ).on({
+		mouseenter: function () {
 			circleID = $( this ).attr( 'id' ) + '-circle';
 			$( '#'+circleID ).addClass( 'spawn-circle-highlight' );
 		},
-		function(){
+		mouseleave: function () {
 			circleID = $( this ).attr( 'id' ) + '-circle';
 			$( '#'+circleID ).removeClass( 'spawn-circle-highlight' );
-		} 
-	);
+		}
+	});
 	
 	// Initialize Spawn Points
 	$( '.spawn-point' ).each( function(){
@@ -280,6 +403,19 @@ function setSpawnSelectCircleTitle( spawnTable, name ){
 	jQuery( '#'+spawnTable+'-spawn-select-circle-title' ).text( name );
 }
 
+function replaceClassChars( className ){
+	className = className.split(' ').join('_');
+	className = className.split('"').join('_');
+	className = className.split("'").join('_');
+	className = className.split('-').join('_');
+	return className;
+}
+
+function cloneCircles( spawnTable, spawnName ){
+	spawnName = replaceClassChars( spawnName );
+	jQuery( '.'+spawnName ).clone().show().appendTo( '#'+spawnTable+'-circle-container' );
+}
+
 function areaSpawnStartMouse( spawnTable, element ){
 		jQuery( '#'+spawnTable+'-spawn-select-circle' ).show();
 		element.data( 'captureMouse', true);
@@ -340,7 +476,7 @@ function buildSpawnCircles( element, container ){
 		.addClass( spawnType )
 		.css( { 'left': circleX, 'top': circleY } )
 		.appendTo( container );
-	jQuery( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType );
+	jQuery( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType.split( '_' ).join( '' ) );
 	
 	jQuery( spawnVisibility ).addClass( 'spawn-viewable' );
 	jQuery( parentVisibility ).addClass( 'spawn-viewable' );

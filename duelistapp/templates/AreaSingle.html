@@ -49,8 +49,9 @@
 			<!-- cut:spawnPoint -->
 									<li id="#htmlSpawnType#-#spawnPointID#" class="spawn-point">
 										<span class="spawn-visibility spawn-child"> </span>
-										<span class="x-loc">#spawnPointX#</span>, <span class="y-loc">#spawnPointY#</span>
-										<span>
+										<span class="x-loc">#spawnPointX#</span>
+										<span class="y-loc">#spawnPointY#</span>
+										<span class="spawn-point-voting">
 											<span> ( #votesUp#</span>
 											<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
 											<span> | #votesDown#</span>
@@ -131,6 +132,38 @@
 			</div>
 		</div>
 	</div>
+	<!-- Spawn Item Template -->
+	<li id="spawn-item-template" class="spawn-links" style="display:none;">
+		<span class="spawn-list-left">
+			<span class="spawn-visibility spawn-parent"> </span>
+			<a>
+				<span class="spawn-link-title"></span>
+			</a>
+		</span>
+		<span class="spawn-list-right">
+			<span> ( 1</span>
+			<a>△</a>
+			<span> | 0</span>
+			<a>▽</a>
+			)
+		</span>
+		<div style="clear:both;"><div>
+		<ul class="spawn-points" style="padding-top:1px;">
+		</ul>
+	</li>
+	<!-- Spawn Point List Template -->
+	<li id="spawn-point-list-template" class="spawn-point" style="display:none;">
+		<span class="spawn-visibility spawn-child"> </span>
+		<span class="x-loc"></span>
+		<span class="y-loc"></span>
+		<span class="spawn-point-voting">
+			<span> ( 1</span>
+			<a>△</a>
+			<span> | 0</span>
+			<a>▽</a>
+			)
+		</span>
+	</li>
 	<div class='clear'></div>
 	<div style="clear:both;"> </div>
 </div>

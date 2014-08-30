@@ -92,7 +92,7 @@ Class AreaSingle extends \Duelist101\Stamp
 			foreach( $spawnItems as $spawnItem ){
 				$cutSpawnItem = $this->get( 'spawnContent.spawnItem' );
 				$cutSpawnItem->setSpawnType( $spawnItem->$spawnTable->name );
-				$cutSpawnItem->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnItem->$spawnTable->name ) );
+				$cutSpawnItem->setHtmlSpawnType( str_replace( [ ' ', "'", '"', '-' ], '_', $spawnItem->$spawnTable->name ) );
 				$cutSpawnItem->setSpawnTypeURL(  );
 				$cutSpawnItem->setVotesUp( $spawnItem->votes_up );
 				$cutSpawnItem->setVotesDown( $spawnItem->votes_down );
@@ -101,7 +101,7 @@ Class AreaSingle extends \Duelist101\Stamp
 				$spawnPoints = $spawnItem->$spawnPoints;
 				foreach( $spawnPoints as $spawnPoint ){
 					$cutSpawnPoint = $this->get( 'spawnContent.spawnItem.spawnPoint' );
-					$cutSpawnPoint->setHtmlSpawnType( str_replace( [ ' ', "'", '"' ], '_', $spawnItem->$spawnTable->name ) );
+					$cutSpawnPoint->setHtmlSpawnType( str_replace( [ ' ', "'", '"', '-' ], '_', $spawnItem->$spawnTable->name ) );
 					$cutSpawnPoint->setSpawnPointID( $spawnPoint->id );
 					$cutSpawnPoint->setSpawnPointX( $spawnPoint->x_loc );
 					$cutSpawnPoint->setSpawnPointY( $spawnPoint->y_loc );

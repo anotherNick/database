@@ -44,9 +44,10 @@
 	background-color: #e2e2e2; 
 	border-left: 18px solid white;
 }
-.spawn-point .x-loc{
+.spawn-point-voting{
 	margin-left: 18px;
 }
+.x-loc, .y-loc{ display:none; }
 .spawn-links{
 	margin-bottom: 2px; 
 	padding-bottom: 5px; 
@@ -71,6 +72,9 @@
 	width: 16px;
 	height:16px;
 	position:absolute;
+}
+.spawn-viewable:hover{
+	cursor: pointer;
 }
 .spawn-viewable{
 	background: url('http://127.0.0.1/duelist101/database/css/viewable.png') center center no-repeat;
@@ -178,10 +182,10 @@
 	color: Blue;
 }
 .spawn-color-3 .spawn-circle{
-	border-color: DarkBlue;
+	border-color: #38ACEC;
 }
 .spawn-color-3 .spawn-circle-title{
-	color: DarkBlue;
+	color: #38ACEC;
 }
 .spawn-color-4 .spawn-circle{
 	border-color: Lime;
@@ -190,34 +194,34 @@
 	color: Lime;
 }
 .spawn-color-5 .spawn-circle{
-	border-color: Green;
+	border-color: #98FF98;
 }
 .spawn-color-5 .spawn-circle-title{
-	color: Green;
+	color: #98FF98;
 }
 .spawn-color-6 .spawn-circle{
-	border-color: Olive;
+	border-color: #EDDA74;
 }
 .spawn-color-6 .spawn-circle-title{
-	color: Olive;
+	color: #EDDA74;
 }
 .spawn-color-7 .spawn-circle{
-	border-color: Brown;
-}
-.spawn-color-7 .spawn-circle-title{
-	color: Brown;
-}
-.spawn-color-8 .spawn-circle{
-	border-color: Maroon;
-}
-.spawn-color-8 .spawn-circle-title{
-	color: Maroon;
-}
-.spawn-color-9 .spawn-circle{
 	border-color: Orange;
 }
+.spawn-color-7 .spawn-circle-title{
+	color: Orange;
+}
+.spawn-color-8 .spawn-circle{
+	border-color: #FAAFBA;
+}
+.spawn-color-8 .spawn-circle-title{
+	color: #FAAFBA;
+}
+.spawn-color-9 .spawn-circle{
+	border-color: #F433FF;
+}
 .spawn-color-9 .spawn-circle-title{
-	color: Orance;
+	color: #F433FF;
 }
 .spawn-color-10 .spawn-circle{
 	border-color: White;
