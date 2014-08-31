@@ -83,26 +83,26 @@ class Areareagentspawns
         $post = $app->request()->post();
         $output = array();
 
-        $areareagent = R::load( 'areareagent', $id);
-        if ( $areareagent->id != 0 ) {
+        $areareagentspawn = R::load( 'areareagentspawn', $id);
+        if ( $areareagentspawn->id != 0 ) {
             $output['id'] = $id;
             switch ( $type ) {
                 case 'up':
-                    $output['votesUp'] = ++$areareagent->votesUp;
+                    $output['votesUp'] = ++$areareagentspawn->votesUp;
                     break;
                 case 'down':
-                    $output['votesDown'] = ++$areareagent->votesDown;
+                    $output['votesDown'] = ++$areareagentspawn->votesDown;
                     break;
             }
             // TODO: add logging logic here
-            R::store( $areareagent );
+            R::store( $areareagentspawn );
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );
             
         } else {
 			$app->response()->status(409);
-            echo "can't find areareagent";
+            echo "can't find areareagentspawn";
         }
     }
     

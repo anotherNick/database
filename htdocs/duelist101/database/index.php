@@ -17,11 +17,16 @@ define('Duelist101\BASE_URL', $app->request()->getUrl() . $app->request()->getRo
 $app->post('/areafish', function () use ($app) { Route\Areafish::add( $app ); });
 $app->post('/areafish/:id/vote-down', function ($id) use ($app) { Route\Areafish::vote( 'down', $id, $app ); });
 $app->post('/areafish/:id/vote-up', function ($id) use ($app) { Route\Areafish::vote( 'up', $id, $app ); });
+$app->post('/areafishspawns', function () use ($app) { Route\Areafishspawns::add( $app ); });
+$app->post('/areafishspawns/:id/vote-down', function ($id) use ($app) { Route\Areafishspawns::vote( 'down', $id, $app ); });
+$app->post('/areafishspawns/:id/vote-up', function ($id) use ($app) { Route\Areafishspawns::vote( 'up', $id, $app ); });
 
 $app->post('/areareagents', function () use ($app) { Route\Areareagents::add( $app ); });
 $app->post('/areareagents/:id/vote-down', function ($id) use ($app) { Route\Areareagents::vote( 'down', $id, $app ); });
 $app->post('/areareagents/:id/vote-up', function ($id) use ($app) { Route\Areareagents::vote( 'up', $id, $app ); });
 $app->post('/areareagentspawns', function () use ($app) { Route\Areareagentspawns::add( $app ); });
+$app->post('/areareagentspawns/:id/vote-down', function ($id) use ($app) { Route\Areareagentspawns::vote( 'down', $id, $app ); });
+$app->post('/areareagentspawns/:id/vote-up', function ($id) use ($app) { Route\Areareagentspawns::vote( 'up', $id, $app ); });
 
 $app->get('/areas.json', function () use ($app) { Route\Areas::listJson( $app ); });
 $app->get('/areas/', function () use ($app) { Route\Areas::listHtml( $app ); });

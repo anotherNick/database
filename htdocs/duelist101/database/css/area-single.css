@@ -83,6 +83,8 @@
 	background: url('http://127.0.0.1/duelist101/database/css/viewing.png') center center no-repeat;
 }
 
+.ui-tooltip, .ui-tooltip-content{ background: #fff !important; font-size:12px; }
+
 /* Spawn Add Form Styles */
 .spawn-add-form{ 
 	display:none;

@@ -30,32 +30,32 @@
 					<div id="#spawnTable#-slide" class='et_slidecontent'>
 						<ul id="#spawnTable#-spawns" >
 		<!-- cut:spawnItem -->
-							<li id="#htmlSpawnType#-spawns" class="spawn-links">
+							<li id="#htmlSpawnItem#-spawns" class="spawn-links">
 								<span class="spawn-list-left">
-									<span class="spawn-visibility spawn-parent"> </span>
-									<a href="#spawnTypeUrl#">
-										<span class="spawn-link-title">#spawnType#</span>
+									<span class="spawn-visibility spawn-parent" title="Click the Eye Icon to show or hide #spawnItem# Spawn Points."> </span>
+									<a href="#spawnItemUrl#">
+										<span class="spawn-link-title">#spawnItem#</span>
 									</a>
 								</span>
 								<span class="spawn-list-right">
 									<span> ( #votesUp#</span>
-									<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
+									<a class="areas-vote-up" data-url="#spawnItemVoteUpUrl#" href="javascriptRequired.html" title="Click to vote up #spawnItem# if you agree that it spawns here.">△</a>
 									<span> | #votesDown#</span>
-									<a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
+									<a class="areas-vote-down" data-url="#spawnItemVoteDownUrl#" href="javascriptRequired.html" title="Click to vote down #spawnItem# if you disagree that it spawns here.">▽</a>
 									)
 								</span>
 								<div style="clear:both;"><div>
 								<ul class="spawn-points" style="padding-top:1px;">
 			<!-- cut:spawnPoint -->
 									<li id="#htmlSpawnType#-#spawnPointID#" class="spawn-point">
-										<span class="spawn-visibility spawn-child"> </span>
+										<span class="spawn-visibility spawn-child" title="Click the Eye Icon to show or hide this Spawn Point."> </span>
 										<span class="x-loc">#spawnPointX#</span>
 										<span class="y-loc">#spawnPointY#</span>
 										<span class="spawn-point-voting">
 											<span> ( #votesUp#</span>
-											<a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
+											<a class="areas-vote-up" data-url="#spawnPointVoteUpUrl#" href="javascriptRequired.html" title="Click to vote up if you agree that this spawn point is accurate.">△</a>
 											<span> | #votesDown#</span>
-											<a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
+											<a class="areas-vote-down" data-url="#spawnPointVoteDownUrl#" href="javascriptRequired.html" title="Click to vote down if you disagree that this spawn point is accurate.">▽</a>
 											)
 										</span>
 									</li>
@@ -135,7 +135,7 @@
 	<!-- Spawn Item Template -->
 	<li id="spawn-item-template" class="spawn-links" style="display:none;">
 		<span class="spawn-list-left">
-			<span class="spawn-visibility spawn-parent"> </span>
+			<span class="spawn-visibility spawn-parent" title="Click the Eye Icon to show or hide Spawn Points."> </span>
 			<a>
 				<span class="spawn-link-title"></span>
 			</a>
@@ -153,7 +153,7 @@
 	</li>
 	<!-- Spawn Point List Template -->
 	<li id="spawn-point-list-template" class="spawn-point" style="display:none;">
-		<span class="spawn-visibility spawn-child"> </span>
+		<span class="spawn-visibility spawn-child" title="Click the Eye Icon to show or hide this Spawn Point."> </span>
 		<span class="x-loc"></span>
 		<span class="y-loc"></span>
 		<span class="spawn-point-voting">

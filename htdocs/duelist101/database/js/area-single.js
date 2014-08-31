@@ -123,7 +123,7 @@ jQuery(document).ready( function($) {
         var template;
         
         $.ajax( {
-            url: '/duelist101/database/areareagentspawns',
+            url: $( '#'+spawnTable+'-form-action' ).attr( 'href' ),
             type: 'post',
             dataType: 'json',
             data: $( this ).serialize(),
@@ -354,6 +354,7 @@ jQuery(document).ready( function($) {
             url: $( this ).data('url'),
             type: 'post',
             dataType: 'json',
+			error: function( e ){ alert( 'We are sorry. There was an error processing your vote.' ); }
         })
         .done( function( data ) {
             caller.prev().text(' | '+data.votesDown+' ');
@@ -368,12 +369,18 @@ jQuery(document).ready( function($) {
             url: $( this ).data( 'url' ),
             type: 'post',
             dataType: 'json',
+			error: function( e ){ alert( 'We are sorry. There was an error processing your vote.' ); }
         })
         .done( function(data) {
             caller.prev().text(' ( '+data.votesUp+' ');
         });
         return false;
     });
+
+	// Create Tooltips to help users.
+	$( '.spawn-viewable' ).tooltip();
+	$( '.areas-vote-up' ).tooltip();
+	$( '.areas-vote-down' ).tooltip();
     
 } );
 

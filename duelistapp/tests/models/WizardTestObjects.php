@@ -108,6 +108,22 @@ Class W
  
         return $bean;
     }
+	
+    public static function addAreafishspawn( Bean $area=null, Bean $fish=null, Bean $areafish=null, array $properties=null  )
+    {
+        $bean = R::dispense( 'areafishspawn' );
+        $bean->area = $area;
+        $bean->fish = $fish;
+		$bean->areafish = $areafish;
+        $bean->xLoc = 1;
+        $bean->yLoc = 1;
+        $bean->votesUp = 0;
+        $bean->votesDown = 0;
+        $bean = W::setProperties($bean, $properties);
+        R::store( $bean );
+ 
+        return $bean;
+    }
     
     public static function addAreareagent( Bean $area=null, Bean $reagent=null, array $properties=null  )
     {
