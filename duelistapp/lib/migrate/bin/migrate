@@ -1,4 +1,8 @@
+#!/usr/bin/env php
 <?php
+/*
+ *  Migrate CLI
+ */
 namespace Migrate;
 
 define('Migrate\COMMAND_DIR', getcwd() . DIRECTORY_SEPARATOR);
