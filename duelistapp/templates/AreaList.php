@@ -10,7 +10,7 @@ Class AreaList extends \Duelist101\Stamp
 		foreach ($worlds as $world) {
 			$i = $i + 1;
 			$worldCut = $this->getWorld();
-			$worldCut->setWorldImage($world->image);
+			$worldCut->setWorldImage(\Duelist101\BASE_URL . 'images/w101_world_maps/' . $world->image);
 			$worldCut->setWorldName($world->name);
 			if ( $i == 3 ) {
 				$i = 0;

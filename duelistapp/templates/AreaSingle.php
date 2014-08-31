@@ -64,9 +64,9 @@ Class AreaSingle extends \Duelist101\Stamp
     public function parse( $area )
     {
         $cut = $this->getArea();
-        $cut->setName($area->name);
-        $cut->setImage($area->image);
-        $this->add($cut);
+        $cut->setName( $area->name );
+        $cut->setImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->image );
+        $this->add( $cut );
 		
 		$spawns = $this->getSpawnTypes();
 		foreach( $spawns as $spawnTable => $spawnDisplayName ){
@@ -77,7 +77,7 @@ Class AreaSingle extends \Duelist101\Stamp
 			
 			// Create Spawn Add Form
 			$cut = $this->getSpawnContent();
-			$cut->setAreaMapImage( $area->image );
+			$cut->setAreaMapImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->image );
 			$cut->setAreaId( $area->id );
 			$cut->setSpawnTable( $spawnTable );
 			$cut->setSpawnDisplayName( $spawnDisplayName );
