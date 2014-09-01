@@ -13,7 +13,7 @@ class Areafish
         $areafishList = R::find( 
             'areafish', 
             'area_id = ? and fish_id = ?', 
-            [ $post['area_id'], $post['fish_id'] ]
+            array( $post['area_id'], $post['fish_id'] )
         );
         if ( empty($areafishList) ) {
             $fish = R::load( 'fish', $post['fish_id'] );

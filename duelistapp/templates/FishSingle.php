@@ -74,6 +74,8 @@ Class FishSingle extends \Duelist101\Stamp
         // Areas
         $cut = $this->getSourceList();
         $cut->setHtmlId( 'areas' );
+        $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+        $cut->setAddUrl( \Duelist101\BASE_URL . 'areafish' );
         $cut->setFishId( $fish->id );
 
         $areafishList = $fish->ownAreafishList;

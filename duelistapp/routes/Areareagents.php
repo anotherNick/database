@@ -13,7 +13,7 @@ class Areareagents
         $areareagents = R::find( 
             'areareagent', 
             'area_id = ? and reagent_id = ?', 
-            [ $post['area_id'], $post['reagent_id'] ]
+            array( $post['area_id'], $post['reagent_id'] )
         );
         if ( empty($areareagents) ) {
             $reagent = R::load( 'reagent', $post['reagent_id'] );
