@@ -13,10 +13,10 @@ class Areafishspawns
         $areafishspawns = R::find( 
             'areafishspawn', 
             'area_id = ? and fish_id = ? and x_loc = ? and y_loc = ?', 
-            [ $post['area-spawn-area-id'], 
+            array( $post['area-spawn-area-id'], 
 			  $post['area-spawn-type-id'],
 			  $post['area-spawn-x'],
-			  $post['area-spawn-y'] ]
+			  $post['area-spawn-y'] )
         );
         if ( empty($areafishspawns) ) {
             $fish = R::load( 'fish', $post['area-spawn-type-id'] );
@@ -26,7 +26,7 @@ class Areafishspawns
 			$areafish = R::findOne( 
 				'areafish', 
 				'area_id = ? and fish_id = ?', 
-				[ $post['area-spawn-area-id'], $post['area-spawn-type-id'] ]
+				array( $post['area-spawn-area-id'], $post['area-spawn-type-id'] )
 			);
 			if ( empty($areafish) ) {
 				if ( $fish->id != 0 && $area->id != 0 ) {

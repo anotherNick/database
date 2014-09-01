@@ -13,10 +13,10 @@ class Areareagentspawns
         $areareagentspawns = R::find( 
             'areareagentspawn', 
             'area_id = ? and reagent_id = ? and x_loc = ? and y_loc = ?', 
-            [ $post['area-spawn-area-id'], 
+            array( $post['area-spawn-area-id'], 
 			  $post['area-spawn-type-id'],
 			  $post['area-spawn-x'],
-			  $post['area-spawn-y'] ]
+			  $post['area-spawn-y'] )
         );
         if ( empty($areareagentspawns) ) {
             $reagent = R::load( 'reagent', $post['area-spawn-type-id'] );
@@ -26,7 +26,7 @@ class Areareagentspawns
 			$areareagent = R::findOne( 
 				'areareagent', 
 				'area_id = ? and reagent_id = ?', 
-				[ $post['area-spawn-area-id'], $post['area-spawn-type-id'] ]
+				array( $post['area-spawn-area-id'], $post['area-spawn-type-id'] )
 			);
 			if ( empty($areareagent) ) {
 				if ( $reagent->id != 0 && $area->id != 0 ) {

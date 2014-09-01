@@ -49,7 +49,7 @@
         "files": [
             "config.php",
             "vendor/redbeanphp/rb.php",
-            "vendor/stampte/stampTE.php"
+            "vendor/stampte/StampTE.php"
         ],
         "psr-4": {
             "Duelist101\\": "lib/",
