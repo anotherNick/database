@@ -57,6 +57,8 @@ Class ReagentSingle extends \Duelist101\Stamp
         // Areas
         $cut = $this->getSourceList();
         $cut->setHtmlId( 'areas' );
+        $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+        $cut->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
         $cut->setReagentId( $reagent->id );
         
         $areareagents = $reagent->ownAreareagentList;

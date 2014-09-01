@@ -8,7 +8,7 @@ jQuery(document).ready( function($) {
     
     $( '#areas-add-form' ).submit( function ( event ) {
         $.ajax( {
-            url: '/duelist101/database/areareagents',
+            url: $(this).data('url'),
             type: 'post',
             dataType: 'json',
             data: $(this).serialize()
@@ -45,7 +45,7 @@ jQuery(document).ready( function($) {
 
     $( '#areas-add-link' ).one('click', function() {
         $.ajax({
-            url: '/duelist101/database/areas.json',
+            url: $(this).data('url'),
             type: 'get',
             dataType: 'json'
         })
