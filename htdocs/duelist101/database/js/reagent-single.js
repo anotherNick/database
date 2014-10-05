@@ -8,7 +8,7 @@ jQuery(document).ready( function($) {
     
     $( '#areas-add-form' ).submit( function ( event ) {
         $.ajax( {
-            url: $(this).data('url'),
+            url:$( this ).data( 'url' ),
             type: 'post',
             dataType: 'json',
             data: $(this).serialize()
@@ -45,7 +45,7 @@ jQuery(document).ready( function($) {
 
     $( '#areas-add-link' ).one('click', function() {
         $.ajax({
-            url: $(this).data('url'),
+            url: $( this ).data( 'url' ),
             type: 'get',
             dataType: 'json'
         })

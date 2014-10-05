@@ -68,7 +68,6 @@
 	overflow:hidden;
 }
 .spawn-visibility{
-	display:block;
 	width: 16px;
 	height:16px;
 	position:absolute;
@@ -77,10 +76,10 @@
 	cursor: pointer;
 }
 .spawn-viewable{
-	background: url('http://127.0.0.1/duelist101/database/css/viewable.png') center center no-repeat;
+	background: url('http://www.duelist-sandbox.com/database/css/viewable.png') center center no-repeat;
 }
 .spawn-viewing{
-	background: url('http://127.0.0.1/duelist101/database/css/viewing.png') center center no-repeat;
+	background: url('http://www.duelist-sandbox.com/database/css/viewing.png') center center no-repeat;
 }
 
 .ui-tooltip, .ui-tooltip-content{ background: #fff !important; font-size:12px; }
