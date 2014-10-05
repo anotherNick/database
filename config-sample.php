@@ -13,7 +13,7 @@ define('Duelist101\TEMPLATES_DIR', APP_DIR . 'templates/');
 define('REDBEAN_MODEL_PREFIX', '\\Duelist101\\Db\\Model\\');
 
 // Database
-define('Duelist101\SQLITE_FILE', 'data/wizdata.sqlite');
+define('Duelist101\SQLITE_FILE', 'data/w101-db-dev.sqlite');
 define('Duelist101\DB_DSN', 'sqlite:' . APP_DIR . SQLITE_FILE);
 define('Duelist101\DB_USERNAME', null);
 define('Duelist101\DB_PASSWORD', null);
