@@ -120,7 +120,8 @@
 	border-bottom: 1px solid black;
 }
 .spawn-select-circle{ 
-	position: absolute; 
+	position: absolute;
+	z-index:20;
 	left: 50%; 
 	top: 50%; 
 	color: yellow; 
