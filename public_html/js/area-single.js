@@ -476,6 +476,8 @@ function buildSpawnCircles( element, container ){
 	circleID = thisID + '-circle';
 	circleX = jQuery( element ).children( '.x-loc' ).text() + '%';
 	circleY = jQuery( element ).children( '.y-loc' ).text() + '%';
+	circleText = jQuery( element ).closest( '.spawn-links' );
+	circleText = jQuery( circleText ).find( '.spawn-link-title' ).text();
 
 	jQuery( '#spawn-circle-template' )
 		.clone()
@@ -483,7 +485,7 @@ function buildSpawnCircles( element, container ){
 		.addClass( spawnType )
 		.css( { 'left': circleX, 'top': circleY } )
 		.appendTo( container );
-	jQuery( '#' + circleID ).children( '.spawn-circle-title' ).text( spawnType.split( '_' ).join( '' ) );
+	jQuery( '#' + circleID ).children( '.spawn-circle-title' ).text( circleText );
 	
 	jQuery( spawnVisibility ).addClass( 'spawn-viewable' );
 	jQuery( parentVisibility ).addClass( 'spawn-viewable' );
