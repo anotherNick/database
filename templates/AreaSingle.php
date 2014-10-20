@@ -66,6 +66,7 @@ Class AreaSingle extends \Duelist101\Stamp
         $cut = $this->getArea();
         $cut->setName( $area->name );
         $cut->setImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->image );
+
         $this->add( $cut );
 		
 		$spawns = $this->getSpawnTypes();
@@ -119,6 +120,12 @@ Class AreaSingle extends \Duelist101\Stamp
 			
 			$this->add($cut);
 		}
+		
+		// Inject the Eyecon URL.
+		$cut = $this->getEyecon();
+        $cut->setEyecon( \Duelist101\BASE_URL . 'css/viewable.png' );
+		$cut->setEyeconActive( \Duelist101\BASE_URL . 'css/viewing.png' );
+		$this->add($cut);
 
     }
 }

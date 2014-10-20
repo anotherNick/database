@@ -40,9 +40,7 @@
   
   
     "require": {
-        "slim/slim": "2.*",
-        "redbeanphp": "4.*",
-        "stampte": "2.*"
+        "slim/slim": "2.*"
     },
 
     "autoload": {
