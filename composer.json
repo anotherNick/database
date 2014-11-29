@@ -32,6 +32,7 @@
             "vendor/redbeanphp/rb.php",
             "vendor/stampte/StampTE.php"
         ],
+		"classmap": ["generated-classes/"],
         "psr-4": {
             "Duelist101\\": "lib/",
             "Duelist101\\Db\\View\\": "templates/",

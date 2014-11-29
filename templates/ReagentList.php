@@ -19,11 +19,11 @@ Class ReagentList extends \Duelist101\Stamp
                 $cutLastFooter = $this->get('reagent.lastFooter');
                 $cut->add($cutLastFooter);
             }
-            $cut->setName($reagent->name);
-            $cut->setLinkName( \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->name) );
-            $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->image);
+            $cut->setName($reagent->getName());
+            $cut->setLinkName( \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->getName()) );
+            $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->getImage());
             $cut->setClassName($reagent->class->name);
-            $cut->setRank($reagent->rank);
+            $cut->setRank($reagent->getRank());
             $this->add($cut);
         }
     }

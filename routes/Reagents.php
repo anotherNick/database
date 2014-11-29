@@ -1,13 +1,14 @@
 <?php
 namespace Duelist101\Db\Route;
 use Duelist101\Db\View as View;
-use R as R;
 
 class Reagents
 {
     public static function listHtml( $app )
     {
-        $reagents = R::find( 'reagent' );
+		print_r($q);
+	
+		$reagents = \W101\ReagentQuery::create()->find();
 
         $stamp = new View\ReagentList();
         $stamp->parse( $reagents );
