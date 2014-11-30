@@ -7,7 +7,19 @@ require 'config.php';
 require AUTOLOAD_FILE;
 require WPLOAD_DIR . 'wp-load.php';
 
-R::setup( DB_DSN, DB_USERNAME, DB_PASSWORD, DB_FROZEN );
+use Propel\Runtime\Propel;
+use Propel\Runtime\Connection\ConnectionManagerSingle;
+$serviceContainer = Propel::getServiceContainer();
+$serviceContainer->setAdapterClass('W101', 'sqlite');
+$manager = new ConnectionManagerSingle();
+$manager->setConfiguration(array (
+  'dsn'      => DB_DSN,
+  'user'     => DB_USERNAME,
+  'password' => DB_PASSWORD,
+));
+$serviceContainer->setConnectionManager('W101', $manager);
+$serviceContainer->setDefaultDatasource('W101');
+
 $app = new \Slim\Slim(array(
     'view' => new WordpressView(),
     'templates.path' => TEMPLATES_DIR

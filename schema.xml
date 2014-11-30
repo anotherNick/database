@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="W101" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="W101">
   <table name="area" idMethod="native" phpName="Area">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="name" phpName="Name" type="LONGVARCHAR" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
-    <column name="world_id" phpName="WorldId" type="INTEGER" defaultValue="null"/>
+    <column name="world_id" phpName="WorldId" type="INTEGER"/>
+    <foreign-key foreignTable="world" name="area_fk_8dfe93" onDelete="SET NULL" onUpdate="SET NULL">
+      <reference local="world_id" foreign="id"/>
+    </foreign-key>
+    <index name="index_foreignkey_area_world">
+      <index-column name="world_id"/>
+    </index>
   </table>
   <table name="areafish" idMethod="native" phpName="Areafish">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
@@ -54,22 +60,22 @@
     </index>
   </table>
   <table name="areareagent" idMethod="native" phpName="Areareagent">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="votes_up" phpName="VotesUp" type="INTEGER"/>
+    <column name="votes_down" phpName="VotesDown" type="INTEGER"/>
     <column name="area_id" phpName="AreaId" type="INTEGER"/>
     <column name="reagent_id" phpName="ReagentId" type="INTEGER"/>
-    <column name="votes_down" phpName="VotesDown" type="INTEGER"/>
     <foreign-key foreignTable="reagent" name="areareagent_fk_6fcb97" onDelete="SET NULL" onUpdate="SET NULL">
       <reference local="reagent_id" foreign="id"/>
     </foreign-key>
     <foreign-key foreignTable="area" name="areareagent_fk_915043" onDelete="SET NULL" onUpdate="SET NULL">
       <reference local="area_id" foreign="id"/>
     </foreign-key>
-    <index name="index_foreignkey_areareagent_area">
-      <index-column name="area_id"/>
-    </index>
     <index name="index_foreignkey_areareagent_reagent">
       <index-column name="reagent_id"/>
+    </index>
+    <index name="index_foreignkey_areareagent_area">
+      <index-column name="area_id"/>
     </index>
   </table>
   <table name="areareagentspawn" idMethod="native" phpName="Areareagentspawn">
@@ -100,8 +106,8 @@
       <index-column name="areareagent_id"/>
     </index>
   </table>
-  <table name="classname" idMethod="native" phpName="Classname">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+  <table name="class" idMethod="native" phpName="Classname">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
   </table>
   <table name="fish" idMethod="native" phpName="Fish">
@@ -113,9 +119,18 @@
     <column name="initial_xp" phpName="InitialXp" type="INTEGER"/>
     <column name="rarity_id" phpName="RarityId" type="INTEGER"/>
     <column name="class_id" phpName="ClassId" type="INTEGER"/>
+    <foreign-key foreignTable="class" name="fish_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL">
+      <reference local="class_id" foreign="id"/>
+    </foreign-key>
     <foreign-key foreignTable="rarity" name="fish_fk_3c96bc" onDelete="SET NULL" onUpdate="SET NULL">
       <reference local="rarity_id" foreign="id"/>
     </foreign-key>
+    <index name="index_foreignkey_fish_rarity">
+      <index-column name="rarity_id"/>
+    </index>
+    <index name="index_foreignkey_fish_class">
+      <index-column name="class_id"/>
+    </index>
   </table>
   <table name="fish_housingitem" idMethod="native" phpName="FishHousingitem">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
@@ -127,6 +142,16 @@
     <foreign-key foreignTable="housingitem" name="fish_housingitem_fk_56bfa3" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="housingitem_id" foreign="id"/>
     </foreign-key>
+    <index name="index_for_fish_housingitem_fish_id">
+      <index-column name="fish_id"/>
+    </index>
+    <index name="index_for_fish_housingitem_housingitem_id">
+      <index-column name="housingitem_id"/>
+    </index>
+    <unique name="UQ_fish_housingitemhousingitem_id__fish_id">
+      <unique-column name="housingitem_id"/>
+      <unique-column name="fish_id"/>
+    </unique>
   </table>
   <table name="housingitem" idMethod="native" phpName="Housingitem">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
@@ -137,13 +162,16 @@
     <foreign-key foreignTable="housingtype" name="housingitem_fk_b7832e" onDelete="SET NULL" onUpdate="SET NULL">
       <reference local="housingtype_id" foreign="id"/>
     </foreign-key>
+    <index name="index_foreignkey_housingitem_housingtype">
+      <index-column name="housingtype_id"/>
+    </index>
   </table>
   <table name="housingtype" idMethod="native" phpName="Housingtype">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
   </table>
   <table name="migrations" idMethod="native" phpName="Migrations">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="file" phpName="File" type="LONGVARCHAR"/>
   </table>
   <table name="rarity" idMethod="native" phpName="Rarity">
@@ -159,17 +187,16 @@
     <column name="can_auction" phpName="CanAuction" type="INTEGER"/>
     <column name="is_crowns_only" phpName="IsCrownsOnly" type="INTEGER"/>
     <column name="is_retired" phpName="IsRetired" type="INTEGER"/>
-    <column name="classname_id" phpName="ClassnameId" type="INTEGER" defaultValue="null"/>
-  </table>
-  <table name="reagentspawn" idMethod="native" phpName="Reagentspawn">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
-    <column name="x_loc" phpName="XLoc" type="INTEGER"/>
-    <column name="y_loc" phpName="YLoc" type="INTEGER"/>
-    <column name="reagent_id" phpName="ReagentId" type="INTEGER"/>
-    <column name="area_id" phpName="AreaId" type="INTEGER"/>
+    <column name="class_id" phpName="ClassId" type="INTEGER"/>
+    <foreign-key foreignTable="class" name="reagent_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL">
+      <reference local="class_id" foreign="id"/>
+    </foreign-key>
+    <index name="index_foreignkey_reagent_class">
+      <index-column name="class_id"/>
+    </index>
   </table>
   <table name="world" idMethod="native" phpName="World">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
   </table>
