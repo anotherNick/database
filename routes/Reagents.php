@@ -6,7 +6,6 @@ class Reagents
 {
     public static function listHtml( $app )
     {
-		print_r($q);
 	
 		$reagents = \W101\ReagentQuery::create()->find();
 
@@ -26,18 +25,23 @@ class Reagents
 	
     public static function listJson( $app )
     {
-		$sql = 'SELECT id AS id, name AS text FROM reagent ORDER BY name;';
-		$rows = R::getAll( $sql );
+		$reagents = \W101\ReagentQuery::create()
+			->select( array( 'id' ) )
+			->withColumn( 'name', 'text' )
+			->find()
+			->toArray();
 		
 		$app->response()->header('Content-Type', 'application/json');
-		echo json_encode($rows);
+		echo json_encode( $reagents );
     }
 
     public static function singleHtml( $name, $app )
     {
-        $reagent = R::findOne( 'reagent', ' name = ? ', array( urldecode( $name ) ) );
+		$reagent = \W101\ReagentQuery::create()
+			->filterByName( urldecode( $name ) )
+			->findOne();
         
-        // Redbean returns null for no reagent. Eventually do something smarter here.
+        // Propel returns null for no Reagent. Eventually do something smarter here.
         if( $reagent === null ){ $app->notfound(); }
         
         $stamp = new View\ReagentSingle();
@@ -46,7 +50,7 @@ class Reagents
 
         $stamp = new View\DisqusFooter();
         $stamp->parse(
-            'Wizard101 ' . $reagent->name . ' Info', 
+            'Wizard101 ' . $reagent->getName() . ' Info', 
             'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
         );
         $app->view->add( $stamp );

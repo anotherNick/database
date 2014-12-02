@@ -24,6 +24,7 @@ $app = new \Slim\Slim(array(
     'view' => new WordpressView(),
     'templates.path' => TEMPLATES_DIR
 ));
+
 define('Duelist101\BASE_URL', $app->request()->getUrl() . $app->request()->getRootUri() . '/');
 
 $app->post('/areafish', function () use ($app) { Route\Areafish::add( $app ); });

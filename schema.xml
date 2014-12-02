@@ -188,7 +188,7 @@
     <column name="is_crowns_only" phpName="IsCrownsOnly" type="INTEGER"/>
     <column name="is_retired" phpName="IsRetired" type="INTEGER"/>
     <column name="class_id" phpName="ClassId" type="INTEGER"/>
-    <foreign-key foreignTable="class" name="reagent_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL">
+    <foreign-key foreignTable="class" name="reagent_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL" phpName="School">
       <reference local="class_id" foreign="id"/>
     </foreign-key>
     <index name="index_foreignkey_reagent_class">

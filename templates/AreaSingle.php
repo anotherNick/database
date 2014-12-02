@@ -64,8 +64,8 @@ Class AreaSingle extends \Duelist101\Stamp
     public function parse( $area )
     {
         $cut = $this->getArea();
-        $cut->setName( $area->name );
-        $cut->setImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->image );
+        $cut->setName( $area->getName() );
+        $cut->setImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->getImage() );
 
         $this->add( $cut );
 		
@@ -78,8 +78,8 @@ Class AreaSingle extends \Duelist101\Stamp
 			
 			// Create Spawn Add Form
 			$cut = $this->getSpawnContent();
-			$cut->setAreaMapImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->image );
-			$cut->setAreaId( $area->id );
+			$cut->setAreaMapImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->getImage() );
+			$cut->setAreaId( $area->getId() );
 			$cut->setSpawnTable( $spawnTable );
 			$cut->setSpawnDisplayName( $spawnDisplayName );
 			$cut->setSpawnDisplayTable( ucfirst( $spawnTable ) );
@@ -88,30 +88,38 @@ Class AreaSingle extends \Duelist101\Stamp
 			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
 
 			// Set Spawn Item
-			$spawnItems = 'ownArea' . $spawnTable . 'List';
-			$spawnItems = $area->$spawnItems;
+			// Workaround for Propel Pluralization until I figure out something.
+			if( $spawnTable == 'fish' ){
+				$pSpawn = 'fishes';
+			}else{
+				$pSpawn = $spawnTable . 's';
+			}
+			$spawnItems = 'getArea' . $pSpawn;
+			$spawnItems = $area->$spawnItems();
 			foreach( $spawnItems as $spawnItem ){
+				$getThisSpawnItem = 'get' . ucfirst( $spawnTable );
+				$thisSpawnItem = $spawnItem->$getThisSpawnItem();
 				$cutSpawnItem = $this->get( 'spawnContent.spawnItem' );
-				$cutSpawnItem->setSpawnItem( $spawnItem->$spawnTable->name );
-				$cutSpawnItem->setHtmlSpawnItem( str_replace( array( ' ', "'", '"', '-' ), '_', $spawnItem->$spawnTable->name ) );
-				$cutSpawnItem->setSpawnItemUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '/' . urlencode( $spawnItem->$spawnTable->name ) );
-				$cutSpawnItem->setVotesUp( $spawnItem->votes_up );
-				$cutSpawnItem->setVotesDown( $spawnItem->votes_down );
-				$cutSpawnItem->setSpawnItemVoteUpUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode($spawnItem->id) . '/vote-up' );
-				$cutSpawnItem->setSpawnItemVoteDownUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode($spawnItem->id) . '/vote-down' );
+				$cutSpawnItem->setSpawnItem( $thisSpawnItem->getName() );
+				$cutSpawnItem->setHtmlSpawnItem( str_replace( array( ' ', "'", '"', '-' ), '_', $thisSpawnItem->getName() ) );
+				$cutSpawnItem->setSpawnItemUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '/' . urlencode( $thisSpawnItem->getName() ) );
+				$cutSpawnItem->setVotesUp( $spawnItem->getVotesUp() );
+				$cutSpawnItem->setVotesDown( $spawnItem->getVotesDown() );
+				$cutSpawnItem->setSpawnItemVoteUpUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode( $spawnItem->getId() ) . '/vote-up' );
+				$cutSpawnItem->setSpawnItemVoteDownUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode( $spawnItem->getId() ) . '/vote-down' );
 				// Set Spawn Points for this Spawn Type
-				$spawnPoints = 'ownArea' . $spawnTable . 'spawnList';
-				$spawnPoints = $spawnItem->$spawnPoints;
+				$getSpawnPoints = 'getArea' . $spawnTable . 'spawns';
+				$spawnPoints = $spawnItem->$getSpawnPoints();
 				foreach( $spawnPoints as $spawnPoint ){
 					$cutSpawnPoint = $this->get( 'spawnContent.spawnItem.spawnPoint' );
-					$cutSpawnPoint->setHtmlSpawnType( str_replace( array( ' ', "'", '"', '-' ), '_', $spawnItem->$spawnTable->name ) );
-					$cutSpawnPoint->setSpawnPointID( $spawnPoint->id );
-					$cutSpawnPoint->setSpawnPointX( $spawnPoint->x_loc );
-					$cutSpawnPoint->setSpawnPointY( $spawnPoint->y_loc );
-					$cutSpawnPoint->setVotesUp( $spawnPoint->votes_up );
-					$cutSpawnPoint->setVotesDown( $spawnPoint->votes_down );
-					$cutSpawnPoint->setSpawnPointVoteUpUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode($spawnPoint->id) . '/vote-up' );
-					$cutSpawnPoint->setSpawnPointVoteDownUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode($spawnPoint->id) . '/vote-down' );
+					$cutSpawnPoint->setHtmlSpawnType( str_replace( array( ' ', "'", '"', '-' ), '_', $thisSpawnItem->getName() ) );
+					$cutSpawnPoint->setSpawnPointID( $spawnPoint->getId() );
+					$cutSpawnPoint->setSpawnPointX( $spawnPoint->getXLoc() );
+					$cutSpawnPoint->setSpawnPointY( $spawnPoint->getYLoc() );
+					$cutSpawnPoint->setVotesUp( $spawnPoint->getVotesUp() );
+					$cutSpawnPoint->setVotesDown( $spawnPoint->getVotesDown() );
+					$cutSpawnPoint->setSpawnPointVoteUpUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode( $spawnPoint->getId() ) . '/vote-up' );
+					$cutSpawnPoint->setSpawnPointVoteDownUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode( $spawnPoint->getId() ) . '/vote-down' );
 					$cutSpawnItem->add($cutSpawnPoint);
 				}
 				

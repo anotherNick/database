@@ -1,13 +1,12 @@
 <?php
 namespace Duelist101\Db\Route;
 use Duelist101\Db\View as View;
-use R as R;
 
 class Areas
 {
     public static function listHtml ( $app )
     {
-        $worlds = R::find( 'world' );
+        $worlds = \W101\WorldQuery::create()->find();
 
         $stamp = new View\AreaList();
         $stamp->parse( $worlds );
@@ -25,18 +24,23 @@ class Areas
 
     public static function listJson( $app )
     {
-        $sql = 'SELECT id, name AS text FROM area ORDER BY name';
-        $rows = R::getAll( $sql );
-
-        $app->response()->header('Content-Type', 'application/json');
-        echo json_encode($rows);
+		$areas = \W101\AreaQuery::create()
+			->select( array( 'id' ) )
+			->withColumn( 'name', 'text' )
+			->find()
+			->toArray();
+		
+		$app->response()->header('Content-Type', 'application/json');
+		echo json_encode( $areas );
     }
 
     public static function singleHtml( $name, $app )
     {
-        $area = R::findOne( 'area', 'name = ?', array( urldecode( $name ) ) );
+        $area = \W101\AreaQuery::create()
+			->filterByName( urldecode( $name ) )
+			->findOne();
         
-        // Redbean returns null for no reagent. Eventually do something smarter here.
+        // Propel returns null for no Area. Eventually do something smarter here.
         if( $area === null ){ $app->notfound(); }
         
         $stamp = new View\AreaSingle();
@@ -45,7 +49,7 @@ class Areas
 
         $stamp = new View\DisqusFooter();
         $stamp->parse(
-            'Wizard101 ' . $area->name . ' Info', 
+            'Wizard101 ' . $area->getName() . ' Info', 
             'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
         );
         $app->view->add( $stamp );

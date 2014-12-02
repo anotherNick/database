@@ -47,38 +47,44 @@ Class ReagentSingle extends \Duelist101\Stamp
     {
 
         $cut = $this->getReagent();
-        $cut->setName($reagent->name);
-        $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->image);
-        $cut->setClassName($reagent->class->name);
-        $cut->setRank($reagent->rank);
-        $cut->setDescription($reagent->description);
-        $this->add($cut);
+        $cut->setName( $reagent->getName()) ;
+        $cut->setImage( \Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->getImage() );
+		$school = $reagent->getSchool();
+		// Workaround because Merle's Whisker has no school.
+		if(isSet($school)){
+			$className = $school->getName();
+		}else{
+			$className = '';
+		}
+        $cut->setClassName( $className );
+        $cut->setRank( $reagent->getRank() );
+        $cut->setDescription( $reagent->getDescription() );
+        $this->add( $cut );
 
         // Areas
         $cut = $this->getSourceList();
         $cut->setHtmlId( 'areas' );
         $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
         $cut->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
-        $cut->setReagentId( $reagent->id );
+        $cut->setReagentId( $reagent->getId() );
         
-        $areareagents = $reagent->ownAreareagentList;
-        usort( $areareagents, function($a, $b) {
-            return strcmp($a->area->name, $b->area->name);
-        } );
+        $areareagents = $reagent->getAreareagents();
+
         if ( empty($areareagents) ) {
             // TODO: this probably should be a stamp wrapped in a <p>
             $cut->setDefaultText('None.');
         } else {
-            foreach ($areareagents as $areareagent) {
-                $cutSource = $this->get('sourceList.source');
+            foreach ( $areareagents as $areareagent ) {
+				$area = $areareagent->getArea();
+                $cutSource = $this->get( 'sourceList.source' );
                 $cutSource->setHtmlId( 'areas' );
-                $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $areareagent->area->name ) );
-                $cutSource->setName( $areareagent->area->name );
-                $cutSource->setVotesUp($areareagent->votesUp);
-                $cutSource->setVotesDown($areareagent->votesDown);
-                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-up' );
-                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode($areareagent->id) . '/vote-down' );
-                $cut->add($cutSource);
+                $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() ) );
+                $cutSource->setName( $area->getName() );
+                $cutSource->setVotesUp( $areareagent->getVotesUp() );
+                $cutSource->setVotesDown( $areareagent->getVotesDown() );
+                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode( $areareagent->getId() ) . '/vote-up' );
+                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode( $areareagent->getId() ) . '/vote-down' );
+                $cut->add( $cutSource );
             }
         }
         $this->add( $cut );
@@ -86,37 +92,37 @@ Class ReagentSingle extends \Duelist101\Stamp
         // Creatures
         $cut = $this->getSourceList();
             $cut->setHtmlId( 'creatures' );
-            $cut->setReagentId( $reagent->id );
-            $cutMessage = $this->get('sourceList.message');
-            $cutMessage->setMessage('To come.  Muhahahaha!');
-            $cut->add($cutMessage);
+            $cut->setReagentId( $reagent->getId() );
+            $cutMessage = $this->get( 'sourceList.message' );
+            $cutMessage->setMessage( 'To come.  Muhahahaha!' );
+            $cut->add( $cutMessage );
         $this->add( $cut );
 
         // Crown Shop
         $cut = $this->getSourceList();
             $cut->setHtmlId( 'crowns' );
-            $cut->setReagentId( $reagent->id );
-            $cutMessage = $this->get('sourceList.message');
-            $cutMessage->setMessage('To come.  Muhahahaha!');
-            $cut->add($cutMessage);
+            $cut->setReagentId( $reagent->getId() );
+            $cutMessage = $this->get( 'sourceList.message' );
+            $cutMessage->setMessage( 'To come.  Muhahahaha!' );
+            $cut->add( $cutMessage );
         $this->add( $cut );
 
         // Plants
         $cut = $this->getSourceList();
             $cut->setHtmlId( 'plants' );
-            $cut->setReagentId( $reagent->id );
-            $cutMessage = $this->get('sourceList.message');
-            $cutMessage->setMessage('To come.  Muhahahaha!');
-            $cut->add($cutMessage);
+            $cut->setReagentId( $reagent->getId() );
+            $cutMessage = $this->get( 'sourceList.message' );
+            $cutMessage->setMessage( 'To come.  Muhahahaha!' );
+            $cut->add( $cutMessage );
         $this->add( $cut );
 
         // Vendors
         $cut = $this->getSourceList();
             $cut->setHtmlId( 'vendors' );
-            $cut->setReagentId( $reagent->id );
-            $cutMessage = $this->get('sourceList.message');
-            $cutMessage->setMessage('To come.  Muhahahaha!');
-            $cut->add($cutMessage);
+            $cut->setReagentId( $reagent->getId() );
+            $cutMessage = $this->get( 'sourceList.message' );
+            $cutMessage->setMessage( 'To come.  Muhahahaha!' );
+            $cut->add( $cutMessage );
         $this->add( $cut );
         
     }

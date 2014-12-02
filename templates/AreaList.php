@@ -10,20 +10,20 @@ Class AreaList extends \Duelist101\Stamp
 		foreach ($worlds as $world) {
 			$i = $i + 1;
 			$worldCut = $this->getWorld();
-			$worldCut->setWorldImage(\Duelist101\BASE_URL . 'images/w101_world_maps/' . $world->image);
-			$worldCut->setWorldName($world->name);
+			$worldCut->setWorldImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $world->getImage() );
+			$worldCut->setWorldName( $world->getName() );
 			if ( $i == 3 ) {
 				$i = 0;
-				$worldCut->setLastOption('last');
-				$worldCutLastFooter = $this->get('world.lastFooter');
-				$worldCut->add($worldCutLastFooter);
+				$worldCut->setLastOption( 'last' );
+				$worldCutLastFooter = $this->get( 'world.lastFooter' );
+				$worldCut->add( $worldCutLastFooter );
 			}
 			
-            $areas = $world->with( 'ORDER BY name' )->ownAreaList;
+            $areas = $world->getAreas();
 			foreach ($areas as $area) {
 				$areasCut = $this->get( 'world.areas' );
-				$areasCut->setAreaName( $area->name );
-				$areasCut->setLinkName( \Duelist101\BASE_URL . 'areas/' . urlencode($area->name) );
+				$areasCut->setAreaName( $area->getName() );
+				$areasCut->setLinkName( \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() ) );
 				$worldCut->add($areasCut);
 			}
 			

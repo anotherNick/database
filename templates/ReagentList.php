@@ -22,7 +22,14 @@ Class ReagentList extends \Duelist101\Stamp
             $cut->setName($reagent->getName());
             $cut->setLinkName( \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->getName()) );
             $cut->setImage(\Duelist101\BASE_URL . 'images/w101_reagents/' . $reagent->getImage());
-			$cut->setClassName($reagent->getClassname());
+			$school = $reagent->getSchool();
+			// Workaround because Merle's Whisker has no school.
+			if(isSet($school)){
+				$className = $school->getName();
+			}else{
+				$className = '';
+			}
+			$cut->setClassName($className);
             $cut->setRank($reagent->getRank());
             $this->add($cut);
         }
