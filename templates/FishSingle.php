@@ -47,25 +47,25 @@ Class FishSingle extends \Duelist101\Stamp
     {
 
         $cut = $this->getFish();
-        $cut->setName($fish->name);
-        $cut->setImage(\Duelist101\BASE_URL . 'images/w101_fish/' . $fish->image);
-        $cut->setRank($fish->rank);
-        $cut->setDescription($fish->description);
-        $cut->setInitialXp($fish->initialXp);
-        $cut->setRarityName($fish->rarity->name);
-        $cut->setClassName($fish->class->name);
-        $aquariums = $fish->sharedHousingitemList;
+        $cut->setName( $fish->getName() );
+        $cut->setImage(\Duelist101\BASE_URL . 'images/w101_fish/' . $fish->getImage() );
+        $cut->setRank( $fish->getRank() );
+        $cut->setDescription( $fish->getDescription() );
+        $cut->setInitialXp( $fish->getInitialXP() );
+		$rarity = $fish->getRarity();
+        $cut->setRarityName( $rarity->getName() );
+		$class = $fish->getClassname();
+        $cut->setClassName( $class->getName() );
+        $aquariums = $fish->getFishhousingitems();
         if ( $aquariums == NULL ) {
             $cutAquarium = $this->get('fish.noAquariums');
             $cut->add($cutAquarium);
         } else {
-            usort( $aquariums, function($a, $b) {
-                return strcmp($a->name, $b->name);
-            } );
             foreach ($aquariums as $aquarium) {
                 $cutAquarium = $this->get('fish.aquarium');
-                $cutAquarium->setAquariumUrl(\Duelist101\BASE_URL . 'housingitems/' . urlencode($aquarium->name));
-                $cutAquarium->setAquariumName($aquarium->name);
+				$housingitem = $aquarium->getHousingitem();
+                $cutAquarium->setAquariumUrl(\Duelist101\BASE_URL . 'housingitems/' . urlencode( $housingitem->getName() ));
+                $cutAquarium->setAquariumName( $housingitem->getName() );
                 $cut->add($cutAquarium);
             }
         }
@@ -76,12 +76,9 @@ Class FishSingle extends \Duelist101\Stamp
         $cut->setHtmlId( 'areas' );
         $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
         $cut->setAddUrl( \Duelist101\BASE_URL . 'areafish' );
-        $cut->setFishId( $fish->id );
+        $cut->setFishId( $fish->getId() );
 
-        $areafishList = $fish->ownAreafishList;
-        usort( $areafishList, function($a, $b) {
-            return strcmp($a->area->name, $b->area->name);
-        } );
+        $areafishList = $fish->getAreafishes();
         if ( empty($areafishList) ) {
             // TODO: this probably should be a stamp wrapped in a <p>
             $cut->setDefaultText('None.');
@@ -89,12 +86,13 @@ Class FishSingle extends \Duelist101\Stamp
             foreach ($areafishList as $areafish) {
                 $cutSource = $this->get('sourceList.source');
                 $cutSource->setHtmlId( 'areas' );
-                $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $areafish->area->name ) );
-                $cutSource->setName( $areafish->area->name );
-                $cutSource->setVotesUp($areafish->votesUp);
-                $cutSource->setVotesDown($areafish->votesDown);
-                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode($areafish->id) . '/vote-up' );
-                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode($areafish->id) . '/vote-down' );
+				$afArea = $areafish->getArea();
+                $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $afArea->getName() ) );
+                $cutSource->setName( $afArea->getName() );
+                $cutSource->setVotesUp( $areafish->getVotesUp() );
+                $cutSource->setVotesDown( $areafish->getVotesDown() );
+                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-up' );
+                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-down' );
                 $cut->add($cutSource);
             }
         }

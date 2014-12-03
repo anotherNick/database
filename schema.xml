@@ -119,7 +119,7 @@
     <column name="initial_xp" phpName="InitialXp" type="INTEGER"/>
     <column name="rarity_id" phpName="RarityId" type="INTEGER"/>
     <column name="class_id" phpName="ClassId" type="INTEGER"/>
-    <foreign-key foreignTable="class" name="fish_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL">
+    <foreign-key foreignTable="class" name="fish_fk_76d711" onDelete="SET NULL" onUpdate="SET NULL" phpName="Classname">
       <reference local="class_id" foreign="id"/>
     </foreign-key>
     <foreign-key foreignTable="rarity" name="fish_fk_3c96bc" onDelete="SET NULL" onUpdate="SET NULL">

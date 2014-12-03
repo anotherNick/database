@@ -7,7 +7,7 @@ class Fish
 {
     public static function listHtml( $app )
     {
-        $fishList = R::find( 'fish' );
+		$fishList = \W101\FishQuery::create()->find();
 
         $stamp = new View\FishList();
         $stamp->parse( $fishList );
@@ -25,9 +25,11 @@ class Fish
 
     public static function singleHtml( $name, $app )
     {
-        $fish = R::findOne( 'fish', ' name = ? ', array( urldecode( $name ) ) );
+		$fish = \W101\FishQuery::create()
+			->filterByName( urldecode( $name ) )
+			->findOne();
         
-        // Redbean returns null for no fish. Eventually do something smarter here.
+        // Propel returns null for no fish. Eventually do something smarter here.
         if( $fish === null ){ $app->notfound(); }
         
         $stamp = new View\FishSingle();
@@ -36,7 +38,7 @@ class Fish
 
         $stamp = new View\DisqusFooter();
         $stamp->parse(
-            'Wizard101 ' . $fish->name . ' Info', 
+            'Wizard101 ' . $fish->getName() . ' Info', 
             'http://www.duelist101.com' . $_SERVER['REQUEST_URI']
         );
         $app->view->add( $stamp );
@@ -46,11 +48,14 @@ class Fish
 	
     public static function listJson( $app )
     {
-		$sql = 'SELECT id AS id, name AS text FROM fish ORDER BY name;';
-		$rows = R::getAll( $sql );
+		$fish = \W101\FishQuery::create()
+			->select( array( 'id' ) )
+			->withColumn( 'name', 'text' )
+			->find()
+			->toArray();
 		
 		$app->response()->header('Content-Type', 'application/json');
-		echo json_encode($rows);
+		echo json_encode( $fish );
     }
         
 }

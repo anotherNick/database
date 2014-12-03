@@ -88,7 +88,7 @@ Class AreaSingle extends \Duelist101\Stamp
 			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
 
 			// Set Spawn Item
-			// Workaround for Propel Pluralization until I figure out something.
+			// Workaround for Propel Pluralization until I figure something out.
 			if( $spawnTable == 'fish' ){
 				$pSpawn = 'fishes';
 			}else{

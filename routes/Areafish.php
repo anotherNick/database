@@ -10,29 +10,34 @@ class Areafish
         $post = $app->request()->post();
         $output = array();
 
-        $areafishList = R::find( 
-            'areafish', 
-            'area_id = ? and fish_id = ?', 
-            array( $post['area_id'], $post['fish_id'] )
-        );
+		$areafishList = \W101\AreafishQuery::create()
+			->filterByAreaId( $post['area_id'] )
+			->filterByFishId( $post['fish_id'] )
+			->findOne();
         if ( empty($areafishList) ) {
-            $fish = R::load( 'fish', $post['fish_id'] );
-            $area = R::load( 'area', $post['area_id'] );
-            if ( $fish->id != 0 && $area->id != 0 ) {
-                $areafish = R::dispense( 'areafish' );
-                $areafish->area = $area;
-                $areafish->fish = $fish;
-                $areafish->votesUp = 1;
-                $areafish->votesDown = 0;
-                $output['id'] = R::store( $areafish );
+			$fish = \W101\FishQuery::create()
+				->filterById( $post['fish_id'] )
+				->findOne();
+			$area = \W101\AreaQuery::create()
+				->filterById( $post['area_id'] )
+				->findOne();
+            if ( $fish->getId() != 0 && $area->getId() != 0 ) {
+				$areafish = new \W101\Areafish();
+				$areafish->setFish( $fish );
+				$areafish->setArea( $area );
+				$areafish->setVotesUp( 1 );
+				$areafish->setVotesDown( 0 );
+				$areafish->save();
+
+                $output['id'] = $areafish->getId();
                 
-                $output['url'] = \Duelist101\BASE_URL . 'areafish/' . urlencode($areafish->id);
-                $output['areaName'] = $area->name;
-                $output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode($area->name);
-                $output['fishName'] = $fish->name;
-                $output['fishUrl'] = \Duelist101\BASE_URL . 'fish/' . urlencode($fish->name);
-                $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areafish/' . urlencode($areafish->id) . '/vote-up';
-                $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areafish/' . urlencode($areafish->id) . '/vote-down';
+                $output['url'] = \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() );
+                $output['areaName'] = $area->getName();
+                $output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() );
+                $output['fishName'] = $fish->getName();
+                $output['fishUrl'] = \Duelist101\BASE_URL . 'fish/' . urlencode( $fish->getName() );
+                $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-up';
+                $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-down';
                 
                 $app->response()->header('Content-Type', 'application/json');
                 echo json_encode( $output );
@@ -48,20 +53,25 @@ class Areafish
     {
         $post = $app->request()->post();
         $output = array();
-
-        $areafish = R::load( 'areafish', $id);
-        if ( $areafish->id != 0 ) {
+        $areafish = \W101\AreafishQuery::create()
+			->filterById( $id )
+			->findOne();
+        if ( $areafish->getId() != 0 ) {
             $output['id'] = $id;
             switch ( $type ) {
                 case 'up':
-                    $output['votesUp'] = ++$areafish->votesUp;
+					$votes = ++$areafish->getVotesUp();
+                    $areafish->setVotesUp( $votes );
+					$output['votesUp'] = $votes();
                     break;
                 case 'down':
-                    $output['votesDown'] = ++$areafish->votesDown;
+                    $votes = ++$areafish->getVotesDown();
+                    $areafish->setVotesDown( $votes );
+					$output['votesDown'] = $votes;
                     break;
             }
             // TODO: add logging logic here
-            R::store( $areafish );
+            $areafish->save()
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );
