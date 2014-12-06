@@ -6,19 +6,7 @@ use R as R;
 require 'config.php';
 require AUTOLOAD_FILE;
 require WPLOAD_DIR . 'wp-load.php';
-
-use Propel\Runtime\Propel;
-use Propel\Runtime\Connection\ConnectionManagerSingle;
-$serviceContainer = Propel::getServiceContainer();
-$serviceContainer->setAdapterClass('W101', 'sqlite');
-$manager = new ConnectionManagerSingle();
-$manager->setConfiguration(array (
-  'dsn'      => DB_DSN,
-  'user'     => DB_USERNAME,
-  'password' => DB_PASSWORD,
-));
-$serviceContainer->setConnectionManager('W101', $manager);
-$serviceContainer->setDefaultDatasource('W101');
+require \Duelist101\APP_DIR . 'generated-conf/config.php';
 
 $app = new \Slim\Slim(array(
     'view' => new WordpressView(),

@@ -3,8 +3,8 @@ propel:
       connections:
           W101:
               adapter: sqlite
-              classname: Propel\Runtime\Connection\ConnectionWrapper
-              dsn: "sqlite:data/w101-db-dev.sqlite"
+              classname: Propel\Runtime\Connection\DebugPDO
+              dsn: "sqlite:C:\\xampp/apps/database/data/w101-db-dev.sqlite"
               user: 
               password: 
               attributes:
@@ -12,6 +12,16 @@ propel:
       defaultConnection: W101
       connections:
           - W101
+      log:
+          defaultLogger:
+              type: stream
+              path: logs/propel.log
+              level: 300
+          W101:
+              type: stream
+              path: logs/propel_w101.log
+              level: 300
+
   generator:
       defaultConnection: W101
       connections:

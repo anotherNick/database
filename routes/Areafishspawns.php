@@ -10,69 +10,60 @@ class Areafishspawns
         $post = $app->request()->post();
         $output = array();
 
-        $areafishspawns = R::find( 
-            'areafishspawn', 
-            'area_id = ? and fish_id = ? and x_loc = ? and y_loc = ?', 
-            array( $post['area-spawn-area-id'], 
-			  $post['area-spawn-type-id'],
-			  $post['area-spawn-x'],
-			  $post['area-spawn-y'] )
-        );
+        $areafishspawns = \W101\AreafishspawnQuery::create()
+			->filterByAreaId( $post['area-spawn-area-id'] )
+			->filterByFishId( $post['area-spawn-type-id'] )
+			->filterByXLoc( $post['area-spawn-x'] )
+			->filterByYLoc( $post['area-spawn-y'] )
+			->findOne();
         if ( empty($areafishspawns) ) {
-            $fish = R::load( 'fish', $post['area-spawn-type-id'] );
-            $area = R::load( 'area', $post['area-spawn-area-id'] );
+			$fish = \W101\FishQuery::create()
+				->filterById( $post['area-spawn-type-id'] )
+				->findOne();
+			$area = \W101\AreaQuery::create()
+				->filterById( $post['area-spawn-area-id'] )
+				->findOne();
 			
 			// Create areafish relationship if none exists
-			$areafish = R::findOne( 
-				'areafish', 
-				'area_id = ? and fish_id = ?', 
-				array( $post['area-spawn-area-id'], $post['area-spawn-type-id'] )
-			);
-			if ( empty($areafish) ) {
-				if ( $fish->id != 0 && $area->id != 0 ) {
-					$areafish = R::dispense( 'areafish' );
-					$areafish->area = $area;
-					$areafish->fish = $fish;
-					$areafish->votesUp = 1;
-					$areafish->votesDown = 0;
-					$output['areafishId'] = R::store( $areafish );
-				} else {
-					$app->response()->status(409);
-					echo "can't find area or fish";
-				}
-			} else {
-				$output['areafishId'] = $areafish->id;
+			$areafish = \W101\AreafishQuery::create()
+				->filterByFish( $fish )
+				->filterByArea( $area )
+				->findOneOrCreate();
+
+			// If we just created this, set the default vote values.
+			if ( $areafish->getVotesUp === null ) {
+				$areafish->setVotesUp( 1 );
+				$areafish->setVotesDown( 0 );
+				$areafish->save();
 			}
 			
+			$output['areafishId'] = $areafish->getId();
+			
 			// Create areafishspawn
-            if ( $fish->id != 0 && $area->id != 0 ) {
-                $areafishspawn = R::dispense( 'areafishspawn' );
-                $areafishspawn->area = $area;
-                $areafishspawn->fish = $fish;
-				$areafishspawn->areafish = $areafish;
-				$areafishspawn->x_loc = $post['area-spawn-x'];
-				$areafishspawn->y_loc = $post['area-spawn-y'];
-                $areafishspawn->votesUp = 1;
-                $areafishspawn->votesDown = 0;
-                $output['id'] = R::store( $areafishspawn );
-                
-                $output['url'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode($areafishspawn->id);
-                $output['areaName'] = $area->name;
-                $output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode($area->name);
-                $output['fishName'] = $fish->name;
-                $output['fishUrl'] = \Duelist101\BASE_URL . 'fishs/' . urlencode($fish->name);
-				$output['areaSpawnX'] = $areafishspawn->x_loc;
-				$output['areaSpawnY'] = $areafishspawn->y_loc;
-                $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode($areafishspawn->id) . '/vote-up';
-                $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode($areafishspawn->id) . '/vote-down';
-                
-                $app->response()->header('Content-Type', 'application/json');
-                echo json_encode( $output );
-            } else {
-				$app->response()->status(409);
-                echo "can't find area or fish";
-            }
-        } else {
+			$areafishspawn = new \W101\Areafishspawn();
+			$areafishspawn->setArea( $area );
+			$areafishspawn->setFish( $fish );
+			$areafishspawn->setAreafish( $areafish );
+			$areafishspawn->setXLoc( $post['area-spawn-x'] );
+			$areafishspawn->setYLoc( $post['area-spawn-y'] );
+			$areafishspawn->setVotesUp( 1 );
+			$areafishspawn->setVotesDown( 0 );
+			$areafishspawn->save();
+			
+			$output['id'] = $areafishspawn->getId();
+			$output['url'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode( $areafishspawn->getId() );
+			$output['areaName'] = $area->getName();
+			$output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() );
+			$output['fishName'] = $fish->getName();
+			$output['fishUrl'] = \Duelist101\BASE_URL . 'fishs/' . urlencode( $fish->getName() );
+			$output['areaSpawnX'] = $areafishspawn->getXLoc();
+			$output['areaSpawnY'] = $areafishspawn->getYLoc();
+			$output['voteUpUrl'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode( $areafishspawn->getId() ) . '/vote-up';
+			$output['voteDownUrl'] = \Duelist101\BASE_URL . 'areafishspawns/' . urlencode( $areafishspawn->getId() ) . '/vote-down';
+			
+			$app->response()->header('Content-Type', 'application/json');
+			echo json_encode( $output );
+		} else {
 			$app->response()->status(409);
             echo "already in database";
         }
@@ -83,19 +74,25 @@ class Areafishspawns
         $post = $app->request()->post();
         $output = array();
 
-        $areafishspawn = R::load( 'areafishspawn', $id);
-        if ( $areafishspawn->id != 0 ) {
+		$areafishspawn = \W101\AreafishspawnQuery::create()
+			->filterById( $id )
+			->findOne();
+        if ( $areafishspawn->getId() != 0 ) {
             $output['id'] = $id;
             switch ( $type ) {
                 case 'up':
-                    $output['votesUp'] = ++$areafishspawn->votesUp;
+					$votes = 1 + $areafishspawn->getVotesUp();
+                    $areafishspawn->setVotesUp( $votes );
+					$output['votesUp'] = $votes;
                     break;
                 case 'down':
-                    $output['votesDown'] = ++$areafishspawn->votesDown;
+					$votes = 1 + $areafishspawn->getVotesDown();
+                    $areafishspawn->setVotesDown( $votes );
+					$output['votesDown'] = $votes;
                     break;
             }
             // TODO: add logging logic here
-            R::store( $areafishspawn );
+            $areafishspawn->save();
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );

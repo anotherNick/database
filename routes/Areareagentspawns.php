@@ -10,69 +10,60 @@ class Areareagentspawns
         $post = $app->request()->post();
         $output = array();
 
-        $areareagentspawns = R::find( 
-            'areareagentspawn', 
-            'area_id = ? and reagent_id = ? and x_loc = ? and y_loc = ?', 
-            array( $post['area-spawn-area-id'], 
-			  $post['area-spawn-type-id'],
-			  $post['area-spawn-x'],
-			  $post['area-spawn-y'] )
-        );
+        $areareagentspawns = \W101\AreareagentspawnQuery::create()
+			->filterByAreaId( $post['area-spawn-area-id'] )
+			->filterByReagentId( $post['area-spawn-type-id'] )
+			->filterByXLoc( $post['area-spawn-x'] )
+			->filterByYLoc( $post['area-spawn-y'] )
+			->findOne();
         if ( empty($areareagentspawns) ) {
-            $reagent = R::load( 'reagent', $post['area-spawn-type-id'] );
-            $area = R::load( 'area', $post['area-spawn-area-id'] );
+			$reagent = \W101\ReagentQuery::create()
+				->filterById( $post['area-spawn-type-id'] )
+				->findOne();
+			$area = \W101\AreaQuery::create()
+				->filterById( $post['area-spawn-area-id'] )
+				->findOne();
 			
-			// Create Areareagent relationship if none exists
-			$areareagent = R::findOne( 
-				'areareagent', 
-				'area_id = ? and reagent_id = ?', 
-				array( $post['area-spawn-area-id'], $post['area-spawn-type-id'] )
-			);
-			if ( empty($areareagent) ) {
-				if ( $reagent->id != 0 && $area->id != 0 ) {
-					$areareagent = R::dispense( 'areareagent' );
-					$areareagent->area = $area;
-					$areareagent->reagent = $reagent;
-					$areareagent->votesUp = 1;
-					$areareagent->votesDown = 0;
-					$output['areaReagentId'] = R::store( $areareagent );
-				} else {
-					$app->response()->status(409);
-					echo "can't find area or reagent";
-				}
-			} else {
-				$output['areaReagentId'] = $areareagent->id;
+			// Create areareagent relationship if none exists
+			$areareagent = \W101\AreareagentQuery::create()
+				->filterByReagent( $reagent )
+				->filterByArea( $area )
+				->findOneOrCreate();
+
+			// If we just created this, set the default vote values.
+			if ( $areareagent->getVotesUp === null ) {
+				$areareagent->setVotesUp( 1 );
+				$areareagent->setVotesDown( 0 );
+				$areareagent->save();
 			}
 			
-			// Create Areareagentspawn
-            if ( $reagent->id != 0 && $area->id != 0 ) {
-                $areareagentspawn = R::dispense( 'areareagentspawn' );
-                $areareagentspawn->area = $area;
-                $areareagentspawn->reagent = $reagent;
-				$areareagentspawn->areareagent = $areareagent;
-				$areareagentspawn->x_loc = $post['area-spawn-x'];
-				$areareagentspawn->y_loc = $post['area-spawn-y'];
-                $areareagentspawn->votesUp = 1;
-                $areareagentspawn->votesDown = 0;
-                $output['id'] = R::store( $areareagentspawn );
-                
-                $output['url'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode($areareagentspawn->id);
-                $output['areaName'] = $area->name;
-                $output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode($area->name);
-                $output['reagentName'] = $reagent->name;
-                $output['reagentUrl'] = \Duelist101\BASE_URL . 'reagents/' . urlencode($reagent->name);
-				$output['areaSpawnX'] = $areareagentspawn->x_loc;
-				$output['areaSpawnY'] = $areareagentspawn->y_loc;
-                $output['voteUpUrl'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode($areareagentspawn->id) . '/vote-up';
-                $output['voteDownUrl'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode($areareagentspawn->id) . '/vote-down';
-                
-                $app->response()->header('Content-Type', 'application/json');
-                echo json_encode( $output );
-            } else {
-				$app->response()->status(409);
-                echo "can't find area or reagent";
-            }
-        } else {
+			$output['areareagentId'] = $areareagent->getId();
+			
+			// Create areareagentspawn
+			$areareagentspawn = new \W101\AreareagentSpawn();
+			$areareagentspawn->setArea( $area );
+			$areareagentspawn->setReagent( $reagent );
+			$areareagentspawn->setAreareagent( $areareagent );
+			$areareagentspawn->setXLoc( $post['area-spawn-x'] );
+			$areareagentspawn->setYLoc( $post['area-spawn-y'] );
+			$areareagentspawn->setVotesUp( 1 );
+			$areareagentspawn->setVotesDown( 0 );
+			$areareagentspawn->save();
+			
+			$output['id'] = $areareagentspawn->getId();
+			$output['url'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode( $areareagentspawn->getId() );
+			$output['areaName'] = $area->getName();
+			$output['areaUrl'] = \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() );
+			$output['reagentName'] = $reagent->getName();
+			$output['reagentUrl'] = \Duelist101\BASE_URL . 'reagentss/' . urlencode( $reagent->getName() );
+			$output['areaSpawnX'] = $areareagentspawn->getXLoc();
+			$output['areaSpawnY'] = $areareagentspawn->getYLoc();
+			$output['voteUpUrl'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode( $areareagentspawn->getId() ) . '/vote-up';
+			$output['voteDownUrl'] = \Duelist101\BASE_URL . 'areareagentspawns/' . urlencode( $areareagentspawn->getId() ) . '/vote-down';
+			
+			$app->response()->header('Content-Type', 'application/json');
+			echo json_encode( $output );
+		} else {
 			$app->response()->status(409);
             echo "already in database";
         }
@@ -83,19 +74,25 @@ class Areareagentspawns
         $post = $app->request()->post();
         $output = array();
 
-        $areareagentspawn = R::load( 'areareagentspawn', $id);
-        if ( $areareagentspawn->id != 0 ) {
+		$areareagentspawn = \W101\AreareagentspawnQuery::create()
+			->filterById( $id )
+			->findOne();
+        if ( $areareagentspawn->getId() != 0 ) {
             $output['id'] = $id;
             switch ( $type ) {
                 case 'up':
-                    $output['votesUp'] = ++$areareagentspawn->votesUp;
+					$votes = 1 + $areareagentspawn->getVotesUp();
+                    $areareagentspawn->setVotesUp( $votes );
+					$output['votesUp'] = $votes;
                     break;
                 case 'down':
-                    $output['votesDown'] = ++$areareagentspawn->votesDown;
+					$votes = 1 + $areareagentspawn->getVotesDown();
+                    $areareagentspawn->setVotesDown( $votes );
+					$output['votesDown'] = $votes;
                     break;
             }
             // TODO: add logging logic here
-            R::store( $areareagentspawn );
+            $areareagentspawn->save();
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );

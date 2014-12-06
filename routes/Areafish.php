@@ -60,18 +60,18 @@ class Areafish
             $output['id'] = $id;
             switch ( $type ) {
                 case 'up':
-					$votes = ++$areafish->getVotesUp();
+					$votes = 1 + $areafish->getVotesUp();
                     $areafish->setVotesUp( $votes );
-					$output['votesUp'] = $votes();
+					$output['votesUp'] = $votes;
                     break;
                 case 'down':
-                    $votes = ++$areafish->getVotesDown();
+                    $votes = 1 + $areafish->getVotesDown();
                     $areafish->setVotesDown( $votes );
 					$output['votesDown'] = $votes;
                     break;
             }
             // TODO: add logging logic here
-            $areafish->save()
+            $areafish->save();
             
             $app->response()->header('Content-Type', 'application/json');
             echo json_encode( $output );
