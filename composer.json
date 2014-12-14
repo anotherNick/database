@@ -18,7 +18,15 @@
                 "url": "http://gabordemooij.com/se/ste2_2_1.tar.gz",
                 "type": "tar"
             }
-        }
+        },
+		"package": {
+			"name": "phantomjs",
+			"version": "1.9.7",
+			"dist": {
+				"url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-windows.zip",
+				"type": "zip"
+			}
+		}
     } ],
   
     "require": {
@@ -45,7 +53,8 @@
     "require-dev": {
         "phpunit/phpunit": "4.1.*",
         "codeception/codeception": "*",
-		"monolog/monolog": "*"
+		"monolog/monolog": "*",
+		"phantomjs": "1.9.*"
     },
 
     "autoload-dev": {

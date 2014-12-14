@@ -9,3 +9,4 @@ generated-conf/
 generated-classes/W101/Map/
 generated-classes/W101/Base
 public_html/logs/
+tests/_output/*
