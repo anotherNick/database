@@ -4,8 +4,54 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "62780621202317dbb430ae06ff3bffba",
+    "hash": "a0d57d029ed165a01ac0118fb96348ea",
     "packages": [
+        {
+            "name": "gabordemooij/stamp",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gabordemooij/stamp.git",
+                "reference": "f0f5593f8ef0a3aae3542b1b35a74713c7194a17"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gabordemooij/stamp/zipball/f0f5593f8ef0a3aae3542b1b35a74713c7194a17",
+                "reference": "f0f5593f8ef0a3aae3542b1b35a74713c7194a17",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "StampTE.php"
+                ]
+            },
+            "license": [
+                "BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Gabor de Mooij",
+                    "email": "gabordemooij@gmail.com",
+                    "homepage": "http://www.stampte.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Clean and powerful template engine for PHP, transforms HTML into object tree for PHP usage without touching design.",
+            "homepage": "http://github.com/gabordemooij/stamp",
+            "keywords": [
+                "Template Engine",
+                "template"
+            ],
+            "support": {
+                "source": "https://github.com/gabordemooij/stamp/tree/master",
+                "issues": "https://github.com/gabordemooij/stamp/issues"
+            },
+            "time": "2014-07-23 19:28:57"
+        },
         {
             "name": "propel/propel",
             "version": "dev-master",
@@ -812,6 +858,47 @@
             "time": "2014-10-12 19:18:40"
         },
         {
+            "name": "jakoch/phantomjs-installer",
+            "version": "1.9.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakoch/phantomjs-installer.git",
+                "reference": "fd6459094404f698a4edb9609e5e8c55c6418824"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakoch/phantomjs-installer/zipball/fd6459094404f698a4edb9609e5e8c55c6418824",
+                "reference": "fd6459094404f698a4edb9609e5e8c55c6418824",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*"
+            },
+            "type": "custom-installer",
+            "autoload": {
+                "psr-0": {
+                    "PhantomInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens-André Koch",
+                    "email": "jakoch@web.de"
+                }
+            ],
+            "description": "A Composer package which installs the PhantomJS binary (Linux, Windows, Mac) into `/bin` of your project.",
+            "keywords": [
+                "binaries",
+                "headless",
+                "phantomjs"
+            ],
+            "time": "2014-12-05 17:57:27"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.11.0",
             "source": {
@@ -882,17 +969,6 @@
                 "psr-3"
             ],
             "time": "2014-09-30 13:30:58"
-        },
-        {
-            "name": "phantomjs",
-            "version": "1.9.7",
-            "dist": {
-                "type": "zip",
-                "url": "https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-windows.zip",
-                "reference": null,
-                "shasum": null
-            },
-            "type": "library"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1803,7 +1879,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "propel/propel": 20
+        "propel/propel": 20,
+        "gabordemooij/stamp": 20
     },
     "prefer-stable": false,
     "platform": [],
