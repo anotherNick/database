@@ -194,6 +194,9 @@
     <index name="index_foreignkey_reagent_class">
       <index-column name="class_id"/>
     </index>
+	  <behavior name="validate">
+		  <parameter name="rule1" value="{column: name, validator: WizNames}" />
+	  </behavior>
   </table>
   <table name="world" idMethod="native" phpName="World">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>

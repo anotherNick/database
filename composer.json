@@ -21,7 +21,8 @@
             "Duelist101\\": "lib/",
             "Duelist101\\Db\\View\\": "templates/",
             "Duelist101\\Db\\Route\\": "routes/",
-            "Duelist101\\Db\\Model\\": "models/"
+            "Duelist101\\Db\\Model\\": "models/",
+			"Propel\\Runtime\\Validator\\Constraints\\": "validation/"
         }
     },
 	  
