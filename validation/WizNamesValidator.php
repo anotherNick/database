@@ -13,6 +13,9 @@
          if ('propelorm.org' === strstr($value, 'propelorm.org')) {
              return false;
          } else {
+            $this->buildViolation($constraint->message)
+                ->setParameter('{{ value }}', $this->formatValue($value))
+                ->addViolation();
              return true;
          }
      }
