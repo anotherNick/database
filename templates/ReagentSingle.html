@@ -12,10 +12,10 @@
 				 alt="#name# Image" class="aligncenter" />
 		</div>
 		<div class="two_third last">
-		  <p><strong style="color:#FC0;">Name</strong>: #name#</p>
-		  <p><strong style="color:#FC0;">Class</strong>: #className#</p>
-		  <p><strong style="color:#FC0;">Rank</strong>: #rank#</p>
-		  <p><strong style="color:#FC0;">Description</strong>: #description#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Name</strong>: #name#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Class</strong>: #className#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Rank</strong>: #rank#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Description</strong>: #description#</p>
 		</div>
 	</blockquote>
 	<h2 style=" color:#F90; text-align: center;">Sources of #name# Reagent</h2>
@@ -38,29 +38,20 @@
 		<!-- cut:message -->
 					<p>#message#</p>
 		<!-- /cut:message -->
-					<ul id="#htmlId#-ul">
+					<ul id="#htmlId#-ul" style="margin-bottom: 30px;">
 		<!-- source also used in Javascript -->
 		<!-- cut:source -->
-						<li style="text-align:center;">
+						<li>
                             <a class="name" href="#url#">#name#</a>
-                            <span> ( #votesUp# </span>
-                            <a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
-                            <span> | #votesDown# </span>
-                            <a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
-                            )
 						</li>
 		<!-- /cut:source -->
-						<li id="#htmlId#-add-li-template" style="text-align:center; display:none">
-                            <a class="name" href="javascriptRequired.html">JS</a>
-                            <span> ( 1 </span>
-                            <a class="#htmlId#-vote-up" data-url="" href="javascriptRequired.html">△</a>
-                            <span> | 0 </span>
-                            <a class="#htmlId#-vote-down" data-url="" href="javascriptRequired.html">▽</a>
-                            )
-						</li>
+						<li id="#htmlId#-add-li-template" style="display:none"></li>
 					</ul>
-					<div id="#htmlId#-add-div-link">
-						<p><a id="#htmlId#-add-link" data-url="#listUrl#" href="javascriptRequired.html">Add</a></p>
+        <!-- cut:addLink -->
+                    <div id="#htmlId#-add-div-link">
+						<p style="float: right;">
+                            <a id="#htmlId#-add-link" data-url="#listUrl#" href="javascriptRequired.html">Add</a>
+                        </p>
 					</div>
 					<div id="#htmlId#-add-div-form" style="display: none;">
 						<form id="#htmlId#-add-form" data-url="#addUrl#">
@@ -75,7 +66,8 @@
 							</p>
 						</form>
 					</div>
-				</div>
+        <!-- /cut:addLink -->
+                </div>
 	<!-- /cut:sourceList -->
 			</div>
 		</div>

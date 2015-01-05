@@ -64,9 +64,6 @@ Class ReagentSingle extends \Duelist101\Stamp
         // Areas
         $cut = $this->getSourceList();
         $cut->setHtmlId( 'areas' );
-        $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
-        $cut->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
-        $cut->setReagentId( $reagent->getId() );
         
         $areareagents = $reagent->getAreareagents();
 
@@ -80,12 +77,17 @@ Class ReagentSingle extends \Duelist101\Stamp
                 $cutSource->setHtmlId( 'areas' );
                 $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $area->getName() ) );
                 $cutSource->setName( $area->getName() );
-                $cutSource->setVotesUp( $areareagent->getVotesUp() );
-                $cutSource->setVotesDown( $areareagent->getVotesDown() );
-                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode( $areareagent->getId() ) . '/vote-up' );
-                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areareagents/' . urlencode( $areareagent->getId() ) . '/vote-down' );
                 $cut->add( $cutSource );
             }
+        }
+
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'areas' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
+            $cutAddLink->setReagentId( $reagent->getId() );
+            $cut->add($cutAddLink);
         }
         $this->add( $cut );
 
@@ -96,6 +98,15 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage = $this->get( 'sourceList.message' );
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
+
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'creatures' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
+            $cutAddLink->setReagentId( $reagent->getId() );
+            $cut->add($cutAddLink);
+        }
         $this->add( $cut );
 
         // Crown Shop
@@ -105,6 +116,15 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage = $this->get( 'sourceList.message' );
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
+
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'creatures' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
+            $cutAddLink->setReagentId( $reagent->getId() );
+            $cut->add($cutAddLink);
+        }
         $this->add( $cut );
 
         // Plants
@@ -114,6 +134,15 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage = $this->get( 'sourceList.message' );
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
+
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'plants' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
+            $cutAddLink->setReagentId( $reagent->getId() );
+            $cut->add($cutAddLink);
+        }
         $this->add( $cut );
 
         // Vendors
@@ -123,6 +152,15 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage = $this->get( 'sourceList.message' );
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
+
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'vendors' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areareagents' );
+            $cutAddLink->setReagentId( $reagent->getId() );
+            $cut->add($cutAddLink);
+        }
         $this->add( $cut );
         
     }

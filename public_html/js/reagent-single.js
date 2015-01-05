@@ -59,32 +59,4 @@ jQuery(document).ready( function($) {
         });
     } );
 
-    $(document).on('click', '.areas-vote-down', function() {
-        var caller = $(this);
-        
-        $.ajax( {
-            url: $(this).data('url'),
-            type: 'post',
-            dataType: 'json',
-        })
-        .done( function(data) {
-            caller.prev().text(' | '+data.votesDown+' ');
-        });
-        return false;
-    });
-    
-    $(document).on('click', '.areas-vote-up', function() {
-        var caller = $(this);
-        
-        $.ajax( {
-            url: $(this).data('url'),
-            type: 'post',
-            dataType: 'json',
-        })
-        .done( function(data) {
-            caller.prev().text(' ( '+data.votesUp+' ');
-        });
-        return false;
-    });
-
 } );
