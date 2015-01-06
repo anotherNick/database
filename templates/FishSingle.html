@@ -15,20 +15,24 @@
 		</div>
 		<div class="two_third last">
 		  <p><strong style="color:#FC0;">Name:</strong> #name#</p>
-		  <p><strong style="color:#FC0;">Class:</strong> #className#</p>
-		  <p><strong style="color:#FC0;">Initial XP:</strong> #initialXp#</p>
-		  <p><strong style="color:#FC0;">Rarity:</strong> #rarityName#</p>
-		  <p><strong style="color:#FC0;">Rank:</strong> #rank#</p>
-		  <p><strong style="color:#FC0;">Aquariums:</strong></p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Class:</strong> #className#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Initial XP:</strong> #initialXp#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Rarity:</strong> #rarityName#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Rank:</strong> #rank#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Aquariums:</strong></p>
           <ul>
           <!-- cut:noAquariums -->
             <li style="margin-left: 35px">None</li>
           <!-- /cut:noAquariums -->
           <!-- cut:aquarium -->
-            <li style="margin-left: 35px"><a href="#aquariumUrl#">#aquariumName#</a></li>
+            <li style="margin-left: 35px">
+                <!-- <a href="#aquariumUrl#"> -->
+                    #aquariumName#
+                <!-- </a> -->
+            </li>
           <!-- /cut:aquarium -->
           </ul>
-		  <p><strong style="color:#FC0;">Description</strong>: #description#</p>
+		  <p style="margin-top: 0.5em"><strong style="color:#FC0;">Description</strong>: #description#</p>
 		</div>
 	</blockquote>
 	<h2 style=" color:#F90; text-align: center;">Sources of #name# fish</h2>
@@ -47,29 +51,22 @@
 		<!-- cut:message -->
 					<p>#message#</p>
 		<!-- /cut:message -->
-					<ul id="#htmlId#-ul">
+					<ul id="#htmlId#-ul" style="margin-bottom: 30px;">
 		<!-- source also used in Javascript -->
 		<!-- cut:source -->
-						<li style="text-align:center;">
+						<li>
                             <a class="name" href="#url#">#name#</a>
-                            <span> ( #votesUp# </span>
-                            <a class="#htmlId#-vote-up" data-url="#voteUpUrl#" href="javascriptRequired.html">△</a>
-                            <span> | #votesDown# </span>
-                            <a class="#htmlId#-vote-down" data-url="#voteDownUrl#" href="javascriptRequired.html">▽</a>
-                            )
-						</li>
+                        </li>
 		<!-- /cut:source -->
-						<li id="#htmlId#-add-li-template" style="text-align:center; display:none">
+						<li id="#htmlId#-add-li-template" style="display:none">
                             <a class="name" href="javascriptRequired.html"></a>
-                            <span> ( 1 </span>
-                            <a class="#htmlId#-vote-up" href="javascriptRequired.html">△</a>
-                            <span> | 0 </span>
-                            <a class="#htmlId#-vote-down" href="javascriptRequired.html">▽</a>
-                            )
 						</li>
 					</ul>
+        <!-- cut:addLink -->
 					<div id="#htmlId#-add-div-link">
-						<p><a id="#htmlId#-add-link" data-url="#listUrl#" href="javascriptRequired.html">Add</a></p>
+						<p style="float: right;">
+                            <a id="#htmlId#-add-link" data-url="#listUrl#" href="javascriptRequired.html">Add an area</a>
+                        </p>
 					</div>
 					<div id="#htmlId#-add-div-form" style="display: none;">
 						<form id="#htmlId#-add-form" data-url="#addUrl#">
@@ -84,6 +81,7 @@
 							</p>
 						</form>
 					</div>
+        <!-- /cut:addLink -->
 				</div>
 	<!-- /cut:sourceList -->
 			</div>

@@ -74,9 +74,6 @@ Class FishSingle extends \Duelist101\Stamp
         // Areas
         $cut = $this->getSourceList();
         $cut->setHtmlId( 'areas' );
-        $cut->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
-        $cut->setAddUrl( \Duelist101\BASE_URL . 'areafish' );
-        $cut->setFishId( $fish->getId() );
 
         $areafishList = $fish->getAreafishes();
         if ( empty($areafishList) ) {
@@ -89,12 +86,17 @@ Class FishSingle extends \Duelist101\Stamp
 				$afArea = $areafish->getArea();
                 $cutSource->setUrl( \Duelist101\BASE_URL . 'areas/' . urlencode( $afArea->getName() ) );
                 $cutSource->setName( $afArea->getName() );
-                $cutSource->setVotesUp( $areafish->getVotesUp() );
-                $cutSource->setVotesDown( $areafish->getVotesDown() );
-                $cutSource->setVoteUpUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-up' );
-                $cutSource->setVoteDownUrl( \Duelist101\BASE_URL . 'areafish/' . urlencode( $areafish->getId() ) . '/vote-down' );
                 $cut->add($cutSource);
             }
+        }
+        
+        if ( is_user_logged_in() ) {
+            $cutAddLink = $this->get( 'sourceList.addLink' );
+            $cutAddLink->setHtmlId( 'areas' );
+            $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
+            $cutAddLink->setAddUrl( \Duelist101\BASE_URL . 'areafish' );
+            $cutAddLink->setFishId( $fish->getId() );
+            $cut->add($cutAddLink);
         }
         $this->add( $cut );
         
