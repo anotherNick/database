@@ -31,8 +31,11 @@ class Spawns
 			$app->response()->header('Content-Type', 'application/json');
 			echo json_encode( $output );
 		} else {
-			$app->response()->status(409);
-            echo "already in database";
+			// error
+            $app->response()->status(409);
+            // TODO: need to test this
+            \Propel\Runtime\Propel::log("Tried to add spawn for static::$thing in static::$place but $spawn->getId() already in database", \Monolog\Logger::INFO);
+            // TODO: do we need provide other info in response, maybe a Json of error code and helpful info?
         }
     }
 	

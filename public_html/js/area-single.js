@@ -1,51 +1,51 @@
 function updateSpawnInstructions( step, element ){
 	spawnTable = getSpawnTable( element );
-	jQuery( '.spawn-add-instructions' ).hide();
-	jQuery( '.instruction-step-title' ).hide();
-	
-	switch( step ){
-		case 1:
-			jQuery( '#'+spawnTable+'-circle-container .spawn-circle-wrapper' ).remove();
-			jQuery( '#'+spawnTable+'-spawn-item-select' ).select2("val", null, true);
-			jQuery( '.spawn-select-circle' ).hide();
-			jQuery( '#'+spawnTable+'-spawn-add-form' ).show();
-			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog({ 
-				modal: true, 
-				width: 385,
-				title: 'Add A '+ucfirst( spawnTable )+' Spawn Point!'
-			});
-			jQuery( '#'+spawnTable+'-instruction-step-title-1' ).show( 'bounce' );
-			jQuery( '#'+spawnTable+'-add-step-1' ).show();
-			break;
-		case 2:
-			unDarkenSpawnSelectCircle( spawnTable )
-			jQuery( '#'+spawnTable+'-instruction-step-title-2' ).show( 'bounce' );
-			jQuery( '#'+spawnTable+'-add-step-2' ).show();
-			areaSpawnStartMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
-			break;
-		case 3:
-			darkenSpawnSelectCircle( spawnTable );
-			jQuery( '#'+spawnTable+'-instruction-step-title-3' ).show( 'bounce' );
-			jQuery( '#'+spawnTable+'-add-step-3' ).show();
-			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
-			break;
-		case 3.5:
-			jQuery( '#'+spawnTable+'-add-step-35' ).show();
-			break;
-		case 4:
-			jQuery( '#'+spawnTable+'-instruction-step-title-4' ).show( 'bounce' );
-			jQuery( '#'+spawnTable+'-add-step-4' ).show();
-			break;
-		case 'ajaxError':
-			jQuery( '#'+spawnTable+'-instruction-step-title-error' ).show( 'bounce' );
-			jQuery( '#'+spawnTable+'-add-step-error' ).show();
-			break;
-		default:
-			jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog( 'close' );
-			jQuery( '#'+spawnTable+'-spawn-add-form' ).hide();
-			jQuery( '.spawn-select-circle' ).hide();
-			areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
-	}
+    jQuery( '.spawn-add-instructions' ).hide();
+    jQuery( '.instruction-step-title' ).hide();
+    
+    switch( step ){
+        case 1:
+            jQuery( '#'+spawnTable+'-circle-container .spawn-circle-wrapper' ).remove();
+            jQuery( '#'+spawnTable+'-spawn-item-select' ).select2("val", null, true);
+            jQuery( '.spawn-select-circle' ).hide();
+            jQuery( '#'+spawnTable+'-spawn-add-form' ).show();
+            jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog({ 
+                modal: true, 
+                width: 385,
+                title: 'Add A '+ucfirst( spawnTable )+' Spawn Point!'
+            });
+            jQuery( '#'+spawnTable+'-instruction-step-title-1' ).show( 'bounce' );
+            jQuery( '#'+spawnTable+'-add-step-1' ).show();
+            break;
+        case 2:
+            unDarkenSpawnSelectCircle( spawnTable );
+            jQuery( '#'+spawnTable+'-instruction-step-title-2' ).show( 'bounce' );
+            jQuery( '#'+spawnTable+'-add-step-2' ).show();
+            areaSpawnStartMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+            break;
+        case 3:
+            darkenSpawnSelectCircle( spawnTable );
+            jQuery( '#'+spawnTable+'-instruction-step-title-3' ).show( 'bounce' );
+            jQuery( '#'+spawnTable+'-add-step-3' ).show();
+            areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+            break;
+        case 3.5:
+            jQuery( '#'+spawnTable+'-add-step-35' ).show();
+            break;
+        case 4:
+            jQuery( '#'+spawnTable+'-instruction-step-title-4' ).show( 'bounce' );
+            jQuery( '#'+spawnTable+'-add-step-4' ).show();
+            break;
+        case 'ajaxError':
+            jQuery( '#'+spawnTable+'-instruction-step-title-error' ).show( 'bounce' );
+            jQuery( '#'+spawnTable+'-add-step-error' ).show();
+            break;
+        default:
+            jQuery( '#'+spawnTable+'-spawn-modal-wrapper' ).dialog( 'close' );
+            jQuery( '#'+spawnTable+'-spawn-add-form' ).hide();
+            jQuery( '.spawn-select-circle' ).hide();
+            areaSpawnStopMouse( spawnTable, jQuery( '#'+spawnTable+'-spawn-mouse-capture' ) );
+    }
 }
 
 jQuery(document).ready( function($) {
@@ -109,7 +109,10 @@ jQuery(document).ready( function($) {
 	// Goal - Show Create option, or allow retry.
 	
 	$( '.spawn-add-step-3' ).click( function() {
-		updateSpawnInstructions( 3, this );
+        // Ignore click if nothing selected
+        if ( jQuery( '.select2-chosen' ).text().length > 0 ) {
+            updateSpawnInstructions( 3, this );
+        }
 	} );
 	
 	// STEP 4: 

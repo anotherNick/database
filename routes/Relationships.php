@@ -31,7 +31,10 @@ class Relationships
 			echo json_encode( $output );
 			
         } else {
-            echo "already in database";
+            $app->response()->status(409);
+            // TODO: need to test this
+            \Propel\Runtime\Propel::log("Tried to add relationship for static::$A and static::$B but $relationship->getId() already in database", \Monolog\Logger::INFO);
+            // TODO: do we need provide other info in response, maybe a Json of error code and helpful info?
         }
     }
 	
