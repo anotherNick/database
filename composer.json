@@ -14,7 +14,7 @@
 
     "autoload": {
         "files": [
-            "config.php"
+            "generated-conf/config.php"
         ],
 		"classmap": ["generated-classes/"],
         "psr-4": {
