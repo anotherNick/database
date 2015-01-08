@@ -10,7 +10,7 @@ use \W101;
  * Extend with a more specific class, and set $A, $B to Table Names.
  *
  */
-class AreaRelationships
+class Relationships
 {
 	public static $A;
 	public static $B;
@@ -66,7 +66,7 @@ class AreaRelationships
 			->filterById( $post[ $bId ] )
 			->findOne();
 		
-		if ( $objectA->getId() != 0 && $objectB->getId() != 0 ) {
+		if ( !empty( $objectA ) && !empty( $objectB ) ) {
 			// Objects are valid, create relationship.
 			
 			$aBClass = "\\W101\\" . strtolower( $a ) . $b; // Example: \W101\areaReagent
@@ -103,37 +103,5 @@ class AreaRelationships
 			echo "can't find {$a} or {$b}";
 		}	
 	}
-
-    public static function vote( $type, $id, $app )
-    {
-        $post = $app->request()->post();
-        $output = array();
-        $areareagent = \W101\AreareagentQuery::create()
-			->filterById( $id )
-			->findOne();
-        if ( $areareagent->getId() != 0 ) {
-            $output['id'] = $id;
-            switch ( $type ) {
-                case 'up':
-					$votes = 1 + $areareagent->getVotesUp();
-                    $areareagent->setVotesUp( $votes );
-					$output['votesUp'] = $votes;
-                    break;
-                case 'down':
-                    $votes = 1 + $areareagent->getVotesDown();
-                    $areareagent->setVotesDown( $votes );
-					$output['votesDown'] = $votes;
-                    break;
-            }
-            // TODO: add logging logic here
-            $areareagent->save();
-            
-            $app->response()->header('Content-Type', 'application/json');
-            echo json_encode( $output );
-            
-        } else {
-            echo "can't find areareagent";
-        }
-    }
     
 }
