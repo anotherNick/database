@@ -13,9 +13,6 @@
     },
 
     "autoload": {
-        "files": [
-            "generated-conf/config.php"
-        ],
 		"classmap": ["generated-classes/"],
         "psr-4": {
             "Duelist101\\": "lib/",

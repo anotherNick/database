@@ -1,11 +1,16 @@
 <?php
 namespace Duelist101;
 use Duelist101\Db\Route as Route;
-use R as R;
 
 require 'config.php';
 require AUTOLOAD_FILE;
 require WPLOAD_FILE;
+
+if ( strpos(ALLOWED_TEST_IPS, $_SERVER['REMOTE_ADDR']) !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'PhantomJS') !== FALSE ) {
+    require PROPEL_CONFIG_TEST;
+} else {
+    require PROPEL_CONFIG_PROD;
+}
 
 $app = new \Slim\Slim(array(
     'view' => new WordpressView(),
