@@ -112,7 +112,7 @@ Class AreaSingle extends \Duelist101\Stamp
 				$cut->add($cutSpawnItem);
 			}
 
-            if ( is_user_logged_in() ) {
+            if ( is_user_logged_in() && current_user_can('edit_posts') ) {
                 // if wanted to place user info somewhere
                 // global $current_user;
                 // get_currentuserinfo();

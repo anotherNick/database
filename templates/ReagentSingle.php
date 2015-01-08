@@ -81,7 +81,7 @@ Class ReagentSingle extends \Duelist101\Stamp
             }
         }
 
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             $cutAddLink = $this->get( 'sourceList.addLink' );
             $cutAddLink->setHtmlId( 'areas' );
             $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
@@ -99,7 +99,7 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
 
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             $cutAddLink = $this->get( 'sourceList.addLink' );
             $cutAddLink->setHtmlId( 'creatures' );
             $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
@@ -117,7 +117,7 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
 
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             $cutAddLink = $this->get( 'sourceList.addLink' );
             $cutAddLink->setHtmlId( 'creatures' );
             $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
@@ -135,7 +135,7 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
 
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             $cutAddLink = $this->get( 'sourceList.addLink' );
             $cutAddLink->setHtmlId( 'plants' );
             $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
@@ -153,7 +153,7 @@ Class ReagentSingle extends \Duelist101\Stamp
             $cutMessage->setMessage( 'To come.  Muhahahaha!' );
             $cut->add( $cutMessage );
 
-        if ( is_user_logged_in() ) {
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             $cutAddLink = $this->get( 'sourceList.addLink' );
             $cutAddLink->setHtmlId( 'vendors' );
             $cutAddLink->setListUrl( \Duelist101\BASE_URL . 'areas.json' );
