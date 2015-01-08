@@ -78,14 +78,8 @@ Class AreaSingle extends \Duelist101\Stamp
 			
 			// Create Spawn Add Form
 			$cut = $this->getSpawnContent();
-			$cut->setAreaMapImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->getImage() );
-			$cut->setAreaId( $area->getId() );
 			$cut->setSpawnTable( $spawnTable );
 			$cut->setSpawnDisplayName( $spawnDisplayName );
-			$cut->setSpawnDisplayTable( ucfirst( $spawnTable ) );
-			$cut->setSpawnFormSelectUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '.json' );
-			$cut->setSpawnFormAction( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns' );
-			$cut->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
 
 			// Set Spawn Item
 			// Workaround for Propel Pluralization until I figure something out.
@@ -103,10 +97,6 @@ Class AreaSingle extends \Duelist101\Stamp
 				$cutSpawnItem->setSpawnItem( $thisSpawnItem->getName() );
 				$cutSpawnItem->setHtmlSpawnItem( str_replace( array( ' ', "'", '"', '-' ), '_', $thisSpawnItem->getName() ) );
 				$cutSpawnItem->setSpawnItemUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '/' . urlencode( $thisSpawnItem->getName() ) );
-				$cutSpawnItem->setVotesUp( $spawnItem->getVotesUp() );
-				$cutSpawnItem->setVotesDown( $spawnItem->getVotesDown() );
-				$cutSpawnItem->setSpawnItemVoteUpUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode( $spawnItem->getId() ) . '/vote-up' );
-				$cutSpawnItem->setSpawnItemVoteDownUrl( \Duelist101\BASE_URL . 'area' . strtolower( $spawnDisplayName ) . '/' . urlencode( $spawnItem->getId() ) . '/vote-down' );
 				// Set Spawn Points for this Spawn Type
 				$getSpawnPoints = 'getArea' . $spawnTable . 'spawns';
 				$spawnPoints = $spawnItem->$getSpawnPoints();
@@ -116,16 +106,29 @@ Class AreaSingle extends \Duelist101\Stamp
 					$cutSpawnPoint->setSpawnPointID( $spawnPoint->getId() );
 					$cutSpawnPoint->setSpawnPointX( $spawnPoint->getXLoc() );
 					$cutSpawnPoint->setSpawnPointY( $spawnPoint->getYLoc() );
-					$cutSpawnPoint->setVotesUp( $spawnPoint->getVotesUp() );
-					$cutSpawnPoint->setVotesDown( $spawnPoint->getVotesDown() );
-					$cutSpawnPoint->setSpawnPointVoteUpUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode( $spawnPoint->getId() ) . '/vote-up' );
-					$cutSpawnPoint->setSpawnPointVoteDownUrl( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns/' . urlencode( $spawnPoint->getId() ) . '/vote-down' );
 					$cutSpawnItem->add($cutSpawnPoint);
 				}
 				
 				$cut->add($cutSpawnItem);
 			}
-			
+
+            if ( is_user_logged_in() ) {
+                // if wanted to place user info somewhere
+                // global $current_user;
+                // get_currentuserinfo();
+                //  echo 'Hello ' . $current_user->user_login;
+                $cutAddSpawnLink = $this->get( 'spawnContent.addSpawnLink' );
+                $cutAddSpawnLink->setSpawnTable( $spawnTable );
+                $cutAddSpawnLink->setAreaId( $area->getId() );
+                $cutAddSpawnLink->setAreaMapImage( \Duelist101\BASE_URL . 'images/w101_world_maps/' . $area->getImage() );
+                $cutAddSpawnLink->setSpawnDisplayName( $spawnDisplayName );
+                $cutAddSpawnLink->setSpawnFormSelectUrl( \Duelist101\BASE_URL . strtolower( $spawnDisplayName ) . '.json' );
+                $cutAddSpawnLink->setSpawnDisplayName( $spawnDisplayName );
+                $cutAddSpawnLink->setSpawnFormAction( \Duelist101\BASE_URL . 'area' . $spawnTable . 'spawns' );
+                $cutAddSpawnLink->setSpawnAddLoadingImage( \Duelist101\BASE_URL . 'css/kevin-hop-loading-3.gif');
+                $cutAddSpawnLink->setSpawnDisplayTable( ucfirst( $spawnTable ) );
+                $cut->add($cutAddSpawnLink);
+            }
 			$this->add($cut);
 		}
 		

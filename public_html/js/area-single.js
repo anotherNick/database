@@ -346,41 +346,8 @@ jQuery(document).ready( function($) {
 		setSpawnColor( spawnLink );
 	} );
 	
-	// Voting
-    $( document ).on('click', '.areas-vote-down', function() {
-        var caller = $( this );
-        
-        $.ajax( {
-            url: $( this ).data('url'),
-            type: 'post',
-            dataType: 'json',
-			error: function( e ){ alert( 'We are sorry. There was an error processing your vote.' ); }
-        })
-        .done( function( data ) {
-            caller.prev().text(' | '+data.votesDown+' ');
-        });
-        return false;
-    });
-    
-    $( document ).on('click', '.areas-vote-up', function() {
-        var caller = $( this );
-        
-        $.ajax( {
-            url: $( this ).data( 'url' ),
-            type: 'post',
-            dataType: 'json',
-			error: function( e ){ alert( 'We are sorry. There was an error processing your vote.' ); }
-        })
-        .done( function(data) {
-            caller.prev().text(' ( '+data.votesUp+' ');
-        });
-        return false;
-    });
-
 	// Create Tooltips to help users.
 	$( '.spawn-viewable' ).tooltip();
-	$( '.areas-vote-up' ).tooltip();
-	$( '.areas-vote-down' ).tooltip();
     
 } );
 
