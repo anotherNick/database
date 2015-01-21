@@ -1,7 +1,7 @@
 <?php
 namespace Duelist101;
 
-Class Stamp extends \StampTemplateEngine\StampTE
+Class Stamp extends \StampTE
 {
 	public function __construct( $tpl=null, $id='root' )
 	{

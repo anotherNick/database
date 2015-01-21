@@ -19,8 +19,6 @@ jQuery(document).ready( function($) {
             template.find('a.name')
                 .attr('href', data.areaUrl)
                 .text(data.areaName);
-            template.find('a.areas-vote-up').attr('data-url', data.voteUpUrl);
-            template.find('a.areas-vote-down').attr('data-url', data.voteDownUrl);
             template.show();
             template.appendTo( $('#areas-ul') );
             var li = $('#areas-ul').children("li");
