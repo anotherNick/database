@@ -8,10 +8,11 @@ require WPLOAD_FILE;
 
 if ( strpos(ALLOWED_TEST_IPS, $_SERVER['REMOTE_ADDR']) !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'PhantomJS') !== FALSE ) {
     require PROPEL_CONFIG_TEST;
+} elseif ( strpos(ALLOWED_TEST_IPS, $_SERVER['REMOTE_ADDR']) !== FALSE && strpos($_SERVER['HTTP_USER_AGENT'], 'Symfony2 BrowserKit') !== FALSE ) {
+	require PROPEL_CONFIG_TEST;
 } else {
     require PROPEL_CONFIG_PROD;
 }
-
 $app = new \Slim\Slim(array(
     'view' => new WordpressView(),
     'templates.path' => TEMPLATES_DIR

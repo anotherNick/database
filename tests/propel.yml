@@ -4,7 +4,7 @@ propel:
           W101:
               adapter: sqlite
               classname: Propel\Runtime\Connection\DebugPDO
-              dsn: "sqlite:C:\\xampp/apps/database/data/test.sqlite"
+              dsn: "sqlite:C:\\xampp/apps/database/data/w101-db-test.sqlite"
               user: 
               password: 
               attributes:
@@ -15,12 +15,12 @@ propel:
       log:
           defaultLogger:
               type: stream
-              path: logs/propel.log
-              level: 100
+              path: /xampp/apps/database/logs/propel.log
+              level: 300
           W101:
               type: stream
-              path: logs/propel_w101.log
-              level: 100
+              path: /xampp/apps/database/logs/propel_w101.log
+              level: 300
 
   generator:
       defaultConnection: W101

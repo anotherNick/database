@@ -20,22 +20,21 @@ class Relationships
         $post = $app->request()->post();
         $output = array();
 
-		// Check to see if relationship exists already.
-		$relationship = self::getRelationship( static::$A, static::$B, $post );
-		
-        if ( empty($relationship) ) {
+		try{
+			// Check to see if relationship exists already.
+			$relationship = self::getRelationship( static::$A, static::$B, $post );
+			
 			// Relationship does not exist, create one.
 			$output = self::setRelationship( static::$A, static::$B, $post );
 			
 			$app->response()->header('Content-Type', 'application/json');
 			echo json_encode( $output );
 			
-        } else {
-            $app->response()->status(409);
-            // TODO: need to test this
-            \Propel\Runtime\Propel::log("Tried to add relationship for static::$A and static::$B but $relationship->getId() already in database", \Monolog\Logger::INFO);
-            // TODO: do we need provide other info in response, maybe a Json of error code and helpful info?
-        }
+		}catch( \Exception $e ){
+			\Propel\Runtime\Propel::log( $e, \Monolog\Logger::INFO);
+			$app->response()->status(409);
+			
+		}
     }
 	
 	public static function getRelationship( $a, $b, $post )
@@ -50,8 +49,15 @@ class Relationships
 			->$filterByAId( $post[ $aId ] )// ->FilterByAreaId( $post[ 'area_id' ] )
 			->$filterByBId( $post[ $bId ] )
 			->findOne();
-		return $relationship;
-	
+			
+		if ( !empty( $relationship ) ) {
+			$e = "Tried to add relationship for {static::$A} and {static::$B} but {$relationship->getId()} already in database";
+			throw new \Exception( $e );
+			
+		}else{
+			return $relationship;
+			
+		}
 	}
 	
 	public static function setRelationship( $a, $b, $post )
@@ -102,8 +108,10 @@ class Relationships
 			$output['voteDownUrl'] = \Duelist101\BASE_URL . $aBLower . '/' . urlencode( $objectAB->getId() ) . '/vote-down';
 			
 			return $output;
+			
 		} else {
-			echo "can't find {$a} or {$b}";
+			throw new \Exception("Invalid static::$A or static::$B");
+			
 		}	
 	}
     

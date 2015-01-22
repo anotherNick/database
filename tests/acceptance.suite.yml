@@ -16,3 +16,10 @@ modules:
             browser: phantomjs
             capabilities:
                 webStorageEnabled: true
+        Db:
+            dsn: 'sqlite:data/w101-db-test.sqlite'
+            user: ''
+            password: ''
+            dump: 'generated-sql/W101.sql'
+            populate: 'true'
+            cleanup: 'true'

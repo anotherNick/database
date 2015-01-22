@@ -1,0 +1,19 @@
+class_name: ApiTester
+modules:
+    enabled: [PhpBrowser, REST, ApiHelper, Db]
+    config:
+        PhpBrowser:
+            url: http://127.0.0.1/database
+        REST:
+            url: http://127.0.0.1/database
+        Db:
+            dsn: 'sqlite:data/w101-db-test.sqlite'
+            user: ''
+            password: ''
+            dump: 'generated-sql/W101.sql'
+            populate: 'true'
+            cleanup: 'true'
+        ApiHelper:
+            username: 'tester'
+            password: 'testing1'
+            wp_url: 'http://127.0.0.1/duelist101'
