@@ -1,15 +1,44 @@
 {
     "name": "duelist101/database",
 
-    "repositories": [ {
-        "url": "https://github.com/gabordemooij/stamp.git",
-        "type": "vcs"
-    } ],
+    "repositories": [
+        {
+            "url": "https://github.com/gabordemooij/stamp.git",
+            "type": "git"
+        }, {
+            "url": "https://github.com/select2/select2.git",
+            "type": "git"
+        }, {
+            "type": "package",
+            "package": {
+                "name": "fengyuanchen/cropper",
+                "type": "component",
+                "version": "0.7.7",
+                "source": {
+                    "url": "https://github.com/fengyuanchen/cropper.git",
+                    "type": "git",
+                    "reference": "v0.7.7"
+                },
+                "extra": {
+                    "component": {
+                        "scripts": [
+                            "dist/cropper.min.js"
+                        ],
+                        "styles": [
+                            "dist/cropper.min.css"
+                        ]
+                    }
+                }
+            }
+        }
+    ],
   
     "require": {
-        "slim/slim": "2.*",
+        "fengyuanchen/cropper": "0.7.7",
+        "gabordemooij/stamp": "2.*",
 		"propel/propel": "~2.0@dev",
-        "gabordemooij/stamp": "dev-master"
+        "select2/select2": "3.*",
+        "slim/slim": "2.*"
     },
 
     "autoload": {
@@ -30,6 +59,12 @@
 		"monolog/monolog": "*"
     },
 
+    "autoload-dev": {
+        "psr-4": {
+            "Duelist101\\Tests\\": "tests/"
+        }
+    },
+    
     "scripts": {
         "post-install-cmd": [
             "PhantomInstaller\\Installer::installPhantomJS"
@@ -39,10 +74,8 @@
         ]
     },
     
-    "autoload-dev": {
-        "psr-4": {
-            "Duelist101\\Tests\\": "tests/"
-        }
+    "config": {
+        "component-dir": "public_html/vendor"
     }
     
 }

@@ -1,12 +1,10 @@
 data/
+logs/
 old/
 vendor/
-config.php
-migrate-config.php
 public_html/config.php
 public_html/images/
 generated-conf/
 generated-classes/W101/Map/
-generated-classes/W101/Base
-public_html/logs/
+generated-classes/W101/Base/
 tests/_output/*

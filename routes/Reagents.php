@@ -7,7 +7,9 @@ class Reagents
     public static function listHtml( $app )
     {
 	
-		$reagents = \W101\ReagentQuery::create()->find();
+		$reagents = \W101\ReagentQuery::create()
+            ->orderByName()
+            ->find();
 
         $stamp = new View\ReagentList();
         $stamp->parse( $reagents );

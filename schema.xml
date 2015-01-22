@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <database name="W101" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="W101">
   <table name="area" idMethod="native" phpName="Area">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
     <column name="world_id" phpName="WorldId" type="INTEGER"/>
@@ -13,7 +13,7 @@
     </index>
   </table>
   <table name="areafish" idMethod="native" phpName="Areafish">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"  autoIncrement="true"/>
     <column name="votes_up" phpName="VotesUp" type="INTEGER"/>
     <column name="votes_down" phpName="VotesDown" type="INTEGER"/>
     <column name="area_id" phpName="AreaId" type="INTEGER"/>
@@ -60,7 +60,7 @@
     </index>
   </table>
   <table name="areareagent" idMethod="native" phpName="Areareagent">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="votes_up" phpName="VotesUp" type="INTEGER"/>
     <column name="votes_down" phpName="VotesDown" type="INTEGER"/>
     <column name="area_id" phpName="AreaId" type="INTEGER"/>
@@ -107,11 +107,11 @@
     </index>
   </table>
   <table name="class" idMethod="native" phpName="Classname">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
   </table>
   <table name="fish" idMethod="native" phpName="Fish">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
     <column name="rank" phpName="Rank" type="INTEGER"/>
@@ -131,9 +131,20 @@
     <index name="index_foreignkey_fish_class">
       <index-column name="class_id"/>
     </index>
+    <behavior name="validate">
+        <parameter name="name1" value="{column: name, validator: NotBlank}" />
+        <parameter name="name2" value="{column: name, validator: Unique}" />
+        <parameter name="rank1" value="{column: rank, validator: NotBlank}" />
+        <parameter name="rank2" value="{column: rank, validator: GreaterThanOrEqual, options: {value: 1}}" />
+        <parameter name="description" value="{column: description, validator: NotBlank}" />
+        <parameter name="initialxp1" value="{column: initial_xp, validator: NotBlank}" />
+        <parameter name="initialxp2" value="{column: initial_xp, validator: GreaterThanOrEqual, options: {value: 1}}" />
+        <parameter name="rarity1" value="{column: rarity_id, validator: PkExists, options: {className: \W101\Rarity}}" /> 
+        <parameter name="class1" value="{column: class_id, validator: PkExists, options: {className: \W101\Classname}}" />
+    </behavior>
   </table>
   <table name="fish_housingitem" idMethod="native" phpName="FishHousingitem">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="housingitem_id" phpName="HousingitemId" type="INTEGER"/>
     <column name="fish_id" phpName="FishId" type="INTEGER"/>
     <foreign-key foreignTable="fish" name="fish_housingitem_fk_bc1f13" onDelete="CASCADE" onUpdate="CASCADE">
@@ -154,10 +165,11 @@
     </unique>
   </table>
   <table name="housingitem" idMethod="native" phpName="Housingitem">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="can_trade" phpName="CanTrade" type="INTEGER"/>
     <column name="can_auction" phpName="CanAuction" type="INTEGER"/>
+    <column name="can_hold_fish" phpName="CanHoldFish" type="INTEGER"/>
     <column name="housingtype_id" phpName="HousingtypeId" type="INTEGER"/>
     <foreign-key foreignTable="housingtype" name="housingitem_fk_b7832e" onDelete="SET NULL" onUpdate="SET NULL">
       <reference local="housingtype_id" foreign="id"/>
@@ -167,19 +179,15 @@
     </index>
   </table>
   <table name="housingtype" idMethod="native" phpName="Housingtype">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
   </table>
-  <table name="migrations" idMethod="native" phpName="Migrations">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
-    <column name="file" phpName="File" type="LONGVARCHAR"/>
-  </table>
   <table name="rarity" idMethod="native" phpName="Rarity">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
   </table>
   <table name="reagent" idMethod="native" phpName="Reagent">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="rank" phpName="Rank" type="INTEGER"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
@@ -199,7 +207,7 @@
 	  </behavior>
   </table>
   <table name="world" idMethod="native" phpName="World">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
     <column name="name" phpName="Name" type="LONGVARCHAR"/>
     <column name="image" phpName="Image" type="LONGVARCHAR"/>
   </table>

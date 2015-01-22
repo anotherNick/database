@@ -16,5 +16,21 @@ use W101\Base\FishHousingitemQuery as BaseFishHousingitemQuery;
  */
 class FishHousingitemQuery extends BaseFishHousingitemQuery
 {
+    public static function addIfNew( $housingitem_id, $fish_id )
+    {
+        if ( null === FishHousingitemQuery::create()
+                ->filterByHousingitemId( $housingitem_id )
+                ->filterByFishId( $fish_id )
+                ->findOne() ) {
+            $fishHousingitem = new FishHousingitem();
+            $fishHousingitem->setHousingitemId( $housingitem_id );
+            $fishHousingitem->setFishId( $fish_id );
+            $fishHousingitem->save();
+            return true;
+        } else {
+            return false;
+        }
+        
+    }
 
 }
