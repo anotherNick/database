@@ -159,10 +159,6 @@
     <index name="index_for_fish_housingitem_housingitem_id">
       <index-column name="housingitem_id"/>
     </index>
-    <unique name="UQ_fish_housingitemhousingitem_id__fish_id">
-      <unique-column name="housingitem_id"/>
-      <unique-column name="fish_id"/>
-    </unique>
   </table>
   <table name="housingitem" idMethod="native" phpName="Housingitem">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
