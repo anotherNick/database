@@ -74,13 +74,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gabordemooij/stamp.git",
-                "reference": "58370c2c2cd9c8c8186007ba851140a95b9c2361"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/gabordemooij/stamp/zipball/58370c2c2cd9c8c8186007ba851140a95b9c2361",
-                "reference": "58370c2c2cd9c8c8186007ba851140a95b9c2361",
-                "shasum": ""
+                "reference": "6064eb0a7ba9f32c5fd284654a39dbaa171130d8"
             },
             "require": {
                 "php": ">=5.3.0"
@@ -108,10 +102,6 @@
                 "Template Engine",
                 "template"
             ],
-            "support": {
-                "source": "https://github.com/gabordemooij/stamp/tree/v2.1",
-                "issues": "https://github.com/gabordemooij/stamp/issues"
-            },
             "time": "2013-04-22 20:43:23"
         },
         {
@@ -2147,7 +2137,6 @@
         "propel/propel": 20
     },
     "prefer-stable": false,
-    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

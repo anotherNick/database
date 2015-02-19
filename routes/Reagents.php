@@ -4,6 +4,16 @@ use Duelist101\Db\View as View;
 
 class Reagents
 {
+    public static function add ( $app )
+    {
+        // TODO: check if authenticated
+
+        $reagent = new \W101\Reagent();
+        $result = $reagent->addNew( $app->request->post() );
+        $app->response()->header('Content-Type', 'application/json');
+        echo json_encode( $result );
+    }
+	
     public static function listHtml( $app )
     {
 	
@@ -35,6 +45,17 @@ class Reagents
 		
 		$app->response()->header('Content-Type', 'application/json');
 		echo json_encode( $reagents );
+    }
+	
+    public static function newReagent( $app, $post = null, $failures = null )
+    {
+        // TODO: prob want to put auth logic here
+    
+        $stamp = new View\ReagentNew();
+        $stamp->parse();
+        $app->view->add( $stamp );
+
+        $app->view->render();
     }
 
     public static function singleHtml( $name, $app )
