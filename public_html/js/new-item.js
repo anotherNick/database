@@ -1,5 +1,10 @@
 jQuery(document).ready( function($) {
 
+    $( '#aquarium-select' ).select2({
+        width: 'resolve',
+        placeholder: "Click or type here to add each aquarium"
+    });
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             $('#cropper-container').empty();
@@ -40,7 +45,7 @@ jQuery(document).ready( function($) {
     
     // similar to: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
     
-    $( '#add-reagent' ).submit( function ( event ) {
+    $( '.add-new-item' ).submit( function ( event ) {
         $('.form-group').removeClass('has-error'); // remove the error class
         $('.help-block').remove(); // remove the error text
         var formData = $(this).serializeObject();

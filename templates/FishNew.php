@@ -30,7 +30,7 @@ Class FishNew extends \Duelist101\Stamp
             )
             , array(
                 'handle' => 'fish-new'
-                , 'src' => \Duelist101\BASE_URL . 'js/fish-new.js'
+                , 'src' => \Duelist101\BASE_URL . 'js/new-item.js'
                 , 'deps' => array ( 'jquery-ui-core', 'select2', 'cropper-custom' )
                 , 'in_footer' => true
             )
@@ -50,7 +50,7 @@ Class FishNew extends \Duelist101\Stamp
             )
             , array(
                 'handle' => 'fish-new'
-                , 'src' => \Duelist101\BASE_URL . 'css/fish-new.css'
+                , 'src' => \Duelist101\BASE_URL . 'css/new-item.css'
             )
         );
     }

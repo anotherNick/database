@@ -1,6 +1,6 @@
 class_name: ApiTester
 modules:
-    enabled: [PhpBrowser, REST, ApiHelper, Db]
+    enabled: [PhpBrowser, REST, ApiHelper, Db, Filesystem]
     config:
         PhpBrowser:
             url: http://127.0.0.1/database

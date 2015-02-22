@@ -1,28 +1,20 @@
 <div class="post-wrapper post" style="padding:10px;">
-	<h1 style="text-align: center; color: #DE2A0C;"><strong>Add a Reagent</strong></h1>
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>Add an Area</strong></h1>
     <!-- cut:link -->
-    <form id="add-reagent" class="add-new-item" data-url="#addUrl#" >
+    <form id="add-area" class="add-new-item" data-url="#addUrl#" >
     <!-- /cut:link -->
         <div id="name-group" class="form-group">
             <label for="name" class="description">Name (Required)</label>
             <input name="name" type="text" value="#postName?#" maxlength="255" /> 
         </div>
-        <div id="class-id-group" class="form-group">
-            <label for="class-id" class="description">Class (Required)</label>
-            <select name="class-id" > 
+        <div id="world-id-group" class="form-group">
+            <label for="world-id" class="description">World (Required)</label>
+            <select name="world-id" > 
                 <option selected="selected" value=""></option>
-    <!-- cut:className -->
+    <!-- cut:world -->
                 <option value="#id#">#name#</option>
-    <!-- /cut:className -->
+    <!-- /cut:world -->
            </select>
-        </div>
-        <div id="rank-group" class="form-group">
-            <label for="rank" class="description">Rank (Required)</label>
-            <input name="rank" type="text" value="" maxlength="255" /> 
-        </div>
-        <div id="description-group" class="form-group">
-            <label for="description" class="description">Description (Required)</label>
-            <textarea name="description"></textarea> 
         </div>
         <div id="image-group" class="form-group">
             <div class="fileUpload btn btn-primary">

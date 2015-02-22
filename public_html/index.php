@@ -38,7 +38,10 @@ $app->post('/areareagentspawns/:id/vote-up', function ($id) use ($app) { Route\A
 
 $app->get('/areas.json', function () use ($app) { Route\Areas::listJson( $app ); });
 $app->get('/areas/', function () use ($app) { Route\Areas::listHtml( $app ); });
+// /areas/new must be above /areas/:name
+$app->get('/areas/new', function () use ($app) { Route\Areas::newArea( $app ); });
 $app->get('/areas/:name', function ($name) use ($app) { Route\Areas::singleHtml( $name, $app ); });
+$app->post('/areas', function () use ($app) { Route\Areas::add( $app ); });
 
 $app->get('/fish.json', function () use ($app) { Route\Fish::listJson( $app ); });
 $app->get('/fish/', function () use ($app) { Route\Fish::listHtml( $app ); });

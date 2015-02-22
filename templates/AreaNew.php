@@ -1,7 +1,7 @@
 <?php
 namespace Duelist101\Db\View;
 
-Class ReagentNew extends \Duelist101\Stamp
+Class AreaNew extends \Duelist101\Stamp
 {
     public function getScripts()
     {
@@ -29,7 +29,7 @@ Class ReagentNew extends \Duelist101\Stamp
                 , 'src' => \Duelist101\BASE_URL . 'vendor/cropper/cropper-built.js'
             )
             , array(
-                'handle' => 'reagent-new'
+                'handle' => 'fish-new'
                 , 'src' => \Duelist101\BASE_URL . 'js/new-item.js'
                 , 'deps' => array ( 'jquery-ui-core', 'select2', 'cropper-custom' )
                 , 'in_footer' => true
@@ -61,17 +61,17 @@ Class ReagentNew extends \Duelist101\Stamp
 //        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
             
             $cut = $this->getLink();
-            $cut->setAddUrl( \Duelist101\BASE_URL . 'reagents' );
+            $cut->setAddUrl( \Duelist101\BASE_URL . 'areas' );
             $this->add( $cut );
             
-            $classNames = \W101\ClassnameQuery::create()->find();
-            foreach( $classNames as $className ) {
-                $cut = $this->getClassName();
-                $cut->setId( $className->getId() );
-                $cut->setName( $className->getName() );
+            $worlds = \W101\WorldQuery::create()->find();
+            foreach( $worlds as $world ) {
+                $cut = $this->getWorld();
+                $cut->setId( $world->getId() );
+                $cut->setName( $world->getName() );
                 $this->add( $cut );
             }
-                     
+                
     }
 }
 

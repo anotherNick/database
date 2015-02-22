@@ -4,6 +4,17 @@ use Duelist101\Db\View as View;
 
 class Areas
 {
+	
+    public static function add ( $app )
+    {
+        // TODO: check if authenticated
+
+        $area = new \W101\Area();
+        $result = $area->addNew( $app->request->post() );
+        $app->response()->header('Content-Type', 'application/json');
+        echo json_encode( $result );
+    }
+	
     public static function listHtml ( $app )
     {
         $worlds = \W101\WorldQuery::create()->find();
@@ -32,6 +43,17 @@ class Areas
 		
 		$app->response()->header('Content-Type', 'application/json');
 		echo json_encode( $areas );
+    }
+	
+    public static function newArea( $app, $post = null, $failures = null )
+    {
+        // TODO: prob want to put auth logic here
+    
+        $stamp = new View\AreaNew();
+        $stamp->parse();
+        $app->view->add( $stamp );
+
+        $app->view->render();
     }
 
     public static function singleHtml( $name, $app )
