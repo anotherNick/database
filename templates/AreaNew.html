@@ -1,0 +1,33 @@
+<div class="post-wrapper post" style="padding:10px;">
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>Add an Area</strong></h1>
+    <!-- cut:link -->
+    <form id="add-area" class="add-new-item" data-url="#addUrl#" >
+    <!-- /cut:link -->
+        <div id="name-group" class="form-group">
+            <label for="name" class="description">Name (Required)</label>
+            <input name="name" type="text" value="#postName?#" maxlength="255" /> 
+        </div>
+        <div id="world-id-group" class="form-group">
+            <label for="world-id" class="description">World (Required)</label>
+            <select name="world-id" > 
+                <option selected="selected" value=""></option>
+    <!-- cut:world -->
+                <option value="#id#">#name#</option>
+    <!-- /cut:world -->
+           </select>
+        </div>
+        <div id="image-group" class="form-group">
+            <div class="fileUpload btn btn-primary">
+                <span>Browse for a picture...</span>
+                <input type="file" class="upload" id="image-selector" />
+            </div>
+            <button type="button" id="zoom-in">Zoom In</button>
+            <button type="button" id="zoom-out">Zoom Out</button>
+            <div id="cropper-container" style="margin: 5%; max-height: 400px; align: center;">
+                1. Click the browse button to upload a screenshot or picture<br />
+                2. Use your mouse to crop an image for the fish (zoom in or out if needed)
+            </div>
+        </div>
+        <input type="submit" value="Submit" />
+    </form>	
+</div>

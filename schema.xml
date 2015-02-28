@@ -11,6 +11,11 @@
     <index name="index_foreignkey_area_world">
       <index-column name="world_id"/>
     </index>
+    <behavior name="validate">
+        <parameter name="name1" value="{column: name, validator: NotBlank}" />
+        <parameter name="name2" value="{column: name, validator: Unique}" /> 
+        <parameter name="world1" value="{column: world_id, validator: PkExists, options: {className: \W101\World}}" />
+    </behavior>
   </table>
   <table name="areafish" idMethod="native" phpName="Areafish">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true"  autoIncrement="true"/>
@@ -197,9 +202,14 @@
     <index name="index_foreignkey_reagent_class">
       <index-column name="class_id"/>
     </index>
-	  <behavior name="validate">
-		  <parameter name="rule1" value="{column: name, validator: WizNames}" />
-	  </behavior>
+    <behavior name="validate">
+        <parameter name="name1" value="{column: name, validator: NotBlank}" />
+        <parameter name="name2" value="{column: name, validator: Unique}" />
+        <parameter name="rank1" value="{column: rank, validator: NotBlank}" />
+        <parameter name="rank2" value="{column: rank, validator: GreaterThanOrEqual, options: {value: 1}}" />
+        <parameter name="description" value="{column: description, validator: NotBlank}" /> 
+        <parameter name="class1" value="{column: class_id, validator: PkExists, options: {className: \W101\Classname}}" />
+    </behavior>
   </table>
   <table name="world" idMethod="native" phpName="World">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true"/>

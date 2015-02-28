@@ -38,7 +38,10 @@ $app->post('/areareagentspawns/:id/vote-up', function ($id) use ($app) { Route\A
 
 $app->get('/areas.json', function () use ($app) { Route\Areas::listJson( $app ); });
 $app->get('/areas/', function () use ($app) { Route\Areas::listHtml( $app ); });
+// /areas/new must be above /areas/:name
+$app->get('/areas/new', function () use ($app) { Route\Areas::newArea( $app ); });
 $app->get('/areas/:name', function ($name) use ($app) { Route\Areas::singleHtml( $name, $app ); });
+$app->post('/areas', function () use ($app) { Route\Areas::add( $app ); });
 
 $app->get('/fish.json', function () use ($app) { Route\Fish::listJson( $app ); });
 $app->get('/fish/', function () use ($app) { Route\Fish::listHtml( $app ); });
@@ -50,6 +53,9 @@ $app->post('/fish', function () use ($app) { Route\Fish::addOrUpdate( $app ); })
 
 $app->get('/reagents.json', function () use ($app) { Route\Reagents::listJson( $app ); });
 $app->get('/reagents/', function () use ($app) { Route\Reagents::listHtml( $app ); });
+// /reagents/new must be above /reagents/:name
+$app->get('/reagents/new', function () use ($app) { Route\Reagents::newReagent( $app ); });
 $app->get('/reagents/:name', function ($name) use ($app) { Route\Reagents::singleHtml( $name, $app ); });
+$app->post('/reagents', function () use ($app) { Route\Reagents::add( $app ); });
 
 $app->run();

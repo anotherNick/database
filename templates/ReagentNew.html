@@ -1,0 +1,41 @@
+<div class="post-wrapper post" style="padding:10px;">
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>Add a Reagent</strong></h1>
+    <!-- cut:link -->
+    <form id="add-reagent" class="add-new-item" data-url="#addUrl#" >
+    <!-- /cut:link -->
+        <div id="name-group" class="form-group">
+            <label for="name" class="description">Name (Required)</label>
+            <input name="name" type="text" value="#postName?#" maxlength="255" /> 
+        </div>
+        <div id="class-id-group" class="form-group">
+            <label for="class-id" class="description">Class (Required)</label>
+            <select name="class-id" > 
+                <option selected="selected" value=""></option>
+    <!-- cut:className -->
+                <option value="#id#">#name#</option>
+    <!-- /cut:className -->
+           </select>
+        </div>
+        <div id="rank-group" class="form-group">
+            <label for="rank" class="description">Rank (Required)</label>
+            <input name="rank" type="text" value="" maxlength="255" /> 
+        </div>
+        <div id="description-group" class="form-group">
+            <label for="description" class="description">Description (Required)</label>
+            <textarea name="description"></textarea> 
+        </div>
+        <div id="image-group" class="form-group">
+            <div class="fileUpload btn btn-primary">
+                <span>Browse for a picture...</span>
+                <input type="file" class="upload" id="image-selector" />
+            </div>
+            <button type="button" id="zoom-in">Zoom In</button>
+            <button type="button" id="zoom-out">Zoom Out</button>
+            <div id="cropper-container" style="margin: 5%; max-height: 400px; align: center;">
+                1. Click the browse button to upload a screenshot or picture<br />
+                2. Use your mouse to crop an image for the fish (zoom in or out if needed)
+            </div>
+        </div>
+        <input type="submit" value="Submit" />
+    </form>	
+</div>
