@@ -5,8 +5,13 @@ Class FishList extends \Duelist101\Stamp
 {
     public function parse( $fishList ) {
         
-        $i = 0;
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
+            $cut = $this->getAddLink1();
+            $cut->setAddLink( \Duelist101\BASE_URL . 'fish/new' );
+            $this->add($cut);
+        }
 
+        $i = 0;
         foreach ($fishList as $fish) {
             $cut = $this->getFish();
             $i = $i + 1;
@@ -27,5 +32,12 @@ Class FishList extends \Duelist101\Stamp
             // TODO: add rank?
             $this->add($cut);
         }
+
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
+            $cut = $this->getAddLink2();
+            $cut->setAddLink( \Duelist101\BASE_URL . 'fish/new' );
+            $this->add($cut);
+        }
+
     }
 }

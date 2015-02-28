@@ -1,50 +1,55 @@
 <div class="post-wrapper post" style="padding:10px;">
-	<h1 style="text-align: center; color: #DE2A0C;"><strong>Add a Fish</strong></h1>
-    <!-- cut:link -->
+    <!-- cut:form -->
+	<h1 style="text-align: center; color: #DE2A0C;"><strong>#title#</strong></h1>
     <form id="add-fish" data-url="#addUrl#" >
-    <!-- /cut:link -->
+        <div id="not-authorized">
+            <p>You must be logged in to add or change information in the database.</p>
+            <p>Please open another window, log in, and then resubmit this form.</p>
+        </div>
+        <div id="id-group" class="form-group">
+            <input id="id" name="id" type="hidden" value="#id?#" />
+        </div>
         <div id="name-group" class="form-group">
             <label for="name" class="description">Name (Required)</label>
-            <input name="name" type="text" value="#postName?#" maxlength="255" /> 
+            <input name="name" type="text" value="#name?#" maxlength="255" /> 
         </div>
         <div id="class-id-group" class="form-group">
             <label for="class-id" class="description">Class (Required)</label>
             <select name="class-id" > 
-                <option selected="selected" value=""></option>
-    <!-- cut:className -->
-                <option value="#id#">#name#</option>
-    <!-- /cut:className -->
+                #blankOption?#
+        <!-- cut:className -->
+                <option value="#id#" data-stampte="#selectedClassname?#">#name# #test?#</option>
+        <!-- /cut:className -->
            </select>
         </div>
         <div id="initial-xp-group" class="form-group">
             <label for="initial-xp" class="description">Initial XP (Required)</label>
-            <input name="initial-xp" type="text" value="" maxlength="255" /> 
+            <input name="initial-xp" type="text" value="#initialXp?#" maxlength="255" /> 
         </div>
         <div id="rarity-id-group" class="form-group">
             <label for="rarity-id" class="description">Rarity (Required)</label>
             <select name="rarity-id"> 
-                <option selected="selected" value=""></option>
-    <!-- cut:rarity -->
-                <option value="#id#">#name#</option>
-    <!-- /cut:rarity -->
+                #blankOption?#
+        <!-- cut:rarity -->
+                <option value="#id#" data-stampte="#selectedRarity?#">#name#</option>
+        <!-- /cut:rarity -->
             </select>
         </div>
         <div id="rank-group" class="form-group">
             <label for="rank" class="description">Rank (Required)</label>
-            <input name="rank" type="text" value="" maxlength="255" /> 
+            <input name="rank" type="text" value="#rank?#" maxlength="255" /> 
         </div>
         <div id="aquariums-group" class="form-group">
             <label for="aquariums" class="description">Aquariums (Required)</label>
             <select name="aquariums" multiple="multiple" id="aquarium-select"> 
-                <option selected="selected" value=""></option>
-    <!-- cut:aquarium -->
-                <option value="#id#">#name#</option>
-    <!-- /cut:aquarium -->
+        <!-- cut:aquarium -->
+                <option value="#id#" data-stampte="#selectedAquarium?#">#name#</option>
+        <!-- /cut:aquarium -->
             </select>
         </div>
         <div id="description-group" class="form-group">
             <label for="description" class="description">Description (Required)</label>
-            <textarea name="description"></textarea> 
+            <textarea name="description">#description?#</textarea> 
         </div>
         <div id="image-group" class="form-group">
             <div class="fileUpload btn btn-primary">
@@ -54,10 +59,10 @@
             <button type="button" id="zoom-in">Zoom In</button>
             <button type="button" id="zoom-out">Zoom Out</button>
             <div id="cropper-container" style="margin: 5%; max-height: 400px; align: center;">
-                1. Click the browse button to upload a screenshot or picture<br />
-                2. Use your mouse to crop an image for the fish (zoom in or out if needed)
+                <img id="cropper-preview" class="#class#" src="#image#">
             </div>
         </div>
         <input type="submit" value="Submit" />
     </form>	
+    <!-- /cut:form -->
 </div>

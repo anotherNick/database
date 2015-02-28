@@ -42,10 +42,11 @@ $app->get('/areas/:name', function ($name) use ($app) { Route\Areas::singleHtml(
 
 $app->get('/fish.json', function () use ($app) { Route\Fish::listJson( $app ); });
 $app->get('/fish/', function () use ($app) { Route\Fish::listHtml( $app ); });
-// must be above /fish/:name
-$app->get('/fish/new', function () use ($app) { Route\Fish::newFish( $app ); });
+// next 2 must be above /fish/:name
+$app->get('/fish/new', function () use ($app) { Route\Fish::newOrEdit( $app, null ); });
+$app->get('/fish/:name/edit', function ($name) use ($app) { Route\Fish::newOrEdit( $app, $name ); });
 $app->get('/fish/:name', function ($name) use ($app) { Route\Fish::singleHtml( $name, $app ); });
-$app->post('/fish', function () use ($app) { Route\Fish::add( $app ); });
+$app->post('/fish', function () use ($app) { Route\Fish::addOrUpdate( $app ); });
 
 $app->get('/reagents.json', function () use ($app) { Route\Reagents::listJson( $app ); });
 $app->get('/reagents/', function () use ($app) { Route\Reagents::listHtml( $app ); });

@@ -26,3 +26,9 @@
     margin-bottom: 10px;
 }
 
+#not-authorized{
+    display: none;
+    background-color: red;
+    color: white;
+    margin-bottom: 10px;
+}

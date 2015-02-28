@@ -16,7 +16,7 @@ use W101\Base\Fish as BaseFish;
  */
 class Fish extends BaseFish
 {
-    public function addNew( $post )
+    public function addOrUpdate( $post )
     {
         if ( !empty($post['name']) ) $this->setName( $post['name'] );
         if ( !empty($post['rank']) ) $this->setRank( $post['rank'] );
@@ -35,6 +35,21 @@ class Fish extends BaseFish
             }
         }
         
+        // if new, check for dupe name being created
+        if ( ! $this->getId() > 0 ) {
+            $dupeFish = FishQuery::create()
+                ->filterByName( $this->getName() )
+                ->findOne();
+            if ( $dupeFish !== null ) {
+                $result['failures'][] = array(
+                    'property' => 'name',
+                    'message' => 'id - ' . $this->getId() . ' This name already exists.',
+                    'code' => null
+                );
+            }
+        }
+        
+        // make sure aquariums are valid
         if ( !empty($post['aquariums']) && !is_array($post['aquariums']) ) {
             $post['aquariums'] = array( $post['aquariums'] );
         }
@@ -60,29 +75,32 @@ class Fish extends BaseFish
         }
 
         if ( !empty( $post['imageDataUrl'] ) ) {
-            $imageName = sanitize_file_name( $this->getName() );
-            $imagePath = \Duelist101\APP_DIR . 'public_html/images/w101_fish/';
-            if ( file_exists($imagePath . $imageName . '.jpg') ) {
-                $i = 1;
-                while ( file_exists($imagePath . $imageName . $i . '.jpg') ) {
-                    $i++;
+            // don't want to mess with image files if image didn't change or any failures
+            if ( $post['imageDataUrl'] != 'current' && empty($result['failures']) ) {
+                $pathPrefix = \Duelist101\APP_DIR . 'public_html/images/w101_fish/';
+                $oldImage = $this->getImage();
+                $image = sanitize_file_name( $this->getName() );
+                if ( $oldImage !== null && file_exists($pathPrefix . $oldImage) ) {
+                    if ( !rename($pathPrefix . $oldImage, $pathPrefix . $image . '.bak') ) {
+                        // TODO: log the fact that couldn't rename
+                    }
                 }
-                $imageName = $imageName . $i;
+                $this->setImage( $image . '.jpg' );
+                file_put_contents( $pathPrefix . $image . '.jpg', file_get_contents( $post['imageDataUrl'] ) );
+                $imageInfo = getimagesize( $imageFile );
+                if ( $imageInfo[2] != IMG_JPG ) {
+                    // TODO: log the fact that not jpg
+                    if ( !rename($pathPrefix . $image . '.bak', $pathPrefix . $oldImage) ) {
+                        // TODO: log the fact that couldn't rename
+                    }
+                    $result['failures'][] = array(
+                        'property' => 'image',
+                        'message' => 'The cropped image is not a valid JPG.  Please refresh and try again.',
+                        'code' => null
+                    );
+                }
             }
-            $this->setImage( $imageName . '.jpg' );
-            $imageFile = $imagePath . $this->getImage();
-            file_put_contents( $imageFile, file_get_contents( $post['imageDataUrl'] ) );
-            $imageInfo = getimagesize( $imageFile );
-            if ( $imageInfo[2] != IMG_JPG ) {
-                // TODO: log the fact that not jpg
-                unlink( $imageFile );
-                $result['failures'][] = array(
-                    'property' => 'image',
-                    'message' => 'The cropped image is not a valid JPG.  Please refresh and try again.',
-                    'code' => null
-                );
-            }
-        } else {
+        } else if ( strlen($this->getImage()) == 0 ) {
             $result['failures'][] = array(
                 'property' => 'image',
                 'message' => 'Please upload a picture and then crop the area to use.',
@@ -94,9 +112,7 @@ class Fish extends BaseFish
             $result['status'] = 'success';
             $result['redirect'] = \Duelist101\BASE_URL . 'fish/' . urlencode( $this->getName() );
             $this->save();
-            foreach($post['aquariums'] as $aquarium_id) {
-                FishHousingitemQuery::addIfNew( $aquarium_id, $this->getId() );
-            }
+            FishHousingitemQuery::updateAquariums($this->getId(), $post['aquariums']);
         } else {
             $result['status'] = 'failures';
         }

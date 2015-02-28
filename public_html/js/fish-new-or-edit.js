@@ -5,6 +5,14 @@ jQuery(document).ready( function($) {
         placeholder: "Click or type here to add each aquarium"
     });
 
+    if ( $( '#id' ).val() ) {
+        $('#cropper-preview').cropper({
+            dashed: false,
+            zoomable: true,
+            autoCropArea: 1
+        });
+    }
+    
     function readURL(input) {
         if (input.files && input.files[0]) {
             $('#cropper-container').empty();
@@ -15,7 +23,7 @@ jQuery(document).ready( function($) {
                         id: 'cropper-preview',
                         src: e.target.result
                     }));
-                    $("#cropper-preview").cropper({
+                    $('#cropper-preview').cropper({
                         dashed: false,
                         zoomable: true
                     });
@@ -33,25 +41,30 @@ jQuery(document).ready( function($) {
     
     $( '#zoom-in' ).click( function() {
         if ( $('#cropper-preview').length ) {
-            $('#cropper-preview').cropper('zoom', 0.1);
+            $('#cropper-preview').cropper('zoom', 0.2);
         }
     } );
 
     $( '#zoom-out' ).click( function() {
         if ( $('#cropper-preview').length ) {
-            $('#cropper-preview').cropper('zoom', -0.1);
+            $('#cropper-preview').cropper('zoom', -0.2);
         }
     } );
     
     // similar to: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
     
     $( '#add-fish' ).submit( function ( event ) {
-        $('.form-group').removeClass('has-error'); // remove the error class
+        $( '#not-authorized' ).hide();
+        $('.form-group').removeClass('has-error');
         $('.help-block').remove(); // remove the error text
         var formData = $(this).serializeObject();
-        if ( $('#cropper-preview').length ) {
+        if ( !$('#cropper-preview').hasClass('default') ) {
+            if ( $('#cropper-preview').hasClass('current') ) {
+                formData['imageDataUrl'] = 'current';
+            } else {
             // TODO: do we want to control size?
-            formData['imageDataUrl'] = $('#cropper-preview').cropper('getDataURL', 'image/jpeg');
+                formData['imageDataUrl'] = $('#cropper-preview').cropper('getDataURL', 'image/jpeg');
+            }
         }
         $.ajax( {
             url: $( this ).data( 'url' ),
@@ -68,7 +81,7 @@ jQuery(document).ready( function($) {
         .done( function(data) {
             if ( data.status == 'success' ) {
                 window.location.assign(data.redirect);
-            } else {
+            } else if ( data.status == 'failures') {
                 for (var i = 0; i < data.failures.length; i++) {
                     var id = '#' + data.failures[i].property + '-group';
                     $( id )
@@ -78,6 +91,9 @@ jQuery(document).ready( function($) {
                             text: data.failures[i].message
                         }));
                 }
+            // assume not authorized
+            } else {
+                $( '#not-authorized' ).show();
             }
         });
         return false;

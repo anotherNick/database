@@ -69,6 +69,13 @@ Class FishSingle extends \Duelist101\Stamp
                 $cut->add($cutAquarium);
             }
         }
+
+        if ( is_user_logged_in() && current_user_can('edit_posts') ) {
+            $cutEditLink = $this->get('fish.editLink');
+            $cutEditLink->setEditLink( \Duelist101\BASE_URL . 'fish/' . urlencode( $fish->getName() ) . '/edit' );
+            $cut->add( $cutEditLink );
+        }
+        
         $this->add($cut);
 
         // Areas

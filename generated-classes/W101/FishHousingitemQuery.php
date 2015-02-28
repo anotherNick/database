@@ -16,21 +16,30 @@ use W101\Base\FishHousingitemQuery as BaseFishHousingitemQuery;
  */
 class FishHousingitemQuery extends BaseFishHousingitemQuery
 {
-    public static function addIfNew( $housingitem_id, $fish_id )
+    public static function updateAquariums($fishId, $aquariums)
     {
-        if ( null === FishHousingitemQuery::create()
-                ->filterByHousingitemId( $housingitem_id )
-                ->filterByFishId( $fish_id )
-                ->findOne() ) {
-            $fishHousingitem = new FishHousingitem();
-            $fishHousingitem->setHousingitemId( $housingitem_id );
-            $fishHousingitem->setFishId( $fish_id );
-            $fishHousingitem->save();
-            return true;
-        } else {
-            return false;
+        // delete any removed aquariums
+        $currentAquariums = FishHousingitemQuery::create()
+            ->filterByFishId( $fishId )
+            ->find();
+        foreach ( $currentAquariums as $aquarium ) {
+            if ( ! in_array( $aquarium->getHousingitemId(), $aquariums ) ) {
+                $aquarium->delete();
+            }
         }
-        
+
+        // add any new aquariums
+        foreach( $aquariums as $aquariumId) {
+            if ( null === FishHousingitemQuery::create()
+                    ->filterByHousingitemId( $aquariumId )
+                    ->filterByFishId( $fishId )
+                    ->findOne() ) {
+                $fishHousingitem = new FishHousingitem();
+                $fishHousingitem->setHousingitemId( $aquariumId );
+                $fishHousingitem->setFishId( $fishId );
+                $fishHousingitem->save();
+            }
+        }
     }
 
 }
